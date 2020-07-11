@@ -10,9 +10,6 @@ app.use(session);
 const parsers = require('./middleware/parsers');
 app.use(parsers);
 
-const opengraph = require('./opengraph');
-app.use(opengraph);
-
 const routes = require('./routes');
 app.use(routes);
 
