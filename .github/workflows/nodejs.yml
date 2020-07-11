@@ -1,0 +1,140 @@
+name: Node.js CI
+on: [push]
+jobs:
+    build-on-postgres:
+        runs-on: ${{ matrix.os }}
+        env:
+            SEQUELIZE_URL: postgres://postgres:postgres@localhost:5432/ci
+
+        services:
+            postgres:
+                image: postgres
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: ci
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+                ports:
+                    # Maps tcp port 5432 on service container to the host
+                    - 5432:5432
+
+        strategy:
+            matrix:
+                node-version: [10.x, 12.x]
+                os: [ubuntu-18.04]
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Cache node modules
+              uses: actions/cache@v1
+              env:
+                  cache-name: cache-node-modules-postgres
+              with:
+                  path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Install database-specific packages
+              run: npm install pg pg-native
+
+            - name: Build
+              run: npm run build
+
+            - name: Test
+              run: npm test
+
+    build-on-sqlite:
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            matrix:
+                node-version: [10.x, 12.x]
+                os: [ubuntu-18.04]
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Cache node modules
+              uses: actions/cache@v1
+              env:
+                  cache-name: cache-node-modules-sqlite
+              with:
+                  path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Install database-specific packages
+              run: npm install sqlite3
+
+            - name: Build
+              run: npm run build
+
+            - name: Test
+              run: npm test
+
+    build-on-mysql:
+        runs-on: ${{ matrix.os }}
+        env:
+            SEQUELIZE_URL: mysql://root:password@localhost:3306/ci
+
+        services:
+            mysql:
+                image: mysql:5.7
+                env:
+                    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                    MYSQL_DATABASE: ci
+                    MYSQL_ROOT_PASSWORD: password
+                options: >-
+                    --health-cmd="mysqladmin ping"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=3
+                ports:
+                    # Maps tcp port 5432 on service container to the host
+                    - 3306:3306
+
+        strategy:
+            matrix:
+                node-version: [10.x, 12.x]
+                os: [ubuntu-18.04]
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Cache node modules
+              uses: actions/cache@v1
+              env:
+                  cache-name: cache-node-modules-mysql
+              with:
+                  path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Install database-specific packages
+              run: npm install mysql2
+
+            - name: Build
+              run: npm run build
+
+            - name: Test
+              run: npm test
