@@ -1,8 +1,8 @@
 {
-	"name": "quicker-picker-upper",
+	"name": "api.stuyactivities.org",
 	"version": "1.0.0",
-	"description": "Template for quick nodejs/react development",
-	"author": "Abir Taheer",
+	"description": "Backend API for StuyActivities",
+	"author": "StuySU",
 	"main": "index.js",
 	"scripts": {
 		"test": "mocha",
@@ -13,14 +13,14 @@
 	},
 	"dependencies": {
 		"body-parser": "latest",
-		"connect-session-sequelize": "^6.1.1",
+		"connect-session-sequelize": "^7.0.0",
 		"cookie-parser": "^1.4.5",
 		"dotenv": "latest",
 		"express": "latest",
 		"express-session": "^1.17.1",
 		"honeybadger": "^1.4.0",
 		"morgan": "^1.10.0",
-		"sequelize": "^6.3.1",
+		"sequelize": "^6.3.2",
 		"sqlite3": "^5.0.0"
 	},
 	"devDependencies": {
