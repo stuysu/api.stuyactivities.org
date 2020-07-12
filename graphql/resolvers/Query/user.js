@@ -1,20 +1,20 @@
 const models = require('./../../../database');
 const users = models.users;
+const { UserInputError } = require('apollo-server-express');
 
-module.exports = async (root, { where: { id, email } }, context) => {
-	if (!id) {
-		id = '';
-	}
-
-	if (!email) {
-		email = '';
-	}
-
+module.exports = async (root, { with: { id, email } }, context) => {
 	if (!id && !email) {
-		throw new Error('You must pass an id or an email to query users.');
+		throw new UserInputError(
+			'You must pass an id or an email to query users.',
+			{
+				invalidArgs: ['id', 'email']
+			}
+		);
 	}
 
-	return users.findOne({
-		where: { [models.Sequelize.Op.or]: [{ email }, { id }] }
-	});
+	if (email) {
+		return users.findOne({ where: { email } });
+	}
+
+	return users.findOne({ where: { id } });
 };

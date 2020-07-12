@@ -1,4 +1,12 @@
-module.exports = user => {
+const { ForbiddenError } = require('apollo-server-express');
+
+module.exports = (user, args, context) => {
+	if (!context.session.signedIn) {
+		throw new ForbiddenError(
+			'You must be signed in to access the grade field.'
+		);
+	}
+
 	if (typeof user.gradYear !== 'number') {
 		return null;
 	}

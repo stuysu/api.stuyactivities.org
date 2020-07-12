@@ -1,11 +1,11 @@
 const { gql } = require('apollo-server-express');
 module.exports = gql`
-	input UserSearch {
+	input UserParams {
 		id: Int
 		email: String
 	}
 
 	type Query {
-		user(where: UserSearch!): User
+		user(with: UserParams!): User
 	}
 `;

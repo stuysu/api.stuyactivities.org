@@ -1,1 +1,6 @@
-module.exports = [require('./User'), require('./Query'), require('./Mutation')];
+module.exports = [
+	require('./User'),
+	require('./Query'),
+	require('./Mutation'),
+	require('./OAuthIdentity')
+];

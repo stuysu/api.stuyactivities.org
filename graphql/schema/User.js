@@ -6,9 +6,14 @@ module.exports = gql`
 		name: String!
 		firstName: String!
 		lastName: String!
-		email: String!
+		email: String
 		gradYear: Int
 		grade: Int
 		isFaculty: Boolean!
+		isAdmin: Boolean!
+		oAuths: [OAuthIdentity]!
+
+		# Can only be accessed by the user themselves or someone with admin privileges
+		hasPassword: Boolean
 	}
 `;
