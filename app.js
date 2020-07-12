@@ -1,5 +1,8 @@
+const honeybadger = require('./middleware/honeybadger');
 const express = require('express');
 const app = express();
+
+app.use(honeybadger.requestHandler);
 
 const logger = require('./middleware/logger');
 app.use(logger);
@@ -10,10 +13,9 @@ app.use(session);
 const parsers = require('./middleware/parsers');
 app.use(parsers);
 
-const routes = require('./routes');
-app.use(routes);
+const apolloServer = require('./graphql');
+apolloServer.applyMiddleware({ app, path: '/graphql' });
 
-const errorHandler = require('./middleware/errorHandler');
-app.use(errorHandler);
+app.use(honeybadger.errorHandler);
 
 module.exports = app;

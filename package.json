@@ -12,6 +12,7 @@
 		"prettier": "npx prettier --write ."
 	},
 	"dependencies": {
+		"apollo-server-express": "^2.15.1",
 		"body-parser": "latest",
 		"connect-session-sequelize": "^7.0.0",
 		"cookie-parser": "^1.4.5",
