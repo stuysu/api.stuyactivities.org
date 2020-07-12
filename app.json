@@ -1,0 +1,14 @@
+{
+	"addons": [
+		{
+			"plan": "heroku-postgresql"
+		}
+	],
+	"env": {
+		"NODE_ENV": {
+			"description": "Run as a production environment on Heroku",
+			"value": "production"
+		}
+	},
+	"name": "api.stuyactivities.org",
+}

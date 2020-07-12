@@ -3,6 +3,10 @@ const sqlitePath = path.resolve(__dirname, './../app.db');
 
 const logsDisabled = process.env.SEQUELIZE_NO_LOG === 'true';
 
+if (!process.env.SEQUELIZE_URL && process.env.DATABASE_URL) {
+	process.env.SEQUELIZE_URL = process.env.DATABASE_URL;
+}
+
 module.exports = {
 	development: {
 		url: process.env.SEQUELIZE_URL || `sqlite::${sqlitePath}`,
