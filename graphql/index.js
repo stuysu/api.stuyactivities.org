@@ -9,7 +9,9 @@ const apolloServer = new ApolloServer({
 		return {
 			session: req.session
 		};
-	}
+	},
+	introspection: true,
+	playground: true
 });
 
 module.exports = apolloServer;
