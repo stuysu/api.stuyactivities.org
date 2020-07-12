@@ -12,8 +12,8 @@ module.exports = async (root, params, context) => {
 	}
 
 	// throw new Error('sign in failed');
-	const googleOAuthToken = params?.with?.googleOAuthToken;
-	const credentials = params?.with?.credentials;
+	const googleOAuthToken = params.with.googleOAuthToken;
+	const credentials = params.with.credentials;
 
 	if (!googleOAuthToken && !credentials) {
 		throw new UserInputError(

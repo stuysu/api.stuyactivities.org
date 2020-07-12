@@ -39,7 +39,9 @@ const apolloServer = new ApolloServer({
 		// Might want to hide the stack trace for security in production
 		if (
 			process.env.NODE_ENV === 'production' &&
-			err?.extensions?.exception?.stacktrace
+			err.extensions &&
+			err.extensions.exception &&
+			err.extensions.exception.stacktrace
 		) {
 			delete err.extensions.exception.stacktrace;
 		}
