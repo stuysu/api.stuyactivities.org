@@ -22,7 +22,6 @@ const apolloServer = new ApolloServer({
 		}
 	},
 	formatError: err => {
-		console.log(err);
 		const safeError =
 			err.originalError instanceof ApolloError ||
 			err instanceof ValidationError;

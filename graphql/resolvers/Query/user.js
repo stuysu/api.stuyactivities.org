@@ -1,5 +1,4 @@
-const models = require('./../../../database');
-const users = models.users;
+const { users, oAuthIds, adminRoles } = require('./../../../database');
 const { UserInputError } = require('apollo-server-express');
 
 module.exports = async (root, { with: { id, email } }, context) => {
@@ -13,8 +12,22 @@ module.exports = async (root, { with: { id, email } }, context) => {
 	}
 
 	if (email) {
-		return users.findOne({ where: { email } });
+		return users.findOne({
+			where: { email },
+			include: [
+				{
+					model: adminRoles
+				}
+			]
+		});
 	}
 
-	return users.findOne({ where: { id } });
+	return users.findOne({
+		where: { id },
+		include: [
+			{
+				model: adminRoles
+			}
+		]
+	});
 };

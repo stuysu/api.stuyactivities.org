@@ -10,7 +10,7 @@ module.exports = gql`
 		gradYear: Int
 		grade: Int
 		isFaculty: Boolean!
-		isAdmin: Boolean!
+		adminRoles: [AdminRole]!
 		oAuths: [OAuthIdentity]!
 
 		# Can only be accessed by the user themselves or someone with admin privileges
