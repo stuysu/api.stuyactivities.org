@@ -7,11 +7,11 @@ module.exports = gql`
 	}
 
 	input LoginTypes {
-		where: StdLoginParams
+		credentials: StdLoginParams
 		googleOAuthToken: String
 	}
 
 	type Mutation {
-		login(where: LoginTypes): User!
+		login(with: LoginTypes!): User!
 	}
 `;
