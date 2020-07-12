@@ -9,7 +9,8 @@
 		"start": "node index",
 		"dev": "npx nodemon index",
 		"build": "npx sequelize db:migrate",
-		"prettier": "npx prettier --write ."
+		"prettier": "npx prettier --write .",
+		"heroku-postbuild": "npm install pg pg-native && npm run build"
 	},
 	"dependencies": {
 		"apollo-server-express": "^2.15.1",
