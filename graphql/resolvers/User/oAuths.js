@@ -11,7 +11,7 @@ module.exports = async (user, args, context) => {
 		);
 	}
 
-	if (!context.session.userId !== user.id) {
+	if (context.session.userId !== user.id) {
 		throw new ForbiddenError(
 			'You are only allowed to see your own oAuth identities.'
 		);
