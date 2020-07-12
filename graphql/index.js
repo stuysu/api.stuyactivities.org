@@ -31,7 +31,7 @@ const apolloServer = new ApolloServer({
 			console.error(err.originalError);
 
 			// report this error to us but hide it from the client
-			honeybadger.notify(err);
+			honeybadger.notify(err.originalError);
 			return new Error('There was an unknown error on the server');
 		}
 
