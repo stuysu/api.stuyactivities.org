@@ -6,13 +6,15 @@ const {
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
 const honeybadger = require('honeybadger');
+const models = require('./../database');
 
 const apolloServer = new ApolloServer({
 	typeDefs,
 	resolvers,
 	context: ({ req }) => {
 		return {
-			session: req.session
+			session: req.session,
+			models
 		};
 	},
 	introspection: true,
