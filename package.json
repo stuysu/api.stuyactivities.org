@@ -24,6 +24,7 @@
 		"google-auth-library": "^6.0.4",
 		"honeybadger": "^1.4.0",
 		"morgan": "^1.10.0",
+		"mysql2": "^2.1.0",
 		"sequelize": "^6.3.2",
 		"sqlite3": "^5.0.0"
 	},
