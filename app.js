@@ -7,6 +7,9 @@ app.use(honeybadger.requestHandler);
 const logger = require('./middleware/logger');
 app.use(logger);
 
+const cors = require('./middleware/cors');
+app.use(cors);
+
 const session = require('./middleware/session');
 app.use(session);
 

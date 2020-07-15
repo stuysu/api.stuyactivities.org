@@ -18,8 +18,9 @@ const session = expressSession({
 	cookie: {
 		path: '/',
 		httpOnly: true,
-		secure: false,
-		maxAge: 7 * 86400 * 1000
+		secure: true,
+		maxAge: 7 * 86400 * 1000,
+		sameSite: 'none'
 	},
 	rolling: true
 });
