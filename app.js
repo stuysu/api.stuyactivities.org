@@ -22,7 +22,7 @@ const parsers = require('./middleware/parsers');
 app.use(parsers);
 
 const apolloServer = require('./graphql');
-apolloServer.applyMiddleware({ app, path: '/graphql' });
+apolloServer.applyMiddleware({ app, path: '/graphql', cors: false });
 
 app.use(honeybadger.errorHandler);
 
