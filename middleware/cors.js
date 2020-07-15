@@ -1,5 +1,4 @@
 const cors = require('cors');
-const RequestRefusalError = require('../utils/RequestRefusalError');
 
 const allowedOrigins = new RegExp(
 	// This regex will match urls like
@@ -17,9 +16,7 @@ const corsOptions = {
 		) {
 			callback(null, true);
 		} else {
-			callback(
-				new RequestRefusalError('Not allowed by CORS', 'INVALID_ORIGIN')
-			);
+			callback(new Error('Not allowed by CORS'));
 		}
 	},
 	credentials: true
