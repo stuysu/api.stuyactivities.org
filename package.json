@@ -24,10 +24,12 @@
 		"express-session": "^1.17.1",
 		"google-auth-library": "^6.0.4",
 		"honeybadger": "^1.4.0",
+		"ip-range-check": "^0.2.0",
 		"morgan": "^1.10.0",
 		"mysql2": "^2.1.0",
 		"sequelize": "^6.3.2",
-		"sqlite3": "^5.0.0"
+		"sqlite3": "^5.0.0",
+		"sync-request": "^6.1.0"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",

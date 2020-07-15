@@ -7,6 +7,11 @@ app.use(honeybadger.requestHandler);
 const logger = require('./middleware/logger');
 app.use(logger);
 
+// The app is served behind a cloudflare proxy
+// This is so our app doesn't think legitimate requests are fraudulent
+const proxyValidator = require('./middleware/proxyValidator');
+app.use(proxyValidator);
+
 const cors = require('./middleware/cors');
 app.use(cors);
 
