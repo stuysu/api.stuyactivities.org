@@ -54,7 +54,7 @@ const loginWithGoogle = async (googleOAuthToken, session) => {
 			email: payload.email,
 			active: true
 		},
-		order: ['gradYear', 'desc']
+		order: [['gradYear', 'desc']]
 	});
 
 	// The user is not in the database. Might be possible that the database is incomplete
@@ -88,7 +88,7 @@ const loginWithGoogle = async (googleOAuthToken, session) => {
 	session.signedIn = true;
 	session.userId = user.id;
 
-	await oAuthRow.create({
+	await oAuthIds.create({
 		userId: user.id,
 		platform: 'google',
 		platformId: payload.sub,
