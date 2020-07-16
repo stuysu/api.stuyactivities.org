@@ -19,7 +19,7 @@ const resolveGoogleIdToken = async idToken => {
 };
 
 const loginWithGoogle = async (googleOAuthToken, session) => {
-	const payload = resolveGoogleIdToken(googleOAuthToken);
+	const payload = await resolveGoogleIdToken(googleOAuthToken);
 
 	if (!payload) {
 		throw new ApolloError(
