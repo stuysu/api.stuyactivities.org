@@ -23,6 +23,9 @@ module.exports = {
 			gradYear: {
 				type: Sequelize.INTEGER
 			},
+			picture: {
+				type: Sequelize.STRING
+			},
 			isFaculty: {
 				type: Sequelize.BOOLEAN
 			},
