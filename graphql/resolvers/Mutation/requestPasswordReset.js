@@ -17,6 +17,7 @@ module.exports = async (root, args, context) => {
 	});
 
 	if (!user) {
+		console.log('bad request');
 		throw new ApolloError(
 			'There is no user with that email address',
 			'USER_NOT_FOUND'
@@ -49,7 +50,7 @@ module.exports = async (root, args, context) => {
 
 	const token = cryptoRandomString({ length: tokenLength, type: 'url-safe' });
 
-	await passwordResets({ userId: user.id, token });
+	await passwordResets.create({ userId: user.id, token });
 
 	const url = urlJoin(PUBLIC_URL, 'reset-password', token);
 

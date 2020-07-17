@@ -8,5 +8,6 @@ module.exports = gql`
 	type Query {
 		user(with: UserParams!): User
 		signedInUser: User
+		resetTokenIsValid(token: String!): Boolean!
 	}
 `;

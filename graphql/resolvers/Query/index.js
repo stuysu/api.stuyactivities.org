@@ -1,4 +1,5 @@
 module.exports = {
 	user: require('./user'),
-	signedInUser: require('./signedInUser')
+	signedInUser: require('./signedInUser'),
+	resetTokenIsValid: require('./resetTokenIsValid')
 };

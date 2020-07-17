@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 			passwordResets.belongsTo(models.users, { foreignKey: 'userId' });
 		}
+
+		isValid() {
+			const now = new Date();
+			const maxAge = 1000 * 60 * 60;
+			const expirationDate = new Date(this.createdAt.getTime() + maxAge);
+
+			return now.getTime() < expirationDate.getTime();
+		}
 	}
 	passwordResets.init(
 		{
