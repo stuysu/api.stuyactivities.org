@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: 'email',
 				sourceKey: 'email'
 			});
+
+			users.hasMany(models.passwordResets);
 		}
 	}
 

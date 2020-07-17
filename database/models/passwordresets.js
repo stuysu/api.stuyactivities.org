@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			passwordResets.belongsTo(models.users, { foreignKey: 'userId' });
 		}
 	}
 	passwordResets.init(
