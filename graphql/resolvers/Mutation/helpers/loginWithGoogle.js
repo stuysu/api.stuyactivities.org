@@ -1,15 +1,16 @@
 const { ApolloError } = require('apollo-server-express');
 const { users, oAuthIds } = require('./../../../../database');
 
-const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const { GOOGLE_CLIENT_ID } = require('./../../../../constants');
+
 const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(googleClientId);
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 const resolveGoogleIdToken = async idToken => {
 	try {
 		const ticket = await client.verifyIdToken({
 			idToken,
-			audience: googleClientId
+			audience: GOOGLE_CLIENT_ID
 		});
 
 		return await ticket.getPayload();

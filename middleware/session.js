@@ -5,12 +5,10 @@ const SequelizeConnectSession = require('connect-session-sequelize')(
 const db = require('./../database').sequelize;
 
 const sequelizeStore = new SequelizeConnectSession({ db });
-
-const sessionSecret =
-	process.env.SESSION_SECRET || 'some_semi_permanent_secret';
+const { SESSION_SECRET } = require('./../constants');
 
 const session = expressSession({
-	secret: sessionSecret,
+	secret: SESSION_SECRET,
 	name: 'session',
 	resave: true,
 	saveUninitialized: false,

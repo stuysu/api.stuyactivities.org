@@ -1,4 +1,5 @@
 const cors = require('cors');
+const { NODE_ENV } = require('./../constants');
 
 const allowedOrigins = new RegExp(
 	// This regex will match urls like
@@ -12,7 +13,7 @@ const corsOptions = {
 		if (
 			!origin ||
 			origin.match(allowedOrigins) ||
-			process.env.NODE_ENV === 'development'
+			NODE_ENV === 'development'
 		) {
 			callback(null, true);
 		} else {

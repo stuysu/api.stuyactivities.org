@@ -1,10 +1,9 @@
 const honeybadger = require('honeybadger');
+const { HONEYBADGER_KEY } = require('./../constants');
 
-const apiKey = process.env.HONEYBADGER_KEY;
-
-if (apiKey) {
+if (HONEYBADGER_KEY) {
 	honeybadger.configure({
-		apiKey
+		apiKey: HONEYBADGER_KEY
 	});
 }
 
