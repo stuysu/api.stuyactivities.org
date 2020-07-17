@@ -89,6 +89,10 @@ const loginWithGoogle = async (googleOAuthToken, session) => {
 	session.signedIn = true;
 	session.userId = user.id;
 
+	// Update the user's picture since this is the first time they're using oAuth
+	user.picture = payload.picture;
+	await user.save();
+
 	await oAuthIds.create({
 		userId: user.id,
 		platform: 'google',
