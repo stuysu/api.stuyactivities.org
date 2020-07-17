@@ -5,12 +5,10 @@ const SequelizeConnectSession = require('connect-session-sequelize')(
 const db = require('./../database').sequelize;
 
 const sequelizeStore = new SequelizeConnectSession({ db });
+const { SESSION_SECRET } = require('./../constants');
 
-const sessionSecret =
-	process.env.SESSION_SECRET || 'some_semi_permanent_secret';
-
-const session = expressSession({
-	secret: sessionSecret,
+const sessionOptions = {
+	secret: SESSION_SECRET,
 	name: 'session',
 	resave: true,
 	saveUninitialized: false,
@@ -18,12 +16,17 @@ const session = expressSession({
 	cookie: {
 		path: '/',
 		httpOnly: true,
-		secure: true,
-		maxAge: 7 * 86400 * 1000,
-		sameSite: 'none'
+		maxAge: 7 * 86400 * 1000
 	},
 	rolling: true
-});
+};
+
+if (process.env.NODE_ENV === 'production') {
+	sessionOptions.cookie.secure = true;
+	sessionOptions.cookie.sameSite = 'none';
+}
+
+const session = expressSession(sessionOptions);
 
 sequelizeStore.sync();
 

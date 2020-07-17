@@ -1,9 +1,8 @@
-const sessionSecret =
-	process.env.SESSION_SECRET || 'some_semi_permanent_secret';
+const { SESSION_SECRET } = require('./.././constants');
 const router = require('express').Router();
 
 const cookieParser = require('cookie-parser');
-router.use(cookieParser(sessionSecret));
+router.use(cookieParser(SESSION_SECRET));
 
 const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));

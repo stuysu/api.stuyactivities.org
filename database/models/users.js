@@ -1,4 +1,4 @@
-'use strict';
+const bcrypt = require('bcrypt');
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class users extends Model {
@@ -14,6 +14,28 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: 'email',
 				sourceKey: 'email'
 			});
+
+			users.hasMany(models.passwordResets);
+		}
+
+		async comparePassword(password) {
+			if (!this.password) {
+				return false;
+			}
+
+			return await bcrypt.compare(password, this.password);
+		}
+
+		static validatePassword(password) {
+			if (password.length < 8) {
+				return false;
+			}
+
+			const hasLowercase = password.match(/[a-z]/);
+			const hasUppercase = password.match(/[A-Z]/);
+			const hasNumbers = password.match(/[0-9]/);
+
+			return hasLowercase && hasUppercase && hasNumbers;
 		}
 	}
 

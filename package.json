@@ -20,6 +20,7 @@
 		"connect-session-sequelize": "^7.0.0",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
+		"crypto-random-string": "^3.2.0",
 		"dotenv": "latest",
 		"express": "latest",
 		"express-session": "^1.17.1",
@@ -28,8 +29,12 @@
 		"ip-range-check": "^0.2.0",
 		"morgan": "^1.10.0",
 		"mysql2": "^2.1.0",
+		"node-html-parser": "^1.2.20",
+		"nodemailer": "^6.4.10",
+		"nunjucks": "^3.2.1",
 		"sequelize": "^6.3.2",
-		"sqlite3": "^5.0.0"
+		"sqlite3": "^5.0.0",
+		"url-join": "^4.0.1"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
@@ -47,7 +52,8 @@
 		"trailingComma": "none",
 		"semi": true,
 		"singleQuote": true,
-		"printWidth": 80
+		"printWidth": 80,
+		"endOfLine": "lf"
 	},
 	"mocha": {
 		"recursive": true

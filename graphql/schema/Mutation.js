@@ -13,5 +13,8 @@ module.exports = gql`
 
 	type Mutation {
 		login(with: LoginTypes!): User!
+		requestPasswordReset(email: String!): Boolean
+		usePasswordResetToken(token: String!, password: String!): Boolean
+		logout: Boolean
 	}
 `;

@@ -1,15 +1,11 @@
 const path = require('path');
-const sqlitePath = path.resolve(__dirname, './../app.db');
+const { SEQUELIZE_URL } = require('./../constants');
 
 const logsDisabled = process.env.SEQUELIZE_NO_LOG === 'true';
 
-if (!process.env.SEQUELIZE_URL && process.env.DATABASE_URL) {
-	process.env.SEQUELIZE_URL = process.env.DATABASE_URL;
-}
-
 module.exports = {
 	development: {
-		url: process.env.SEQUELIZE_URL || `sqlite::${sqlitePath}`,
+		url: SEQUELIZE_URL,
 		define: {
 			charset: 'utf8',
 			collate: 'utf8_unicode_ci'
@@ -19,7 +15,7 @@ module.exports = {
 		logging: logsDisabled ? false : console.log
 	},
 	production: {
-		url: process.env.SEQUELIZE_URL,
+		url: SEQUELIZE_URL,
 		pool: {
 			max: 5,
 			min: 0,
