@@ -10,7 +10,6 @@ module.exports = gql`
 		commitmentLevel: String
 		createdAt: String!
 		tags: [Tag]!
-
 		charter: Charter
 	}
 `;
