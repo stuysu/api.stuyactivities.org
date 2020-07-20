@@ -16,7 +16,7 @@ module.exports = gql`
 		signedInUser: User
 		resetTokenIsValid(token: String!): Boolean!
 		organizations(
-			with: OrganizationParams
+			with: OrganizationParams = {}
 			limit: Int = 50
 			offset: Int = 0
 		): [Organization]!
