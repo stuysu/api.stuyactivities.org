@@ -9,5 +9,6 @@ module.exports = gql`
 		user(with: UserParams!): User
 		signedInUser: User
 		resetTokenIsValid(token: String!): Boolean!
+		organizations: [Organization]!
 	}
 `;
