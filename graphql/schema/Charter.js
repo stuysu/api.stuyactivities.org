@@ -5,8 +5,8 @@ module.exports = gql`
 		organization: Organization
 		mission: String
 		purpose: String
-		meetingsFrequency: String
 		benefit: String
+
 		appointmentProcedures: String
 		uniqueness: String
 		meetingSchedule: String
