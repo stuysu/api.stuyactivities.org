@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
 			organizations.belongsToMany(models.tags, {
 				through: models.orgTags
 			});
+
+			organizations.hasOne(models.charters);
 		}
 	}
 	organizations.init(
