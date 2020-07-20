@@ -3,8 +3,7 @@ const index = {
 	Mutation: require('./Mutation'),
 	User: require('./User'),
 	AdminRole: require('./AdminRole'),
-	Organization: require('./Organization'),
-	Commitment: require('./Commitment')
+	Organization: require('./Organization')
 };
 
 module.exports = index;
