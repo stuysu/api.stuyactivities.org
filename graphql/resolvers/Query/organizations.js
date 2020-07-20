@@ -23,16 +23,6 @@ module.exports = async (root, args, context) => {
 		offset
 	};
 
-	if (Array.isArray(tags)) {
-		filterParams.include.push({
-			model: models.tags,
-			where: {
-				name: tags
-			},
-			required: true
-		});
-	}
-
 	const charterInclude = {
 		model: models.charters,
 		where: {
@@ -48,31 +38,6 @@ module.exports = async (root, args, context) => {
 		required: true
 	};
 
-	if (keyword) {
-		filterParams.where[Op.or] = {
-			name: {
-				[Op.like]: `%${keyword}%`
-			},
-			url: {
-				[Op.like]: `%${keyword}%`
-			}
-		};
-
-		const fieldsToCheck = Object.keys(models.charters.rawAttributes);
-		fieldsToCheck.splice(fieldsToCheck.indexOf('createdAt'), 1);
-		fieldsToCheck.splice(fieldsToCheck.indexOf('updatedAt'), 1);
-
-		const charterFilter = {
-			[Op.or]: fieldsToCheck.map(field => ({
-				[field]: {
-					[Op.like]: `%${keyword}%`
-				}
-			}))
-		};
-
-		charterInclude.where[Op.and].push(charterFilter);
-	}
-
 	if (Array.isArray(commitmentLevels)) {
 		charterInclude.where[Op.and].push({
 			commitmentLevel: commitmentLevels
@@ -81,7 +46,52 @@ module.exports = async (root, args, context) => {
 
 	if (Array.isArray(meetingDays)) {
 		charterInclude.where[Op.and].push({
-			meetingDays
+			[Op.or]: meetingDays.map(day => ({
+				meetingDays: {
+					[Op.like]: `%${day.toLowerCase()}%`
+				}
+			}))
+		});
+	}
+
+	filterParams.include.push(charterInclude);
+
+	if (keyword) {
+		const charterFieldsToCheck = Object.keys(models.charters.rawAttributes);
+		charterFieldsToCheck.splice(
+			charterFieldsToCheck.indexOf('createdAt'),
+			1
+		);
+		charterFieldsToCheck.splice(
+			charterFieldsToCheck.indexOf('updatedAt'),
+			1
+		);
+
+		const orParams = {
+			name: {
+				[Op.like]: `%${keyword}%`
+			},
+			url: {
+				[Op.like]: `%${keyword}%`
+			}
+		};
+
+		charterFieldsToCheck.forEach(field => {
+			orParams[`$charter.${field}$`] = {
+				[Op.like]: `%${keyword}%`
+			};
+		});
+
+		filterParams.where[Op.or] = orParams;
+	}
+
+	if (Array.isArray(tags)) {
+		filterParams.include.push({
+			model: models.tags,
+			where: {
+				name: tags
+			},
+			required: true
 		});
 	}
 
