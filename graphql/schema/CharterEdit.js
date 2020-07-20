@@ -26,6 +26,7 @@ module.exports = gql`
 
 		extra: String
 
+		keywords: [String]
 		comments: [CharterEditComment]
 	}
 `;

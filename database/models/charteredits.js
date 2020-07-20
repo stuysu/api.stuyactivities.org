@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 			meetingDays: DataTypes.STRING,
 			meetingFrequency: DataTypes.INTEGER,
 			commitmentLevel: DataTypes.STRING,
+			keywords: DataTypes.STRING,
 			extra: DataTypes.TEXT,
 			approved: {
 				type: DataTypes.BOOLEAN,

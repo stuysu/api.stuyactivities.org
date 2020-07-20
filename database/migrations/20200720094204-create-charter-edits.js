@@ -41,6 +41,9 @@ module.exports = {
 			commitmentLevel: {
 				type: Sequelize.STRING
 			},
+			keywords: {
+				type: Sequelize.STRING
+			},
 			extra: {
 				type: Sequelize.TEXT
 			},

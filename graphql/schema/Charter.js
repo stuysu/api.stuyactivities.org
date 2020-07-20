@@ -17,6 +17,7 @@ module.exports = gql`
 
 		commitmentLevel: String
 
+		keywords: [String]
 		extra: String
 	}
 `;
