@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			organizations.belongsToMany(models.tags, {
-				through: models.organizationTags
+				through: models.orgTags
 			});
 		}
 	}

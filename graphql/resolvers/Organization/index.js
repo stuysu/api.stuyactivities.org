@@ -1,3 +1,3 @@
 module.exports = {
-	tags: require('./tags')
+	tags: org => org.getTags()
 };
