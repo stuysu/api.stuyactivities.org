@@ -1,6 +1,6 @@
 module.exports = {
 	login: require('./login'),
+	logout: require('./logout'),
 	requestPasswordReset: require('./requestPasswordReset'),
-	usePasswordResetToken: require('./usePasswordResetToken'),
-	logout: require('./logout')
+	usePasswordResetToken: require('./usePasswordResetToken')
 };

@@ -1,3 +1,3 @@
 module.exports = {
-	user: require('./user')
+	user: role => role.getUser()
 };
