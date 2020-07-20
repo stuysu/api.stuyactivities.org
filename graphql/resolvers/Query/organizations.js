@@ -7,14 +7,32 @@ module.exports = async (root, args, context) => {
 
 	const { models } = context;
 
-	// add filtering for tags and the keyword as well as commitment levels
-
-	return models.organizations.findAll({
-		// where: {
-		//
-		// }
-		include: [{ model: models.tags }],
+	const filterParams = {
+		where: {},
+		include: [],
 		limit,
 		offset
-	});
+	};
+
+	if (keyword) {
+		filterParams.where.name = {
+			[models.Sequelize.Op.like]: `%${keyword.trim()}%`
+		};
+	}
+
+	if (Array.isArray(tags)) {
+		filterParams.include.push({
+			model: models.tags,
+			where: {
+				name: tags
+			},
+			required: true
+		});
+	}
+
+	if (Array.isArray(commitmentLevels)) {
+		filterParams.where.commitmentLevel = commitmentLevels;
+	}
+
+	return models.organizations.findAll(filterParams);
 };
