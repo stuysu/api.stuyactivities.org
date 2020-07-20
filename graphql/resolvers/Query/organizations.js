@@ -85,7 +85,7 @@ module.exports = async (root, args, context) => {
 		filterParams.where[Op.or] = orParams;
 	}
 
-	if (Array.isArray(tags)) {
+	if (Array.isArray(tags) && tags.length > 0) {
 		filterParams.include.push({
 			model: models.tags,
 			where: {
