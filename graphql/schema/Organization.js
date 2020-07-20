@@ -8,7 +8,6 @@ module.exports = gql`
 		picture: String
 		active: Boolean!
 		commitmentLevel: String
-		commitment: Commitment
 		createdAt: String!
 		tags: [Tag]!
 		charter: Charter

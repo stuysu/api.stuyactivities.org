@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
 			});
 
 			organizations.hasOne(models.charters);
+
+			organizations.hasMany(models.charterEdits);
 		}
 	}
 	organizations.init(

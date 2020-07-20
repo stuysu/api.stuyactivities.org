@@ -5,6 +5,8 @@ module.exports = [
 	require('./OAuthIdentity'),
 	require('./AdminRole'),
 	require('./Charter'),
+	require('./CharterEdit'),
+	require('./CharterEditComment'),
 	require('./Organization'),
 	require('./Tag')
 ];
