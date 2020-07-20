@@ -5,7 +5,7 @@ module.exports = async (root, args, context) => {
 		offset
 	} = args;
 
-	const models = context;
+	const { models } = context;
 
 	// add filtering for tags and the keyword as well as commitment levels
 
