@@ -38,13 +38,13 @@ module.exports = async (root, args, context) => {
 		required: true
 	};
 
-	if (Array.isArray(commitmentLevels)) {
+	if (Array.isArray(commitmentLevels) && commitmentLevels.length > 0) {
 		charterInclude.where[Op.and].push({
 			commitmentLevel: commitmentLevels
 		});
 	}
 
-	if (Array.isArray(meetingDays)) {
+	if (Array.isArray(meetingDays) && meetingDays.length > 0) {
 		charterInclude.where[Op.and].push({
 			[Op.or]: meetingDays.map(day => ({
 				meetingDays: {
