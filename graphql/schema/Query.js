@@ -5,10 +5,17 @@ module.exports = gql`
 		email: String
 	}
 
+	input meetingFrequencyParams {
+		min: Int! = 1
+		max: Int! = 20
+	}
+
 	input OrganizationParams {
-		keyword: String
+		keyword: String! = ""
 		tags: [String]
 		commitmentLevels: [String]
+		meetingDays: [String]
+		meetingFrequency: meetingFrequencyParams! = { min: 1, max: 20 }
 	}
 
 	type Query {
