@@ -7,7 +7,7 @@ module.exports = gql`
 
 	type Query {
 		user(email: String, id: Int): User
-		signedInUser: User
+		authenticatedUser: User
 		resetTokenIsValid(token: String!): Boolean!
 		organizations(
 			keyword: String

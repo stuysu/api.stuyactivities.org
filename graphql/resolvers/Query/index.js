@@ -1,6 +1,6 @@
 module.exports = {
 	user: require('./user'),
-	signedInUser: require('./signedInUser'),
+	authenticatedUser: require('./authenticatedUser'),
 	resetTokenIsValid: require('./resetTokenIsValid'),
 	organizations: require('./organizations')
 };
