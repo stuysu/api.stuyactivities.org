@@ -1,10 +1,5 @@
 const { gql } = require('apollo-server-express');
 module.exports = gql`
-	input UserParams {
-		id: Int
-		email: String
-	}
-
 	input meetingFrequencyParams {
 		min: Int! = 1
 		max: Int! = 20
@@ -19,7 +14,7 @@ module.exports = gql`
 	}
 
 	type Query {
-		user(with: UserParams!): User
+		user(email: String, id: Int): User
 		signedInUser: User
 		resetTokenIsValid(token: String!): Boolean!
 		organizations(
