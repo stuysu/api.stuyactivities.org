@@ -1,6 +1,6 @@
 const { URL } = require('url');
 
-const backgroundColors = ['0984e3', '6c5ce7', 'e17055', '00b894', 'ff6b6b'];
+const backgroundColors = ['0984e3', '6c5ce7', 'f19066', '00b894', 'ff6b6b'];
 
 module.exports = org => {
 	if (org.picture) {
