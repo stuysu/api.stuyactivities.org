@@ -1,12 +1,10 @@
 module.exports = async (root, args, context) => {
 	const {
-		with: {
-			keyword,
-			tags,
-			commitmentLevels,
-			meetingDays,
-			meetingFrequency: { min, max }
-		},
+		keyword,
+		tags,
+		commitmentLevels,
+		meetingDays,
+		meetingFrequency,
 		limit,
 		offset
 	} = args;
@@ -22,6 +20,15 @@ module.exports = async (root, args, context) => {
 		limit,
 		offset
 	};
+
+	let min = 1;
+	let max = 20;
+
+	// If they are provided, update the default
+	if (meetingFrequency) {
+		min = meetingFrequency.min;
+		max = meetingFrequency.max;
+	}
 
 	const charterInclude = {
 		model: models.charters,
