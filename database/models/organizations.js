@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
 			name: DataTypes.STRING,
 			url: DataTypes.STRING,
 			picture: DataTypes.STRING,
-			commitmentLevel: DataTypes.ENUM('low', 'medium', 'high'),
 			active: DataTypes.BOOLEAN
 		},
 		{

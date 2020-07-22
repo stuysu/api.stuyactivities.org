@@ -45,7 +45,7 @@ module.exports = async (root, params, context) => {
 			throw incorrectError;
 		}
 
-		const isValid = await bcrypt.compare(password, user.password);
+		const isValid = await user.comparePassword(password);
 
 		if (!isValid) {
 			throw incorrectError;

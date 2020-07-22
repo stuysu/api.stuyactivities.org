@@ -17,9 +17,6 @@ module.exports = {
 			picture: {
 				type: Sequelize.STRING
 			},
-			commitmentLevel: {
-				type: Sequelize.ENUM('low', 'medium', 'high')
-			},
 			active: {
 				type: Sequelize.BOOLEAN
 			},

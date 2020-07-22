@@ -7,7 +7,6 @@ module.exports = gql`
 		url: String!
 		picture: String
 		active: Boolean!
-		commitmentLevel: String
 		createdAt: String!
 		tags: [Tag]!
 		charter: Charter
