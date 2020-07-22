@@ -19,5 +19,6 @@ module.exports = gql`
 			offset: Int! = 0
 		): [Organization]!
 		organization(url: String, id: String): Organization
+		tags(keyword: String): [Tag]!
 	}
 `;

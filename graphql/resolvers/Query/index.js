@@ -3,5 +3,6 @@ module.exports = {
 	authenticatedUser: require('./authenticatedUser'),
 	resetTokenIsValid: require('./resetTokenIsValid'),
 	organizations: require('./organizations'),
-	organization: require('./organization')
+	organization: require('./organization'),
+	tags: require('./tags')
 };

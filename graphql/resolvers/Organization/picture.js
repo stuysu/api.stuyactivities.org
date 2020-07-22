@@ -17,13 +17,13 @@ module.exports = org => {
 
 		const currentLetter = name[x];
 		const isAfterSpace = x > 0 && name[x - 1] === ' ';
-		const isUpperCase =
+
+		// If it's an uppercase letter or a number/symbol
+		const isSignificant =
 			currentLetter !== ' ' &&
 			currentLetter === currentLetter.toUpperCase();
 
-		const isNumber = !Number.isNaN(parseInt(name[x]));
-
-		if (isAfterSpace || isUpperCase || isNumber) {
+		if (isAfterSpace || isSignificant) {
 			letters += currentLetter.toUpperCase();
 		}
 	}
