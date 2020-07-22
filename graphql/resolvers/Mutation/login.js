@@ -12,22 +12,22 @@ module.exports = async (root, params, context) => {
 	}
 
 	// throw new Error('sign in failed');
-	const googleOAuthToken = params.with.googleOAuthToken;
-	const credentials = params.with.credentials;
+	const googleToken = params.googleToken;
+	const credentials = params.credentials;
 
-	if (!googleOAuthToken && !credentials) {
+	if (!googleToken && !credentials) {
 		throw new UserInputError(
 			'Credentials or an OAuth token must be provided with the request',
 			{
-				invalidArgs: ['credentials', 'googleOAuthToken']
+				invalidArgs: ['credentials', 'googleToken']
 			}
 		);
 	}
 
-	if (googleOAuthToken) {
+	if (googleToken) {
 		// The code for authenticating with google is just far too long
 		// Move it to its own helper module
-		return await loginWithGoogle(googleOAuthToken, context.session);
+		return await loginWithGoogle(googleToken, context.session);
 	}
 
 	if (credentials) {

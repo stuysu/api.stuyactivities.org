@@ -6,13 +6,8 @@ module.exports = gql`
 		password: String!
 	}
 
-	input LoginTypes {
-		credentials: StdLoginParams
-		googleOAuthToken: String
-	}
-
 	type Mutation {
-		login(with: LoginTypes!): User!
+		login(credentials: StdLoginParams, googleToken: String): User!
 		requestPasswordReset(email: String!): Boolean
 		usePasswordResetToken(token: String!, password: String!): Boolean
 		logout: Boolean
