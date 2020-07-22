@@ -4,7 +4,7 @@ const { UserInputError } = require('apollo-server-express');
 module.exports = async (root, { email, id }, context) => {
 	if (!id && !email) {
 		throw new UserInputError(
-			'You must pass an id or an email to query users.',
+			'You must pass an id or an email to query a user.',
 			{
 				invalidArgs: ['id', 'email']
 			}

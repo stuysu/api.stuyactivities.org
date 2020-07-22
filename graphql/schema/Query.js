@@ -18,5 +18,6 @@ module.exports = gql`
 			limit: Int! = 50
 			offset: Int! = 0
 		): [Organization]!
+		organization(url: String, id: String): Organization
 	}
 `;
