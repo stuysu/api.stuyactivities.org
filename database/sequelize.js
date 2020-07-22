@@ -1,7 +1,7 @@
 const path = require('path');
 const { SEQUELIZE_URL } = require('./../constants');
 
-const logsDisabled = process.env.SEQUELIZE_NO_LOG === 'true';
+const logsEnabled = process.env.SEQUELIZE_LOG === 'true';
 
 module.exports = {
 	development: {
@@ -12,7 +12,7 @@ module.exports = {
 		},
 		ssl: true,
 		native: true,
-		logging: logsDisabled ? false : console.log
+		logging: logsEnabled ? console.log : false
 	},
 	production: {
 		url: SEQUELIZE_URL,

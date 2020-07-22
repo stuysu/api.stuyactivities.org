@@ -1,15 +1,8 @@
-const {
-	ForbiddenError,
-	AuthenticationError
-} = require('apollo-server-express');
+const { ForbiddenError } = require('apollo-server-express');
 const { oAuthIds } = require('./../../../database');
 
 module.exports = async (user, args, context) => {
-	if (!context.session.signedIn) {
-		throw new AuthenticationError(
-			'You must be signed in to view linked oauth identities.'
-		);
-	}
+	context.session.authenticationRequired(['oAuths']);
 
 	if (context.session.userId !== user.id) {
 		throw new ForbiddenError(

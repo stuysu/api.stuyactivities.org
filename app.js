@@ -18,6 +18,9 @@ app.use(cors);
 const session = require('./middleware/session');
 app.use(session);
 
+const apolloSessionValidators = require('./middleware/apolloSessionValidators');
+app.use(apolloSessionValidators);
+
 const parsers = require('./middleware/parsers');
 app.use(parsers);
 
