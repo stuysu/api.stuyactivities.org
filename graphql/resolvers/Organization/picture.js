@@ -17,7 +17,10 @@ module.exports = org => {
 
 		const currentLetter = name[x];
 		const isAfterSpace = x > 0 && name[x - 1] === ' ';
-		const isUpperCase = currentLetter === currentLetter.toUpperCase();
+		const isUpperCase =
+			currentLetter !== ' ' &&
+			currentLetter === currentLetter.toUpperCase();
+
 		const isNumber = !Number.isNaN(parseInt(name[x]));
 
 		if (isAfterSpace || isUpperCase || isNumber) {
@@ -27,7 +30,7 @@ module.exports = org => {
 
 	let usciSum = 0;
 	for (let i = 0; i < letters.length; i++) {
-		usciSum = letters.charCodeAt(i);
+		usciSum += letters.charCodeAt(i);
 	}
 
 	const bgColor = backgroundColors[usciSum % backgroundColors.length];
