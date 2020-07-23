@@ -359,21 +359,23 @@ module.exports = async (root, args, context) => {
 		});
 	}
 
-	const randomName = randomString({ length: 8 });
-	const filePublicId = `/organizations/${url}/${randomName}`;
+	if (picFile) {
+		const randomName = randomString({ length: 8 });
+		const filePublicId = `/organizations/${url}/${randomName}`;
 
-	// Upload the image at the end to reduce the risk of any fatal errors
-	const uploadStream = cloudinary.uploader.upload_stream(
-		{ public_id: filePublicId },
-		function (err, image) {
-			if (err) {
-				throw err;
+		// Upload the image at the end to reduce the risk of any fatal errors
+		const uploadStream = cloudinary.uploader.upload_stream(
+			{ public_id: filePublicId },
+			function (err, image) {
+				if (err) {
+					throw err;
+				}
+
+				pendingCharter.picture = image.secure_url;
+				pendingCharter.save();
 			}
+		);
 
-			pendingCharter.picture = image.secure_url;
-			pendingCharter.save();
-		}
-	);
-
-	picFile.pipe(uploadStream);
+		picFile.pipe(uploadStream);
+	}
 };
