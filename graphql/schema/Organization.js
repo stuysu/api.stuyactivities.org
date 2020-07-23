@@ -5,7 +5,6 @@ module.exports = gql`
 		id: Int
 		name: String!
 		url: String!
-		picture: String
 		active: Boolean!
 		createdAt: String!
 		tags: [Tag]!

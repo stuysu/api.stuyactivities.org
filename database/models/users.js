@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
 			});
 
 			users.hasMany(models.passwordResets);
+
+			users.hasMany(models.membershipRequests);
+			users.hasMany(models.memberships);
 		}
 
 		async comparePassword(password) {

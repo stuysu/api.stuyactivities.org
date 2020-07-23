@@ -3,6 +3,7 @@ const { gql } = require('apollo-server-express');
 module.exports = gql`
 	type Charter {
 		organization: Organization
+		picture: String
 		mission: String
 		purpose: String
 		benefit: String

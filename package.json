@@ -17,6 +17,7 @@
 		"axios": "^0.19.2",
 		"bcrypt": "^5.0.0",
 		"body-parser": "latest",
+		"cloudinary": "^1.22.0",
 		"connect-session-sequelize": "^7.0.0",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
