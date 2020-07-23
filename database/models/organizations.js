@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			name: DataTypes.STRING,
 			url: DataTypes.STRING,
-			picture: DataTypes.STRING,
 			active: DataTypes.BOOLEAN
 		},
 		{

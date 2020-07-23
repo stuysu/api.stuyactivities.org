@@ -11,6 +11,9 @@ module.exports = {
 			organizationId: {
 				type: Sequelize.INTEGER
 			},
+			picture: {
+				type: Sequelize.STRING
+			},
 			mission: {
 				type: Sequelize.TEXT
 			},
@@ -36,7 +39,7 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			commitmentLevel: {
-				type: Sequelize.STRING
+				type: Sequelize.ENUM('low', 'medium', 'high')
 			},
 			keywords: {
 				type: Sequelize.STRING

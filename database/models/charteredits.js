@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			organizationId: DataTypes.INTEGER,
 			submittingUserId: DataTypes.INTEGER,
+			picture: DataTypes.STRING,
 			mission: DataTypes.TEXT,
 			purpose: DataTypes.TEXT,
 			benefit: DataTypes.TEXT,
@@ -41,12 +42,12 @@ module.exports = (sequelize, DataTypes) => {
 			meetingSchedule: DataTypes.TEXT,
 			meetingDays: DataTypes.STRING,
 			meetingFrequency: DataTypes.INTEGER,
-			commitmentLevel: DataTypes.STRING,
+			commitmentLevel: DataTypes.ENUM('low', 'medium', 'high'),
 			keywords: DataTypes.STRING,
 			extra: DataTypes.TEXT,
-			approved: {
-				type: DataTypes.BOOLEAN,
-				defaultValue: false
+			status: {
+				type: DataTypes.ENUM('pending', 'rejected', 'approved'),
+				defaultValue: 'pending'
 			},
 			reviewerId: DataTypes.INTEGER
 		},

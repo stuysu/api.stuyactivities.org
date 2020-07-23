@@ -14,6 +14,9 @@ module.exports = {
 			submittingUserId: {
 				type: Sequelize.INTEGER
 			},
+			picture: {
+				type: Sequelize.STRING
+			},
 			mission: {
 				type: Sequelize.TEXT
 			},
@@ -39,7 +42,7 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			commitmentLevel: {
-				type: Sequelize.STRING
+				type: Sequelize.ENUM('low', 'medium', 'high')
 			},
 			keywords: {
 				type: Sequelize.STRING
@@ -47,9 +50,9 @@ module.exports = {
 			extra: {
 				type: Sequelize.TEXT
 			},
-			approved: {
-				type: Sequelize.BOOLEAN,
-				defaultValue: false
+			status: {
+				type: Sequelize.ENUM('pending', 'rejected', 'approved'),
+				defaultValue: 'pending'
 			},
 			reviewerId: {
 				type: Sequelize.INTEGER
