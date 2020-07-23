@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<body>
-    <p>Hi {{ invitee.firstName }}!</p>
-    <p>{{ inviter.firstName }} {{ inviter.lastName }} has invited you to join {{ org.name }} as a leader on StuyActivities.</p>
-    <p>
-        To accept this request, click on the button below. Otherwise, you may ignore this email.
-    </p>
-    <a href="{{ joinUrl }}">Accept Request</a>
-</body>
+	<body>
+		<p>Hi {{ invitee.firstName }}!</p>
+		<p>
+			{{ inviter.firstName }} {{ inviter.lastName }} has invited you to
+			join {{ org.name }} as a leader on StuyActivities.
+		</p>
+		<p>
+			To accept this request, click on the button below. Otherwise, you
+			may ignore this email.
+		</p>
+		<a href="{{ joinUrl }}">Accept Request</a>
+	</body>
 </html>
