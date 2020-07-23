@@ -2,16 +2,18 @@ const { AuthenticationError } = require('apollo-server-express');
 
 module.exports = (req, res, next) => {
 	req.session.authenticationRequired = fields => {
-		let message =
-			'You must be signed in to access one or more requested fields';
+		if (!req.session.signedIn) {
+			let message =
+				'You must be signed in to perform one or more parts of this request.';
 
-		if (fields) {
-			message =
-				'You must be signed in to access the fields: ' +
-				fields.join(', ');
+			if (fields) {
+				message =
+					'You must be signed in to perform one or more parts of this request: ' +
+					fields.join(', ');
+			}
+
+			throw new AuthenticationError(message);
 		}
-
-		throw new AuthenticationError(message);
 	};
 
 	next();

@@ -33,4 +33,4 @@
 	}
  */
 
-const formValidator = (input, requirements) => {};
+const simpleValidator = (input, requirements) => {};
