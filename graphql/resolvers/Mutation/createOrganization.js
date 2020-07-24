@@ -264,7 +264,7 @@ module.exports = async (root, args, context) => {
 		simpleValidator(
 			tag,
 			{
-				type: 'integer',
+				type: 'number',
 				in: allTags
 			},
 			['tags']
