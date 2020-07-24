@@ -23,22 +23,15 @@ module.exports = async (root, args, context) => {
 			users,
 			tags: Tags,
 			orgTags,
+			memberships,
+			membershipRequests,
 			Sequelize: { Op }
 		}
 	} = context;
 
 	session.authenticationRequired(['createOrganization']);
 
-	let {
-		name,
-		url,
-		charter,
-		leaders,
-		memberships,
-		membershipRequests,
-		tags,
-		photo
-	} = args;
+	let { name, url, charter, leaders, tags, photo } = args;
 
 	let picFile;
 
