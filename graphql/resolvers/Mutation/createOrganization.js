@@ -107,7 +107,6 @@ module.exports = async (root, args, context) => {
 
 	const urlExists = await organizations.findOne({
 		where: {
-			active: true,
 			url
 		}
 	});
