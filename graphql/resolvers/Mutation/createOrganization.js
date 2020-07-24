@@ -251,7 +251,7 @@ module.exports = async (root, args, context) => {
 	const getTags = await Tags.findAll();
 	const allTags = getTags.map(tag => tag.id);
 
-	tags = [...new Set(tags)].map(tag => tag.id);
+	tags = [...new Set(allTags)];
 
 	tags.forEach(tag =>
 		simpleValidator(
@@ -371,4 +371,6 @@ module.exports = async (root, args, context) => {
 
 		picFile.pipe(uploadStream);
 	}
+
+	return org;
 };
