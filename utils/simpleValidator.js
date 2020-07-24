@@ -77,7 +77,7 @@ const simpleValidator = (input, requirements, fields, silent = false) => {
 				return false;
 			}
 			throw new UserInputError(
-				`One or more fields do not meet the requirement of ${requirements.characters.max} characters.`,
+				`One or more fields do not meet the requirement of ${requirements.characters.min} characters.`,
 				defaultErrorProps
 			);
 		}
