@@ -29,7 +29,8 @@ const apolloServer = new ApolloServer({
 	formatError: err => {
 		const safeError =
 			err.originalError instanceof ApolloError ||
-			err instanceof ValidationError;
+			err instanceof ValidationError ||
+			err.originalError.message === 'Not allowed by CORS';
 
 		// This is an unexpected error and might have secrets
 		if (!safeError) {

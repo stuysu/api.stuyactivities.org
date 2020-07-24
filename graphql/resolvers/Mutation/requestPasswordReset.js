@@ -17,7 +17,6 @@ module.exports = async (root, args, context) => {
 	});
 
 	if (!user) {
-		console.log('bad request');
 		throw new ApolloError(
 			'There is no user with that email address',
 			'USER_NOT_FOUND'
