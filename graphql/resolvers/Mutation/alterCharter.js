@@ -4,6 +4,8 @@ const {
 	ForbiddenError
 } = require('apollo-server-express');
 
+const charterValidator = require('../../../utils/charterValidator');
+
 const { EDITABLE_CHARTER_FIELDS } = require('./../../../constants');
 
 module.exports = async (parent, args, context) => {
@@ -69,8 +71,12 @@ module.exports = async (parent, args, context) => {
 		}
 	});
 
-	// CHECK TO MAKE SURE CHANGES DON'T CONFLICT WITH EXISTING PENDING CHANGES
+	// VALIDATE THE PROPOSED CHANGES AND MAKE SURE THEY PASS REQUIREMENTS
+	alteredFields.forEach(field => {
+		charterValidator(field, args.charter[field]);
+	});
 
+	// CHECK TO MAKE SURE CHANGES DON'T CONFLICT WITH EXISTING PENDING CHANGES
 	const notNullChecks = [];
 
 	alteredFields.forEach(field => {
@@ -80,8 +86,6 @@ module.exports = async (parent, args, context) => {
 			}
 		});
 	});
-
-	// VALIDATE THE PROPOSED CHANGES AND MAKE SURE THEY PASS REQUIREMENTS
 
 	const pendingConflicts = await charterEdits.findAll({
 		where: {
