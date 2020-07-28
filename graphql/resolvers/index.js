@@ -4,7 +4,8 @@ const index = {
 	User: require('./User'),
 	AdminRole: require('./AdminRole'),
 	Organization: require('./Organization'),
-	Charter: require('./Charter')
+	Charter: require('./Charter'),
+	Membership: require('./Membership')
 };
 
 module.exports = index;

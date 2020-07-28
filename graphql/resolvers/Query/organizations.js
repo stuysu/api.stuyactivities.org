@@ -61,8 +61,6 @@ module.exports = async (root, args, context) => {
 		});
 	}
 
-	filterParams.include.push(charterInclude);
-
 	if (keyword) {
 		const charterFieldsToCheck = Object.keys(models.charters.rawAttributes);
 		charterFieldsToCheck.splice(
@@ -92,15 +90,25 @@ module.exports = async (root, args, context) => {
 		filterParams.where[Op.or] = orParams;
 	}
 
+	const tagsInclude = {
+		model: models.tags,
+		required: true
+	};
+
 	if (Array.isArray(tags) && tags.length > 0) {
-		filterParams.include.push({
-			model: models.tags,
-			where: {
-				name: tags
-			},
-			required: true
-		});
+		tagsInclude.where = {
+			name: tags
+		};
 	}
+
+	const membersInclude = {
+		model: models.memberships,
+		include: [{ model: models.users }]
+	};
+
+	filterParams.include.push(charterInclude);
+	filterParams.include.push(tagsInclude);
+	filterParams.include.push(membersInclude);
 
 	return models.organizations.findAll(filterParams);
 };

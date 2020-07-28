@@ -8,5 +8,6 @@ module.exports = [
 	require('./CharterEdit'),
 	require('./CharterEditComment'),
 	require('./Organization'),
-	require('./Tag')
+	require('./Tag'),
+	require('./Membership')
 ];

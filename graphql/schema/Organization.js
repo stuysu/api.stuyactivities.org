@@ -9,5 +9,6 @@ module.exports = gql`
 		createdAt: String!
 		tags: [Tag]!
 		charter: Charter
+		memberships: [Membership]
 	}
 `;
