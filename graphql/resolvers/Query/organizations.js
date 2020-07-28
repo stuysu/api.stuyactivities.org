@@ -55,7 +55,7 @@ module.exports = async (root, args, context) => {
 		charterInclude.where[Op.and].push({
 			[Op.or]: meetingDays.map(day => ({
 				meetingDays: {
-					[Op.iLike]: `%${day.toLowerCase()}%`
+					[Op.like]: `%${day.toLowerCase()}%`
 				}
 			}))
 		});
@@ -76,16 +76,16 @@ module.exports = async (root, args, context) => {
 
 		const orParams = {
 			name: {
-				[Op.iLike]: `%${keyword}%`
+				[Op.like]: `%${keyword}%`
 			},
 			url: {
-				[Op.iLike]: `%${keyword}%`
+				[Op.like]: `%${keyword}%`
 			}
 		};
 
 		charterFieldsToCheck.forEach(field => {
 			orParams[`$charter.${field}$`] = {
-				[Op.iLike]: `%${keyword}%`
+				[Op.like]: `%${keyword}%`
 			};
 		});
 
