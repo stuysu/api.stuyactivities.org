@@ -35,5 +35,13 @@ module.exports = gql`
 			# String of emails
 			leaders: [Int!]!
 		): Organization
+
+		alterCharter(
+			# Either the orgUrl or orgId must be provided
+			orgUrl: String
+			orgId: Int
+
+			charter: CharterParams!
+		): CharterEdit
 	}
 `;
