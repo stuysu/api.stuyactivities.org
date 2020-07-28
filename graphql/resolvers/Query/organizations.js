@@ -91,11 +91,11 @@ module.exports = async (root, args, context) => {
 	}
 
 	const tagsInclude = {
-		model: models.tags,
-		required: true
+		model: models.tags
 	};
 
 	if (Array.isArray(tags) && tags.length > 0) {
+		tagsInclude.required = true;
 		tagsInclude.where = {
 			name: tags
 		};

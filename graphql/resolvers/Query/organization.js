@@ -2,7 +2,7 @@ const { UserInputError } = require('apollo-server-express');
 module.exports = (root, args, context) => {
 	const { id, url } = args;
 	const {
-		models: { organizations }
+		models: { organizations, memberships, users, tags, charters }
 	} = context;
 
 	if (!id && !url) {
@@ -14,11 +14,20 @@ module.exports = (root, args, context) => {
 		);
 	}
 
+	const include = [
+		{
+			model: memberships,
+			include: users
+		},
+		{ model: tags },
+		{ model: charters }
+	];
+
 	if (id) {
-		return organizations.findOne({ where: { id } });
+		return organizations.findOne({ where: { id }, include });
 	}
 
 	if (url) {
-		return organizations.findOne({ where: { url } });
+		return organizations.findOne({ where: { url }, include });
 	}
 };
