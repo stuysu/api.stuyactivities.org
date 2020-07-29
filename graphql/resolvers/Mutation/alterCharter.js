@@ -153,13 +153,15 @@ module.exports = async (parent, args, context) => {
 
 			await charterEdit.save();
 
-			// Create a new charterEdit with the fields that didn't conflict
-			await charterEdits.create({
-				...nonConflictingValues,
-				submittingUserId: session.userId,
-				status: 'pending',
-				createdAt: charterEdit.createdAt
-			});
+			if (Object.keys(nonConflictingValues).length) {
+				// Create a new charterEdit with the fields that didn't conflict
+				await charterEdits.create({
+					...nonConflictingValues,
+					submittingUserId: session.userId,
+					status: 'pending',
+					createdAt: charterEdit.createdAt
+				});
+			}
 		}
 	}
 
