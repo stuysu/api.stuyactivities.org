@@ -1,7 +1,7 @@
 const { ApolloError } = require('apollo-server-express');
-const { users, oAuthIds } = require('./../../../../database');
+const { users, oAuthIds } = require('../../../../database');
 
-const { GOOGLE_CLIENT_ID } = require('./../../../../constants');
+const { GOOGLE_CLIENT_ID } = require('../../../../constants');
 
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);

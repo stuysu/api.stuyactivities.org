@@ -1,7 +1,7 @@
 const { ApolloError, UserInputError } = require('apollo-server-express');
-const { users } = require('./../../../database');
+const { users } = require('../../../../database');
 const bcrypt = require('bcrypt');
-const loginWithGoogle = require('./helpers/loginWithGoogle');
+const loginWithGoogle = require('./loginWithGoogle');
 
 module.exports = async (root, params, context) => {
 	if (context.session.signedIn) {
