@@ -40,6 +40,13 @@ module.exports = (field, value, silent = false) => {
 		commitmentLevel: {
 			type: 'string',
 			in: ['low', 'medium', 'high']
+		},
+		meetingFrequency: {
+			type: 'number',
+			range: {
+				min: 1,
+				max: 20
+			}
 		}
 	};
 
@@ -106,6 +113,21 @@ module.exports = (field, value, silent = false) => {
 				'You can only specify a max of 3 keywords.',
 				{
 					invalidArgs: ['keywords']
+				}
+			);
+		}
+	}
+
+	if (field === 'picture') {
+		if (value.mimetype.startsWith('image/')) {
+			if (silent) {
+				return false;
+			}
+
+			throw new UserInputError(
+				'Only image files can be uploaded as the picture.',
+				{
+					invalidArgs: ['picture']
 				}
 			);
 		}

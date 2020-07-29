@@ -60,6 +60,10 @@ module.exports = async (parent, args, context) => {
 		);
 	}
 
+	if (args.charter.picture) {
+		args.charter.picture = await args.charter.picture;
+	}
+
 	// NEXT STEP CHECK WHICH FIELDS WERE CHANGED
 	const alteredFields = [];
 	const nonAlteredFields = [];
