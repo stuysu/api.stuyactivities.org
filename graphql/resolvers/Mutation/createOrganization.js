@@ -1,7 +1,6 @@
 const simpleValidator = require('./../../../utils/simpleValidator');
 const { ForbiddenError, ApolloError } = require('apollo-server-express');
 const getAvatarUrl = require('./../../../utils/getAvatarUrl');
-const cloudinary = require('cloudinary').v2;
 const randomString = require('crypto-random-string');
 const mailer = require('./../../../utils/mailer');
 const emailRenderer = require('./../../../utils/emailRenderer');
@@ -9,6 +8,7 @@ const HTMLParser = require('node-html-parser');
 const urlJoin = require('url-join');
 const { PUBLIC_URL } = require('./../../../constants');
 const charterValidator = require('./../../../utils/charterValidator');
+const uploadPicStream = require('./../../../utils/uploadPicStream');
 
 module.exports = async (root, args, context) => {
 	const {
@@ -109,7 +109,9 @@ module.exports = async (root, args, context) => {
 		i.toLowerCase()
 	);
 
-	charter.commitmentLevel = charter.commitmentLevel.toLowerCase();
+	if (charter.commitmentLevel) {
+		charter.commitmentLevel = charter.commitmentLevel.toLowerCase();
+	}
 
 	charter.keywords = [...new Set(charter.keywords)]
 		.filter(Boolean)
@@ -224,20 +226,10 @@ module.exports = async (root, args, context) => {
 		const randomName = randomString({ length: 8 });
 		const filePublicId = `/organizations/${url}/${randomName}`;
 
-		// Upload the image at the end to reduce the risk of any fatal errors
-		const uploadStream = cloudinary.uploader.upload_stream(
-			{ public_id: filePublicId },
-			function (err, image) {
-				if (err) {
-					throw err;
-				}
-
-				pendingCharter.picture = image.secure_url;
-				pendingCharter.save();
-			}
-		);
-
-		charter.picture.pipe(uploadStream);
+		uploadPicStream(charter.picture, filePublicId).then(image => {
+			pendingCharter.picture = image.secure_url;
+			pendingCharter.save();
+		});
 	}
 
 	return org;

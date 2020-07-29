@@ -4,7 +4,9 @@ const {
 	ForbiddenError
 } = require('apollo-server-express');
 
+const uploadPicStream = require('./../../../utils/uploadPicStream');
 const charterValidator = require('../../../utils/charterValidator');
+const randomString = require('crypto-random-string');
 
 const { EDITABLE_CHARTER_FIELDS } = require('./../../../constants');
 
@@ -20,9 +22,12 @@ module.exports = async (parent, args, context) => {
 			Sequelize: { Op }
 		}
 	} = context;
+
+	let { charter, orgUrl, orgId, force } = args;
+
 	session.authenticationRequired([]);
 
-	if (!args.orgId && !args.orgUrl) {
+	if (!orgId && !orgUrl) {
 		throw new UserInputError(
 			'Either the organization url or its id must be passed in order to alter its charter',
 			{
@@ -33,10 +38,10 @@ module.exports = async (parent, args, context) => {
 
 	let org;
 
-	if (args.orgId) {
-		org = await organizations.findOne({ where: { id: args.orgId } });
-	} else if (args.orgUrl) {
-		org = await organizations.findOne({ where: { url: args.orgUrl } });
+	if (orgId) {
+		org = await organizations.findOne({ where: { id: orgId } });
+	} else if (orgUrl) {
+		org = await organizations.findOne({ where: { url: orgUrl } });
 	}
 
 	if (!org) {
@@ -60,31 +65,45 @@ module.exports = async (parent, args, context) => {
 		);
 	}
 
-	if (args.charter.picture) {
-		args.charter.picture = await args.charter.picture;
-	}
-
 	// NEXT STEP CHECK WHICH FIELDS WERE CHANGED
 	const alteredFields = [];
 	const nonAlteredFields = [];
 	EDITABLE_CHARTER_FIELDS.forEach(field => {
-		if (args.charter[field] !== null) {
+		if (charter[field] !== null) {
 			alteredFields.push(field);
 		} else {
 			nonAlteredFields.push(field);
 		}
 	});
 
+	if (charter.picture) {
+		charter.picture = await charter.picture;
+	}
+
+	if (charter.meetingDays) {
+		charter.meetingDays = [...new Set(charter.meetingDays)].map(i =>
+			i.toLowerCase()
+		);
+	}
+
+	if (charter.commitmentLevel) {
+		charter.commitmentLevel = charter.commitmentLevel.toLowerCase();
+	}
+
+	if (charter.keywords) {
+		charter.keywords = [...new Set(charter.keywords)]
+			.filter(Boolean)
+			.map(i => i.toLowerCase());
+	}
+
 	// VALIDATE THE PROPOSED CHANGES AND MAKE SURE THEY PASS REQUIREMENTS
-	alteredFields.forEach(field => {
-		charterValidator(field, args.charter[field]);
-	});
+	alteredFields.forEach(field => charterValidator(field, charter[field]));
 
 	// CHECK TO MAKE SURE CHANGES DON'T CONFLICT WITH EXISTING PENDING CHANGES
-	const notNullChecks = [];
+	const notNullQueries = [];
 
 	alteredFields.forEach(field => {
-		notNullChecks.push({
+		notNullQueries.push({
 			[field]: {
 				[Op.not]: null
 			}
@@ -94,12 +113,12 @@ module.exports = async (parent, args, context) => {
 	const pendingConflicts = await charterEdits.findAll({
 		where: {
 			status: 'pending',
-			[Op.or]: notNullChecks
+			[Op.or]: notNullQueries
 		}
 	});
 
 	if (pendingConflicts.length) {
-		if (!args.force) {
+		if (!force) {
 			// Throw an error
 			throw new ApolloError(
 				'You already have pending changes that conflict with the changes you are trying to make',
@@ -143,4 +162,24 @@ module.exports = async (parent, args, context) => {
 			});
 		}
 	}
+
+	// Now that the fields in the charter have been validated and the conflicts have been resolved, we can now submit the new proposal changes
+	const newEdits = {
+		submittingUserId: session.userId,
+		status: 'pending'
+	};
+
+	if (charter.picture) {
+		const randomName = randomString({ length: 8 });
+		const publicId = `/organizations/${org.url}/${randomName}`;
+
+		const pic = await uploadPicStream(charter.picture, publicId);
+		charter.picture = pic.secure_url;
+	}
+
+	alteredFields.forEach(field => {
+		newEdits[field] = charter[field];
+	});
+
+	return charterEdits.create(newEdits);
 };
