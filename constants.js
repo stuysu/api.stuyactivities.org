@@ -2,6 +2,20 @@ const path = require('path');
 
 const sqlitePath = path.resolve(__dirname, 'app.db');
 
+const EDITABLE_CHARTER_FIELDS = [
+	'picture',
+	'mission',
+	'benefit',
+	'appointmentProcedures',
+	'uniqueness',
+	'meetingSchedule',
+	'meetingDays',
+	'meetingFrequency',
+	'commitmentLevel',
+	'extra',
+	'keywords'
+];
+
 module.exports = {
 	PUBLIC_URL: process.env.PUBLIC_URL || 'https://stuyactivities.org',
 	HONEYBADGER_KEY: process.env.HONEYBADGER_KEY || '',
@@ -15,5 +29,6 @@ module.exports = {
 	NODEMAILER_URL: process.env.NODEMAILER_URL || '',
 	GOOGLE_CLIENT_ID:
 		process.env.GOOGLE_CLIENT_ID ||
-		`250174499771-q7m4aptq02nlbo1u8tvqvg0jsckasmnp.apps.googleusercontent.com`
+		`250174499771-q7m4aptq02nlbo1u8tvqvg0jsckasmnp.apps.googleusercontent.com`,
+	EDITABLE_CHARTER_FIELDS
 };

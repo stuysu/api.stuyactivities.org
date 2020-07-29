@@ -1,17 +1,14 @@
 const simpleValidator = require('./../../../utils/simpleValidator');
-const {
-	ForbiddenError,
-	UserInputError,
-	ApolloError
-} = require('apollo-server-express');
+const { ForbiddenError, ApolloError } = require('apollo-server-express');
 const getAvatarUrl = require('./../../../utils/getAvatarUrl');
-const cloudinary = require('cloudinary').v2;
 const randomString = require('crypto-random-string');
 const mailer = require('./../../../utils/mailer');
 const emailRenderer = require('./../../../utils/emailRenderer');
 const HTMLParser = require('node-html-parser');
 const urlJoin = require('url-join');
 const { PUBLIC_URL } = require('./../../../constants');
+const charterValidator = require('./../../../utils/charterValidator');
+const uploadPicStream = require('./../../../utils/uploadPicStream');
 
 module.exports = async (root, args, context) => {
 	const {
@@ -31,28 +28,14 @@ module.exports = async (root, args, context) => {
 
 	session.authenticationRequired(['createOrganization']);
 
-	let { name, url, charter, leaders, tags, photo } = args;
-
-	let picFile;
-
-	if (photo) {
-		picFile = await photo;
-
-		if (!picFile.mimetype.startsWith('image/')) {
-			throw new UserInputError(
-				'Only image files can be uploaded as the picture.',
-				{
-					invalidArgs: ['picture']
-				}
-			);
-		}
-	}
+	let { name, url, charter, leaders, tags } = args;
 
 	name = name.trim();
 	url = url.trim();
 
 	const currentUser = await users.findOne({ where: { id: session.userId } });
 
+	// MAKE SURE THE USER HAS NOT ALREADY SUBMITTED 2 PENDING CHARTERS
 	const now = new Date();
 	const oneWeek = 1000 * 60 * 60 * 24 * 7;
 	const oneWeekAgo = new Date(now.getTime() - oneWeek);
@@ -118,134 +101,26 @@ module.exports = async (root, args, context) => {
 		);
 	}
 
-	// Start the charter verification here:
-	simpleValidator(
-		charter.mission,
-		{
-			type: 'string',
-			characters: { min: 20, max: 150 }
-		},
-		['mission']
-	);
-
-	simpleValidator(
-		charter.purpose,
-		{
-			type: 'string',
-			words: { min: 150, max: 400 }
-		},
-		['purpose']
-	);
-
-	simpleValidator(
-		charter.benefit,
-		{
-			type: 'string',
-			words: { min: 200, max: 400 }
-		},
-		['benefit']
-	);
-
-	simpleValidator(
-		charter.appointmentProcedures,
-		{
-			type: 'string',
-			words: { min: 150, max: 400 }
-		},
-		['appointmentProcedures']
-	);
-
-	simpleValidator(
-		charter.uniqueness,
-		{
-			type: 'string',
-			words: {
-				min: 75,
-				max: 400
-			}
-		},
-		['uniqueness']
-	);
-
-	simpleValidator(
-		charter.extra,
-		{
-			type: 'string',
-			characters: { max: 1000 }
-		},
-		['extra']
-	);
-
-	simpleValidator(
-		charter.meetingSchedule,
-		{
-			type: 'string',
-			characters: {
-				min: 5,
-				max: 200
-			}
-		},
-		['meetingSchedule']
-	);
-
-	if (!charter.meetingDays) {
-		throw new UserInputError(
-			'You must include days that your club has meetings.',
-			{ invalidArgs: ['meetingDays'] }
-		);
+	if (charter.picture) {
+		charter.picture = await charter.picture;
 	}
 
-	const allowedDays = [
-		'monday',
-		'tuesday',
-		'wednesday',
-		'thursday',
-		'friday'
-	];
-
-	// First remove duplicates and then make the array items lowercase
 	charter.meetingDays = [...new Set(charter.meetingDays)].map(i =>
 		i.toLowerCase()
-	);
-
-	charter.meetingDays.forEach(input =>
-		simpleValidator(
-			input,
-			{
-				type: 'string',
-				in: allowedDays
-			},
-			['meetingDays']
-		)
 	);
 
 	if (charter.commitmentLevel) {
 		charter.commitmentLevel = charter.commitmentLevel.toLowerCase();
 	}
 
-	simpleValidator(
-		charter.commitmentLevel,
-		{
-			type: 'string',
-			in: ['low', 'medium', 'high']
-		},
-		['commitmentLevel']
+	charter.keywords = [...new Set(charter.keywords)]
+		.filter(Boolean)
+		.map(i => i.toLowerCase());
+
+	// Start the charter verification here:
+	Object.keys(charter).forEach(field =>
+		charterValidator(field, charter[field])
 	);
-
-	if (!charter.keywords) {
-		throw new UserInputError(
-			'You must include keywords relating to your club.',
-			{ invalidArgs: ['keywords'] }
-		);
-	}
-
-	charter.keywords = [...new Set(charter.keywords)].filter(Boolean);
-
-	if (charter.keywords.length > 3) {
-		throw new UserInputError('You can only specify a max of 3 keywords.', {
-			invalidArgs: ['keywords']
-		});
-	}
 
 	const getTags = await Tags.findAll();
 	const allTags = getTags.map(tag => tag.id);
@@ -263,13 +138,9 @@ module.exports = async (root, args, context) => {
 		)
 	);
 
-	if (!charter.picture) {
-		charter.picture = null;
-	}
-
 	let actualPicture = charter.picture || getAvatarUrl(name);
 
-	// That should be the last of the checks, now insert into the database
+	// Now insert into the database
 	const org = await organizations.create({
 		name,
 		url,
@@ -292,7 +163,7 @@ module.exports = async (root, args, context) => {
 		commitmentLevel: charter.commitmentLevel,
 		keywords: JSON.stringify(charter.keywords),
 		extra: charter.extra,
-		picture: null,
+		picture: actualPicture,
 		status: 'pending',
 		submittingUserId: currentUser.id,
 		organizationId: org.id
@@ -351,24 +222,14 @@ module.exports = async (root, args, context) => {
 		});
 	}
 
-	if (picFile) {
+	if (charter.picture) {
 		const randomName = randomString({ length: 8 });
 		const filePublicId = `/organizations/${url}/${randomName}`;
 
-		// Upload the image at the end to reduce the risk of any fatal errors
-		const uploadStream = cloudinary.uploader.upload_stream(
-			{ public_id: filePublicId },
-			function (err, image) {
-				if (err) {
-					throw err;
-				}
-
-				pendingCharter.picture = image.secure_url;
-				pendingCharter.save();
-			}
-		);
-
-		picFile.pipe(uploadStream);
+		uploadPicStream(charter.picture, filePublicId).then(image => {
+			pendingCharter.picture = image.secure_url;
+			pendingCharter.save();
+		});
 	}
 
 	return org;

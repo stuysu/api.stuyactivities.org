@@ -3,5 +3,6 @@ module.exports = {
 	logout: require('./logout'),
 	requestPasswordReset: require('./requestPasswordReset'),
 	usePasswordResetToken: require('./usePasswordResetToken'),
-	createOrganization: require('./createOrganization')
+	createOrganization: require('./createOrganization'),
+	alterCharter: require('./alterCharter')
 };
