@@ -29,6 +29,7 @@ fs.readdirSync(__dirname, { withFileTypes: true })
 
 				propResolvers[propName] = require(resolverPath);
 			});
+			resolvers[type] = propResolvers;
 		}
 	});
 
