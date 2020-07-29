@@ -118,7 +118,7 @@ module.exports = (field, value, silent = false) => {
 		}
 	}
 
-	if (field === 'picture') {
+	if (field === 'picture' && value) {
 		if (value.mimetype.startsWith('image/')) {
 			if (silent) {
 				return false;
