@@ -69,7 +69,7 @@ module.exports = async (parent, args, context) => {
 	const alteredFields = [];
 	const nonAlteredFields = [];
 	EDITABLE_CHARTER_FIELDS.forEach(field => {
-		if (charter[field] !== null) {
+		if (typeof charter[field] !== 'undefined' && charter[field] !== null) {
 			alteredFields.push(field);
 		} else {
 			nonAlteredFields.push(field);

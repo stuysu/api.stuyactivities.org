@@ -4,6 +4,7 @@ const sqlitePath = path.resolve(__dirname, 'app.db');
 
 const EDITABLE_CHARTER_FIELDS = [
 	'picture',
+	'purpose',
 	'mission',
 	'benefit',
 	'appointmentProcedures',
