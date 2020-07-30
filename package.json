@@ -6,11 +6,13 @@
 	"main": "src/index.js",
 	"scripts": {
 		"test": "npx nyc mocha src/test/**/*.js",
-		"dev": "npx nodemon src",
+		"dev": "nodemon --exec ./node_modules/@babel/node/bin/babel-node.js src/index.js",
 		"start": "node src/index.js",
+		"compile": "npx babel src/ -d dist",
 		"migrate": "npx sequelize db:migrate",
 		"prettier": "npx prettier --write .",
-		"heroku-postbuild": "npm install pg pg-native && npm run migrate"
+		"build": "npm-run-all compile migrate",
+		"heroku-postbuild": "npm install pg pg-native && npm run build"
 	},
 	"dependencies": {
 		"apollo-server-express": "^2.15.1",
@@ -33,12 +35,18 @@
 		"mysql2": "^2.1.0",
 		"node-html-parser": "^1.2.20",
 		"nodemailer": "^6.4.10",
+		"npm-run-all": "^4.1.5",
 		"nunjucks": "^3.2.1",
 		"sequelize": "^6.3.2",
 		"sqlite3": "^5.0.0",
 		"url-join": "^4.0.1"
 	},
 	"devDependencies": {
+		"@babel/cli": "^7.10.5",
+		"@babel/core": "^7.10.5",
+		"@babel/node": "^7.10.5",
+		"@babel/plugin-proposal-class-properties": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
 		"chai": "^4.2.0",
 		"mocha": "^8.0.1",
 		"nodemon": "^2.0.4",
@@ -62,7 +70,7 @@
 	},
 	"babel": {
 		"presets": [
-			"@babel/es2015"
+			"@babel/preset-env"
 		],
 		"plugins": [
 			"@babel/plugin-proposal-class-properties"
