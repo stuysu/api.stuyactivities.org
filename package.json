@@ -3,14 +3,14 @@
 	"version": "1.0.0",
 	"description": "Backend API for StuyActivities",
 	"author": "StuySU",
-	"main": "index.js",
+	"main": "src/index.js",
 	"scripts": {
-		"test": "npx nyc mocha",
-		"start": "node index",
-		"dev": "npx nodemon index",
-		"build": "npx sequelize db:migrate",
+		"test": "npx nyc mocha src/test/**/*.js",
+		"dev": "npx nodemon src",
+		"start": "node src/index.js",
+		"migrate": "npx sequelize db:migrate",
 		"prettier": "npx prettier --write .",
-		"heroku-postbuild": "npm install pg pg-native && npm run build"
+		"heroku-postbuild": "npm install pg pg-native && npm run migrate"
 	},
 	"dependencies": {
 		"apollo-server-express": "^2.15.1",
@@ -22,6 +22,7 @@
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
 		"crypto-random-string": "^3.2.0",
+		"dataloader": "^2.0.0",
 		"dotenv": "latest",
 		"express": "latest",
 		"express-session": "^1.17.1",
@@ -58,5 +59,13 @@
 	},
 	"mocha": {
 		"recursive": true
+	},
+	"babel": {
+		"presets": [
+			"@babel/es2015"
+		],
+		"plugins": [
+			"@babel/plugin-proposal-class-properties"
+		]
 	}
 }
