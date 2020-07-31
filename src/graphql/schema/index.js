@@ -9,7 +9,8 @@ files
 	.map(schema => path.resolve(__dirname, schema))
 	.filter(file => file !== thisFile)
 	.forEach(file => {
-		schemas.push(require(file));
+		const schema = require(file);
+		schemas.push(schema.default || schema);
 	});
 
 module.exports = schemas;

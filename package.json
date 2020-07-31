@@ -8,7 +8,7 @@
 	"scripts": {
 		"compile": "npx babel src/ -d dist",
 		"start": "node dist/index.js",
-		"test": "npx nyc mocha dist/test/**/*.js",
+		"test": "cd dist/ && npx mocha",
 		"dev": "nodemon --ignore dist/ --exec npm-run-all compile start",
 		"migrate": "npx sequelize db:migrate",
 		"prettier": "npx prettier --write .",

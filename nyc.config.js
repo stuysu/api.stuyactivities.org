@@ -1,3 +1,3 @@
 module.exports = {
-	exclude: ['database/models/index.js']
+	exclude: ['src/database/models/index.js']
 };

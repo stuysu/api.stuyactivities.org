@@ -1,5 +1,6 @@
-const { gql } = require('apollo-server-express');
-module.exports = gql`
+import { gql } from 'apollo-server-express';
+
+export default gql`
 	input meetingFrequencyParams {
 		min: Int! = 1
 		max: Int! = 20
