@@ -1,7 +1,9 @@
 require('dotenv').config();
-const cluster = require('cluster');
+
+import app from './app';
+import cluster from 'cluster';
+
 const port = Number(process.env.PORT) || 3001;
-const app = require('./app');
 
 if (process.env.NODE_ENV === 'production') {
 	if (cluster.isMaster) {

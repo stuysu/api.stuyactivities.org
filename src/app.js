@@ -32,4 +32,4 @@ app.use(honeybadger.errorHandler);
 const serverErrorHandler = require('./middleware/serverErrorHandler');
 app.use(serverErrorHandler);
 
-module.exports = app;
+export default app;

@@ -17,6 +17,9 @@ const EDITABLE_CHARTER_FIELDS = [
 	'keywords'
 ];
 
+export const PUBLIC_URL =
+	process.env.PUBLIC_URL || 'https://stuyactivities.org';
+
 module.exports = {
 	PUBLIC_URL: process.env.PUBLIC_URL || 'https://stuyactivities.org',
 	HONEYBADGER_KEY: process.env.HONEYBADGER_KEY || '',
