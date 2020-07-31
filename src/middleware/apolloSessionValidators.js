@@ -1,6 +1,6 @@
 const { AuthenticationError } = require('apollo-server-express');
 
-module.exports = (req, res, next) => {
+const apolloSessionValidators = (req, res, next) => {
 	req.session.authenticationRequired = fields => {
 		if (!req.session.signedIn) {
 			let message =
@@ -18,3 +18,5 @@ module.exports = (req, res, next) => {
 
 	next();
 };
+
+export default apolloSessionValidators;

@@ -7,4 +7,4 @@ if (HONEYBADGER_KEY) {
 	});
 }
 
-module.exports = honeybadger;
+export default honeybadger;

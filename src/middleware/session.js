@@ -30,4 +30,4 @@ const session = expressSession(sessionOptions);
 
 sequelizeStore.sync();
 
-module.exports = session;
+export default session;

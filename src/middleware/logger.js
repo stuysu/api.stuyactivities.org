@@ -5,4 +5,4 @@ const logger = morgan(LOGGER_FORMAT, {
 	skip: (req, res) => res.statusCode < 400
 });
 
-module.exports = logger;
+export default logger;

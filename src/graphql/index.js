@@ -55,4 +55,4 @@ const apolloServer = new ApolloServer({
 	}
 });
 
-module.exports = apolloServer;
+export default apolloServer;

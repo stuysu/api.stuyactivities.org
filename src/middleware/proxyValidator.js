@@ -25,4 +25,4 @@ const proxyValidator = requestIp => {
 	return ipRangeCheck(requestIp, allowedProxies);
 };
 
-module.exports = proxyValidator;
+export default proxyValidator;

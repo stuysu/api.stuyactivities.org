@@ -1,4 +1,4 @@
-module.exports = (err, req, res, next) => {
+const serverErrorHandler = (err, req, res, next) => {
 	if (err.message === 'Not allowed by CORS') {
 		res.end();
 	} else {
@@ -9,3 +9,5 @@ module.exports = (err, req, res, next) => {
 		);
 	}
 };
+
+export default serverErrorHandler;

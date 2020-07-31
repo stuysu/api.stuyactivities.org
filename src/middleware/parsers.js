@@ -1,11 +1,11 @@
 const { SESSION_SECRET } = require('../constants');
-const router = require('express').Router();
+const parsers = require('express').Router();
 
 const cookieParser = require('cookie-parser');
-router.use(cookieParser(SESSION_SECRET));
+parsers.use(cookieParser(SESSION_SECRET));
 
 const bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json());
+parsers.use(bodyParser.urlencoded({ extended: false }));
+parsers.use(bodyParser.json());
 
-module.exports = router;
+export default parsers;
