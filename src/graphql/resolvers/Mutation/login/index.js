@@ -1,9 +1,12 @@
 import { ApolloError, UserInputError } from 'apollo-server-express';
+
 const { users } = require('../../../../database');
 import loginWithGoogle from './loginWithGoogle';
 
 export default async (root, params, context) => {
-	if (context.session.signedIn) {
+	const { users, session } = context.models;
+
+	if (session.signedIn) {
 		throw new ApolloError(
 			'You are already signed in.',
 			'ALREADY_SIGNED_IN'
@@ -26,7 +29,7 @@ export default async (root, params, context) => {
 	if (googleToken) {
 		// The code for authenticating with google is just far too long
 		// Move it to its own helper module
-		return await loginWithGoogle(googleToken, context.session);
+		return await loginWithGoogle(googleToken, session);
 	}
 
 	if (credentials) {
@@ -50,8 +53,8 @@ export default async (root, params, context) => {
 			throw incorrectError;
 		}
 
-		context.session.signedIn = true;
-		context.session.userId = user.id;
+		session.signedIn = true;
+		session.userId = user.id;
 
 		return user;
 	}

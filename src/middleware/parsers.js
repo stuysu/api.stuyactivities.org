@@ -1,10 +1,11 @@
-const { SESSION_SECRET } = require('../constants');
-const parsers = require('express').Router();
+import { SESSION_SECRET } from '../constants';
+import { Router } from 'express';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
-const cookieParser = require('cookie-parser');
+const parsers = Router();
+
 parsers.use(cookieParser(SESSION_SECRET));
-
-const bodyParser = require('body-parser');
 parsers.use(bodyParser.urlencoded({ extended: false }));
 parsers.use(bodyParser.json());
 

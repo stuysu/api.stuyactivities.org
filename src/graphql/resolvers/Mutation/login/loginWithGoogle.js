@@ -1,9 +1,8 @@
-const { ApolloError } = require('apollo-server-express');
+import { ApolloError } from 'apollo-server-express';
 const { users, oAuthIds } = require('../../../../database');
+import { GOOGLE_CLIENT_ID } from '../../../../constants';
+import { OAuth2Client } from 'google-auth-library';
 
-const { GOOGLE_CLIENT_ID } = require('../../../../constants');
-
-const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 const resolveGoogleIdToken = async idToken => {

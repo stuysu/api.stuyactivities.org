@@ -1,10 +1,10 @@
 import nodemailer from 'nodemailer';
-const { NODEMAILER_URL } = require('../constants');
+import { NODEMAILER_URL } from '../constants';
 
-let transporter;
+let mailer;
 
 if (NODEMAILER_URL) {
-	transporter = nodemailer.createTransport(NODEMAILER_URL);
+	mailer = nodemailer.createTransport(NODEMAILER_URL);
 }
 
-module.exports = transporter;
+export default mailer;

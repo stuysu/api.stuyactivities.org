@@ -1,9 +1,9 @@
-const nunjucks = require('nunjucks');
-const path = require('path');
+import emailRenderer from 'nunjucks';
+import path from 'path';
 
 const templatesPath = path.resolve(__dirname, './../emailTemplates');
-nunjucks.configure(templatesPath, {
+emailRenderer.configure(templatesPath, {
 	autoescape: true
 });
 
-module.exports = nunjucks;
+export default emailRenderer;

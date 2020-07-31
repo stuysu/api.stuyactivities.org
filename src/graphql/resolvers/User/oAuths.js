@@ -1,4 +1,5 @@
 import { ForbiddenError } from 'apollo-server-express';
+
 const { oAuthIds } = require('../../../database');
 
 export default async (user, args, context) => {

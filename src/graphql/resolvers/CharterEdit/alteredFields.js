@@ -1,4 +1,4 @@
-const { EDITABLE_CHARTER_FIELDS } = require('../../../constants');
+import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
 
 export default charterEdit => {
 	return EDITABLE_CHARTER_FIELDS.filter(

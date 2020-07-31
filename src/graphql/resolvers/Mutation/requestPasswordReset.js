@@ -1,10 +1,10 @@
 import { ApolloError } from 'apollo-server-express';
 import cryptoRandomString from 'crypto-random-string';
-const mailer = require('../../../utils/mailer');
-const emailRenderer = require('../../../utils/emailRenderer');
+import mailer from '../../../utils/mailer';
+import emailRenderer from './../../../utils/emailRenderer';
 import HTMLParser from 'node-html-parser';
 import urlJoin from 'url-join';
-const { PUBLIC_URL } = require('../../../constants');
+import { PUBLIC_URL } from '../../../constants';
 
 export default async (root, args, context) => {
 	const { email } = args;

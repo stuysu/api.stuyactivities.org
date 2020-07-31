@@ -1,5 +1,5 @@
-const morgan = require('morgan');
-const { LOGGER_FORMAT } = require('../constants');
+import morgan from 'morgan';
+import { LOGGER_FORMAT } from '../constants';
 
 const logger = morgan(LOGGER_FORMAT, {
 	skip: (req, res) => res.statusCode < 400

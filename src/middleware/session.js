@@ -1,11 +1,14 @@
-const expressSession = require('express-session');
-const SequelizeConnectSession = require('connect-session-sequelize')(
+import expressSession from 'express-session';
+import SequelizeConnectSessionConstructor from 'connect-session-sequelize';
+import { SESSION_SECRET } from '../constants';
+
+const SequelizeConnectSession = SequelizeConnectSessionConstructor(
 	expressSession.Store
 );
+
 const db = require('../database').sequelize;
 
 const sequelizeStore = new SequelizeConnectSession({ db });
-const { SESSION_SECRET } = require('../constants');
 
 const sessionOptions = {
 	secret: SESSION_SECRET,

@@ -1,5 +1,5 @@
-const cors = require('cors');
-const { NODE_ENV } = require('../constants');
+import cors from 'cors';
+import { NODE_ENV } from '../constants';
 
 const allowedOrigins = new RegExp(
 	// This regex will match urls like

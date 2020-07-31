@@ -1,7 +1,6 @@
 require('@babel/register');
 
-const path = require('path');
-const { SEQUELIZE_URL } = require('../constants');
+import { SEQUELIZE_URL } from '../constants';
 
 const logsEnabled = process.env.SEQUELIZE_LOG === 'true';
 

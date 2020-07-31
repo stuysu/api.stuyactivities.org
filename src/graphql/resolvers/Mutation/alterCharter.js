@@ -8,9 +8,9 @@ import uploadPicStream from '../../../utils/uploadPicStream';
 import charterValidator from '../../../utils/charterValidator';
 import cryptoRandomString from 'crypto-random-string';
 
-const { EDITABLE_CHARTER_FIELDS } = require('../../../constants');
+import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
 
-module.exports = async (parent, args, context) => {
+export default async (parent, args, context) => {
 	// first steps, make sure they have sufficient permissions to make changes to the charter
 	const {
 		session,

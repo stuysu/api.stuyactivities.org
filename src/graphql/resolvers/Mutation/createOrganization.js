@@ -2,12 +2,12 @@ import simpleValidator from '../../../utils/simpleValidator';
 import { ForbiddenError, ApolloError } from 'apollo-server-express';
 const getAvatarUrl = require('../../../utils/getAvatarUrl');
 import cryptoRandomString from 'crypto-random-string';
-const mailer = require('../../../utils/mailer');
-const emailRenderer = require('../../../utils/emailRenderer');
+import mailer from '../../../utils/mailer';
+import emailRenderer from './../../../utils/emailRenderer';
 import HTMLParser from 'node-html-parser';
 
 import urlJoin from 'url-join';
-const { PUBLIC_URL } = require('../../../constants');
+import { PUBLIC_URL } from '../../../constants';
 import charterValidator from '../../../utils/charterValidator';
 import uploadPicStream from '../../../utils/uploadPicStream';
 

@@ -1,5 +1,5 @@
-const honeybadger = require('honeybadger');
-const { HONEYBADGER_KEY } = require('../constants');
+import honeybadger from 'honeybadger';
+import { HONEYBADGER_KEY } from '../constants';
 
 if (HONEYBADGER_KEY) {
 	honeybadger.configure({
