@@ -6,7 +6,7 @@
 	"main": "src/index.js",
 	"scripts": {
 		"test": "npx nyc mocha src/test/**/*.js",
-		"dev": "nodemon --exec ./node_modules/@babel/node/bin/babel-node.js src/index.js",
+		"dev": "nodemon --exec npx @babel/node src/index.js",
 		"start": "node src/index.js",
 		"compile": "npx babel src/ -d dist",
 		"migrate": "npx sequelize db:migrate",
