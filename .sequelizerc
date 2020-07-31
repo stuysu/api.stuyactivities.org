@@ -1,6 +1,6 @@
 require("@babel/register");
 
-const path = require('path');
+import path from "path";
 
 module.exports = {
 	"config": path.resolve('src', 'database', 'sequelize.js'),

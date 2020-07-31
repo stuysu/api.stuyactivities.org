@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 const schemas = [];
 const thisFile = path.resolve(__filename);
 
@@ -13,4 +13,4 @@ files
 		schemas.push(schema.default || schema);
 	});
 
-module.exports = schemas;
+export default schemas;

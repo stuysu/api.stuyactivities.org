@@ -1,5 +1,5 @@
-const app = require('../app');
-const http = require('http');
+import app from './../app';
+import http from 'http';
 
 describe('App', function () {
 	describe('#listen', function () {

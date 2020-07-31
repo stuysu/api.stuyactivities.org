@@ -1,6 +1,6 @@
 import simpleValidator from '../../../utils/simpleValidator';
 import { ForbiddenError, ApolloError } from 'apollo-server-express';
-const getAvatarUrl = require('../../../utils/getAvatarUrl');
+import getAvatarUrl from '../../../utils/getAvatarUrl';
 import cryptoRandomString from 'crypto-random-string';
 import mailer from '../../../utils/mailer';
 import emailRenderer from './../../../utils/emailRenderer';

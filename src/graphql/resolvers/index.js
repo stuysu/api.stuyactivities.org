@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const resolvers = {};
 
@@ -35,4 +35,4 @@ fs.readdirSync(__dirname, { withFileTypes: true })
 		}
 	});
 
-module.exports = resolvers;
+export default resolvers;

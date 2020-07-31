@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt');
-const { Model } = require('sequelize');
-const findOneLoader = require('../dataloaders/findOneLoader');
+import bcrypt from 'bcrypt';
+import { Model } from 'sequelize';
+import findOneLoader from '../dataloaders/findOneLoader';
 
 module.exports = (sequelize, DataTypes) => {
 	class users extends Model {

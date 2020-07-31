@@ -1,4 +1,4 @@
-const { AuthenticationError } = require('apollo-server-express');
+import { AuthenticationError } from 'apollo-server-express';
 
 const apolloSessionValidators = (req, res, next) => {
 	req.session.authenticationRequired = fields => {

@@ -1,4 +1,4 @@
-const Dataloader = require('dataloader');
+import Dataloader from 'dataloader';
 
 const findOneLoader = (model, key = 'id') => {
 	return new Dataloader(async keyValues => {
@@ -14,4 +14,4 @@ const findOneLoader = (model, key = 'id') => {
 	});
 };
 
-module.exports = findOneLoader;
+export default findOneLoader;

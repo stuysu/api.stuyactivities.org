@@ -1,7 +1,6 @@
-'use strict';
-const findOneLoader = require('../dataloaders/findOneLoader');
+import findOneLoader from '../dataloaders/findOneLoader';
+import { Model } from 'sequelize';
 
-const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class organizations extends Model {
 		/**

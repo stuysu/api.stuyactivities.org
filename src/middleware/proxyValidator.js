@@ -1,5 +1,5 @@
-const ipRangeCheck = require('ip-range-check');
-const axios = require('axios');
+import ipRangeCheck from 'ip-range-check';
+import axios from 'axios';
 
 const allowedProxies = [
 	'127.0.0.1/8',

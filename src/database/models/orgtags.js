@@ -1,5 +1,5 @@
 'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 module.exports = (sequelize, DataTypes) => {
 	class orgTags extends Model {
 		/**

@@ -1,7 +1,8 @@
-const { URL } = require('url');
+import { URL } from 'url';
+
 const backgroundColors = ['0984e3', '6c5ce7', 'f19066', '00b894', 'ff6b6b'];
 
-module.exports = name => {
+export default name => {
 	name = name.trim();
 	let letters = '';
 

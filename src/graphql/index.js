@@ -1,11 +1,12 @@
-const {
+import {
 	ApolloServer,
 	ApolloError,
 	ValidationError
-} = require('apollo-server-express');
-const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
-const honeybadger = require('honeybadger');
+} from 'apollo-server-express';
+import typeDefs from './schema';
+import resolvers from './resolvers';
+import honeybadger from 'honeybadger';
+
 const models = require('../database');
 
 const apolloServer = new ApolloServer({

@@ -1,6 +1,6 @@
 'use strict';
-const { Model } = require('sequelize');
-const findManyLoader = require('../dataloaders/findManyLoader');
+import { Model } from 'sequelize';
+import findManyLoader from '../dataloaders/findManyLoader';
 
 module.exports = (sequelize, DataTypes) => {
 	class memberships extends Model {

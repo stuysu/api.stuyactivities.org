@@ -1,4 +1,4 @@
-const Dataloader = require('dataloader');
+import Dataloader from 'dataloader';
 
 const findManyLoader = (model, field) =>
 	new Dataloader(async keys => {
@@ -19,4 +19,4 @@ const findManyLoader = (model, field) =>
 		return keys.map(key => keyMap[key] || []);
 	});
 
-module.exports = findManyLoader;
+export default findManyLoader;
