@@ -4,7 +4,6 @@
 	"description": "Backend API for StuyActivities",
 	"author": "StuySU",
 	"main": "src/index.js",
-	"type": "module",
 	"scripts": {
 		"compile": "npx babel src/ -d dist",
 		"start": "node dist/index.js",
