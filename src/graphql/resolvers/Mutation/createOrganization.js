@@ -1,16 +1,17 @@
-const simpleValidator = require('../../../utils/simpleValidator');
-const { ForbiddenError, ApolloError } = require('apollo-server-express');
+import simpleValidator from '../../../utils/simpleValidator';
+import { ForbiddenError, ApolloError } from 'apollo-server-express';
 const getAvatarUrl = require('../../../utils/getAvatarUrl');
-const randomString = require('crypto-random-string');
+import cryptoRandomString from 'crypto-random-string';
 const mailer = require('../../../utils/mailer');
 const emailRenderer = require('../../../utils/emailRenderer');
-const HTMLParser = require('node-html-parser');
-const urlJoin = require('url-join');
-const { PUBLIC_URL } = require('../../../constants');
-const charterValidator = require('../../../utils/charterValidator');
-const uploadPicStream = require('../../../utils/uploadPicStream');
+import HTMLParser from 'node-html-parser';
 
-module.exports = async (root, args, context) => {
+import urlJoin from 'url-join';
+const { PUBLIC_URL } = require('../../../constants');
+import charterValidator from '../../../utils/charterValidator';
+import uploadPicStream from '../../../utils/uploadPicStream';
+
+export default async (root, args, context) => {
 	const {
 		session,
 		models: {
@@ -223,7 +224,7 @@ module.exports = async (root, args, context) => {
 	}
 
 	if (charter.picture) {
-		const randomName = randomString({ length: 8 });
+		const randomName = cryptoRandomString({ length: 8 });
 		const filePublicId = `/organizations/${url}/${randomName}`;
 
 		uploadPicStream(charter.picture, filePublicId).then(image => {

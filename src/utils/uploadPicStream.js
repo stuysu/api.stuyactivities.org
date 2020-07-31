@@ -1,5 +1,5 @@
 const cloudinary = require('cloudinary').v2;
-module.exports = (picture, publicId) =>
+const uploadPicStream = (picture, publicId) =>
 	new Promise((resolve, reject) => {
 		const uploadStream = cloudinary.uploader.upload_stream(
 			{ public_id: publicId },
@@ -10,3 +10,5 @@ module.exports = (picture, publicId) =>
 
 		picture.pipe(uploadStream);
 	});
+
+export default uploadPicStream;

@@ -1,9 +1,8 @@
-const { ApolloError, UserInputError } = require('apollo-server-express');
+import { ApolloError, UserInputError } from 'apollo-server-express';
 const { users } = require('../../../../database');
-const bcrypt = require('bcrypt');
-const loginWithGoogle = require('./loginWithGoogle');
+import loginWithGoogle from './loginWithGoogle';
 
-module.exports = async (root, params, context) => {
+export default async (root, params, context) => {
 	if (context.session.signedIn) {
 		throw new ApolloError(
 			'You are already signed in.',

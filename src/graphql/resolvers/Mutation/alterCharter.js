@@ -1,12 +1,12 @@
-const {
+import {
 	ApolloError,
 	UserInputError,
 	ForbiddenError
-} = require('apollo-server-express');
+} from 'apollo-server-express';
 
-const uploadPicStream = require('../../../utils/uploadPicStream');
-const charterValidator = require('../../../utils/charterValidator');
-const randomString = require('crypto-random-string');
+import uploadPicStream from '../../../utils/uploadPicStream';
+import charterValidator from '../../../utils/charterValidator';
+import cryptoRandomString from 'crypto-random-string';
 
 const { EDITABLE_CHARTER_FIELDS } = require('../../../constants');
 
@@ -172,7 +172,7 @@ module.exports = async (parent, args, context) => {
 	};
 
 	if (charter.picture) {
-		const randomName = randomString({ length: 8 });
+		const randomName = cryptoRandomString({ length: 8 });
 		const publicId = `/organizations/${org.url}/${randomName}`;
 
 		const pic = await uploadPicStream(charter.picture, publicId);

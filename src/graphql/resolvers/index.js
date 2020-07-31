@@ -20,14 +20,16 @@ fs.readdirSync(__dirname, { withFileTypes: true })
 		);
 
 		if (defaultExport) {
-			resolvers[type] = require(dirPath);
+			const module = require(dirPath);
+			resolvers[type] = module.default || module;
 		} else {
 			propResolverFiles.forEach(file => {
 				const resolverPath = path.resolve(__dirname, type, file.name);
 
 				const propName = path.parse(resolverPath).name;
 
-				propResolvers[propName] = require(resolverPath);
+				const module = require(resolverPath);
+				propResolvers[propName] = module.default || module;
 			});
 			resolvers[type] = propResolvers;
 		}

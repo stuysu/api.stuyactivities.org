@@ -1,4 +1,4 @@
-module.exports = org => {
+export default org => {
 	// If they were preloaded
 	if (org.tags) {
 		return org.tags;

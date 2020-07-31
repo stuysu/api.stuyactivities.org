@@ -1,7 +1,7 @@
-const simpleValidator = require('./simpleValidator');
-const { UserInputError } = require('apollo-server-express');
+import simpleValidator from './simpleValidator';
+import { UserInputError } from 'apollo-server-express';
 
-module.exports = (field, value, silent = false) => {
+const charterValidator = (field, value, silent = false) => {
 	const simpleValidations = {
 		mission: {
 			type: 'string',
@@ -137,3 +137,5 @@ module.exports = (field, value, silent = false) => {
 		return true;
 	}
 };
+
+export default charterValidator;

@@ -1,1 +1,1 @@
-module.exports = role => role.user || role.getUser();
+export default role => role.user || role.getUser();

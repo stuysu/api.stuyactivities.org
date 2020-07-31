@@ -1,6 +1,6 @@
-const { ForbiddenError } = require('apollo-server-express');
+import { ForbiddenError } from 'apollo-server-express';
 
-module.exports = (user, args, context) => {
+export default (user, args, context) => {
 	context.session.authenticationRequired(['hasPassword']);
 
 	if (context.session.userId !== user.id) {

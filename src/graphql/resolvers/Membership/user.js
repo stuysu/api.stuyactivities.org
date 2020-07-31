@@ -1,4 +1,4 @@
-module.exports = membership => {
+export default membership => {
 	if (membership.user) {
 		return membership.user;
 	}

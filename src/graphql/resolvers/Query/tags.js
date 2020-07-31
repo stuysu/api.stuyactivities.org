@@ -1,4 +1,4 @@
-module.exports = (root, args, context) => {
+export default (root, args, context) => {
 	const { keyword } = args;
 	const {
 		tags,

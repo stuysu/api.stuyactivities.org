@@ -1,5 +1,5 @@
-const { UserInputError } = require('apollo-server-express');
-module.exports = (root, args, context) => {
+import { UserInputError } from 'apollo-server-express';
+export default (root, args, context) => {
 	const { id, url } = args;
 	const {
 		models: { organizations, memberships, users, tags, charters }

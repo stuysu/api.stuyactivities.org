@@ -1,4 +1,4 @@
-const { UserInputError } = require('apollo-server-express');
+import { UserInputError } from 'apollo-server-express';
 
 /**
  * @param input {string} The input from the user to validate
@@ -144,4 +144,4 @@ const simpleValidator = (input, requirements, fields, silent = false) => {
 	}
 };
 
-module.exports = simpleValidator;
+export default simpleValidator;

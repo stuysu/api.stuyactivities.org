@@ -1,1 +1,1 @@
-module.exports = edit => edit.comments || edit.getComments();
+export default edit => edit.comments || edit.getComments();

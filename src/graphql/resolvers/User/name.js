@@ -1,3 +1,3 @@
-module.exports = user => {
+export default user => {
 	return `${user.firstName} ${user.lastName}`;
 };

@@ -1,4 +1,4 @@
-module.exports = async (root, { token }, { models }) => {
+export default async (root, { token }, { models }) => {
 	const { passwordResets } = models;
 
 	const entry = await passwordResets.findOne({ where: { token } });

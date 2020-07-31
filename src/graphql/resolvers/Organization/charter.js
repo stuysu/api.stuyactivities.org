@@ -1,4 +1,4 @@
-module.exports = org => {
+export default org => {
 	if (org.charter) {
 		return org.charter;
 	}

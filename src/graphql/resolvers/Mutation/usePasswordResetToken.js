@@ -1,7 +1,7 @@
-const { ApolloError } = require('apollo-server-express');
-const bcrypt = require('bcrypt');
+import { ApolloError } from 'apollo-server-express';
+import bcrypt from 'bcrypt';
 
-module.exports = async (root, { token, password }, { models }) => {
+export default async (root, { token, password }, { models }) => {
 	const maxAge = 1000 * 60 * 60;
 	const earliestValidTokenDate = new Date(new Date().getTime() - maxAge);
 

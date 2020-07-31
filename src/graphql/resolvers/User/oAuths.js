@@ -1,7 +1,7 @@
-const { ForbiddenError } = require('apollo-server-express');
+import { ForbiddenError } from 'apollo-server-express';
 const { oAuthIds } = require('../../../database');
 
-module.exports = async (user, args, context) => {
+export default async (user, args, context) => {
 	context.session.authenticationRequired(['oAuths']);
 
 	if (context.session.userId !== user.id) {

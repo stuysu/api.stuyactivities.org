@@ -1,6 +1,6 @@
-const { ForbiddenError } = require('apollo-server-express');
+import { ForbiddenError } from 'apollo-server-express';
 
-module.exports = (user, args, context) => {
+export default (user, args, context) => {
 	if (!context.session.signedIn) {
 		throw new ForbiddenError(
 			'You must be signed in to access the grade field.'

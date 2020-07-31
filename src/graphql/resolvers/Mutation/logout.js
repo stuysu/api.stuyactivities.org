@@ -1,4 +1,4 @@
-module.exports = (root, args, { session }) => {
+export default (root, args, { session }) => {
 	session.destroy();
 	return true;
 };

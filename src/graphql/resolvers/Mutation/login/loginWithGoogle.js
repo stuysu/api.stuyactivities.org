@@ -103,4 +103,4 @@ const loginWithGoogle = async (googleOAuthToken, session) => {
 	return user;
 };
 
-module.exports = loginWithGoogle;
+export default loginWithGoogle;

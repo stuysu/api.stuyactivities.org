@@ -1,4 +1,4 @@
-module.exports = (org, params) => {
+export default (org, params) => {
 	if (!params.onlyLeaders) {
 		return org.memberships || org.getMembers();
 	}

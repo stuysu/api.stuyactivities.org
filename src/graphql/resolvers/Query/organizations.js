@@ -1,4 +1,4 @@
-module.exports = async (root, args, context) => {
+export default async (root, args, context) => {
 	const {
 		keyword,
 		tags,

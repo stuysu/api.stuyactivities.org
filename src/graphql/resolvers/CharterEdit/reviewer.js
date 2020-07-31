@@ -1,1 +1,1 @@
-module.exports = edit => edit.reviewer || edit.getReviewer();
+export default edit => edit.reviewer || edit.getReviewer();

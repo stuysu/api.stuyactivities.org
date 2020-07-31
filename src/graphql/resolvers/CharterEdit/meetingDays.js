@@ -1,1 +1,1 @@
-module.exports = edit => JSON.parse(edit.meetingDays || '[]');
+export default edit => JSON.parse(edit.meetingDays || '[]');

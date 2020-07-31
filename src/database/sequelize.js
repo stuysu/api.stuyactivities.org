@@ -1,3 +1,5 @@
+require('@babel/register');
+
 const path = require('path');
 const { SEQUELIZE_URL } = require('../constants');
 

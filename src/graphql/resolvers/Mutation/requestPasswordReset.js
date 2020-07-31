@@ -1,12 +1,12 @@
-const { ApolloError } = require('apollo-server-express');
-const cryptoRandomString = require('crypto-random-string');
+import { ApolloError } from 'apollo-server-express';
+import cryptoRandomString from 'crypto-random-string';
 const mailer = require('../../../utils/mailer');
 const emailRenderer = require('../../../utils/emailRenderer');
-const HTMLParser = require('node-html-parser');
-const urlJoin = require('url-join');
+import HTMLParser from 'node-html-parser';
+import urlJoin from 'url-join';
 const { PUBLIC_URL } = require('../../../constants');
 
-module.exports = async (root, args, context) => {
+export default async (root, args, context) => {
 	const { email } = args;
 	const { users, passwordResets, Sequelize } = context.models;
 
