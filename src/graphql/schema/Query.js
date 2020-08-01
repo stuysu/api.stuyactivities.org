@@ -25,6 +25,7 @@ export default gql`
 		organization(url: String, id: String): Organization
 		charter(orgUrl: String, orgId: Int): Charter
 		members(orgUrl: String, orgId: Int): [Membership]
+		organizationsWithPendingCharters: [Organization]!
 
 		tags(keyword: String): [Tag]!
 	}
