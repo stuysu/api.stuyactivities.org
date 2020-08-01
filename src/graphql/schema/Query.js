@@ -8,6 +8,7 @@ export default gql`
 
 	type Query {
 		user(email: String, id: Int): User
+		users(keyword: String!): [User]!
 		authenticatedUser: User
 		resetTokenIsValid(token: String!): Boolean!
 		organizations(
