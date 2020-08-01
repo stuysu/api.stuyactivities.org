@@ -6,16 +6,16 @@ export default async (root, args, context) => {
 		meetingDays,
 		meetingFrequency,
 		limit,
-		offset,
-		active,
-		pendingCharterEdits
+		offset
 	} = args;
 
 	const { models } = context;
 	const { Op } = models.Sequelize;
 
 	const filterParams = {
-		where: {},
+		where: {
+			active: true
+		},
 		include: [],
 		limit,
 		offset
@@ -101,33 +101,8 @@ export default async (root, args, context) => {
 		};
 	}
 
-	const membersInclude = {
-		model: models.memberships,
-		include: [{ model: models.users }]
-	};
-
-	const charterEditsInclude = {
-		model: models.charterEdits,
-		include: [
-			{ model: models.users, as: 'reviewer' },
-			{ model: models.users, as: 'submittingUser' },
-			{ model: models.charterEditComments, as: 'comments' }
-		]
-	};
-
-	if (pendingCharterEdits) {
-		charterEditsInclude.where = { status: 'pending' };
-		charterEditsInclude.required = true;
-	}
-
-	if (active) {
-		filterParams.where.active = true;
-	}
-
 	filterParams.include.push(charterInclude);
-	filterParams.include.push(charterEditsInclude);
 	filterParams.include.push(tagsInclude);
-	filterParams.include.push(membersInclude);
 
 	return models.organizations.findAll(filterParams);
 };

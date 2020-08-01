@@ -21,12 +21,6 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: 'reviewerId',
 				targetKey: 'id'
 			});
-
-			charterEdits.hasMany(models.charterEditComments, {
-				as: 'comments',
-				foreignKey: 'charterEditId',
-				sourceKey: 'id'
-			});
 		}
 	}
 	charterEdits.init(

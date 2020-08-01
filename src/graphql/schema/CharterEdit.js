@@ -31,6 +31,5 @@ export default gql`
 		alteredFields: [String]
 
 		keywords: [String]
-		comments: [CharterEditComment]
 	}
 `;
