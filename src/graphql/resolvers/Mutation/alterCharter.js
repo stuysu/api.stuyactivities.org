@@ -18,7 +18,7 @@ export default async (parent, args, context) => {
 			memberships,
 			organizations,
 			charterEdits,
-			charterEditComments,
+			charterApprovalMessages,
 			Sequelize: { Op }
 		}
 	} = context;
@@ -144,11 +144,11 @@ export default async (parent, args, context) => {
 			charterEdit.status = 'rejected';
 			charterEdit.reviewerId = session.userId;
 
-			await charterEditComments.create({
+			await charterApprovalMessages.create({
 				userId: session.userId,
-				charterEditId: charterEdit.id,
-				comment:
-					'Automatic Comment: This user rejected the changes in this edit and proposed new ones.'
+				organizationId: org.id,
+				message: 'User rejected pending changes and proposed new ones.',
+				auto: true
 			});
 
 			await charterEdit.save();

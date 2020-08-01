@@ -46,5 +46,8 @@ export default gql`
 
 			charter: CharterParams!
 		): CharterEdit
+
+		approveCharterFields(orgId: Int!, fields: [String!]!): null
+		rejectCharterFields(orgId: Int!, fields: [String]!): null
 	}
 `;

@@ -5,7 +5,8 @@
 	"author": "StuySU",
 	"main": "src/index.js",
 	"scripts": {
-		"compile": "npx babel src/ -d dist",
+		"clean": "rimraf dist",
+		"compile": "npm run clean && npx babel src/ -d dist",
 		"start": "node dist/index.js",
 		"test": "cd dist/ && npx mocha",
 		"dev": "nodemon --ignore dist/ --exec npm-run-all compile start",
