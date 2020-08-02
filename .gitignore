@@ -106,3 +106,5 @@ dist/
 # sqlite database files
 *.db
 *.db-journal
+
+**no-git**
