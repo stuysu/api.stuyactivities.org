@@ -28,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
 
 		static idLoader = findOneLoader(charterEdits, 'id');
 		static orgIdLoader = findManyLoader(charterEdits, 'organizationId');
+		static reviewerIdLoader = findManyLoader(charterEdits, 'reviewerId');
+		static submittingUserIdLoader = findManyLoader(
+			charterEdits,
+			'submittingUserId'
+		);
 
 		getAlteredFields() {
 			return EDITABLE_CHARTER_FIELDS.filter(

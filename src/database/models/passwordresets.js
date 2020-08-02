@@ -1,5 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
+import findManyLoader from '../dataloaders/findManyLoader';
+import findOneLoader from '../dataloaders/findOneLoader';
 module.exports = (sequelize, DataTypes) => {
 	class passwordResets extends Model {
 		/**
@@ -11,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 			passwordResets.belongsTo(models.users, { foreignKey: 'userId' });
 		}
+
+		static userIdLoader = findManyLoader(passwordResets, 'userId');
+		static idLoader = findOneLoader(passwordResets, 'id');
+		static tokenLoader = findOneLoader(passwordResets, 'token');
 
 		isValid() {
 			const now = new Date();
