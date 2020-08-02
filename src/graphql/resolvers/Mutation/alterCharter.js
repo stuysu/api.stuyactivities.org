@@ -67,14 +67,10 @@ export default async (parent, args, context) => {
 
 	// NEXT STEP CHECK WHICH FIELDS WERE CHANGED
 	const alteredFields = [];
-	const nonAlteredFields = [];
-	EDITABLE_CHARTER_FIELDS.forEach(field => {
-		if (typeof charter[field] !== 'undefined' && charter[field] !== null) {
-			alteredFields.push(field);
-		} else {
-			nonAlteredFields.push(field);
-		}
-	});
+	EDITABLE_CHARTER_FIELDS.filter(
+		field =>
+			typeof charter[field] !== 'undefined' && charter[field] !== null
+	);
 
 	if (charter.picture) {
 		charter.picture = await charter.picture;
@@ -129,40 +125,15 @@ export default async (parent, args, context) => {
 		// Reject the existing pending changes that conflict with this new request
 		for (let x = 0; x < pendingConflicts.length; x++) {
 			const charterEdit = pendingConflicts[x];
-			const nonConflictingValues = {};
-
-			nonAlteredFields.forEach(field => {
-				const change = charterEdit[field];
-
-				if (change !== null) {
-					nonConflictingValues[field] = change;
-				}
-
-				charterEdit[field] = null;
-			});
-
-			charterEdit.status = 'rejected';
-			charterEdit.reviewerId = session.userId;
-
-			await charterApprovalMessages.create({
-				userId: session.userId,
-				organizationId: org.id,
-				message: 'User rejected pending changes and proposed new ones.',
-				auto: true
-			});
-
-			await charterEdit.save();
-
-			if (Object.keys(nonConflictingValues).length) {
-				// Create a new charterEdit with the fields that didn't conflict
-				await charterEdits.create({
-					...nonConflictingValues,
-					submittingUserId: session.userId,
-					status: 'pending',
-					createdAt: charterEdit.createdAt
-				});
-			}
+			await charterEdit.rejectFields(alteredFields);
 		}
+
+		await charterApprovalMessages.create({
+			userId: session.userId,
+			organizationId: org.id,
+			message: 'User rejected pending changes and proposed new ones.',
+			auto: true
+		});
 	}
 
 	// Now that the fields in the charter have been validated and the conflicts have been resolved, we can now submit the new proposal changes
