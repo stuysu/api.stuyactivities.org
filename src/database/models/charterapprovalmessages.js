@@ -1,4 +1,7 @@
 'use strict';
+import findManyLoader from '../dataloaders/findManyLoader';
+import findOneLoader from '../dataloaders/findOneLoader';
+
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class charterApprovalMessages extends Model {
@@ -12,6 +15,14 @@ module.exports = (sequelize, DataTypes) => {
 			charterApprovalMessages.belongsTo(models.organizations);
 			charterApprovalMessages.belongsTo(models.users);
 		}
+
+		static orgIdLoader = findManyLoader(
+			charterApprovalMessages,
+			'organizationId'
+		);
+
+		static userIdLoader = findManyLoader(charterApprovalMessages, 'userId');
+		static idLoader = findOneLoader(charterApprovalMessages, 'id');
 	}
 	charterApprovalMessages.init(
 		{

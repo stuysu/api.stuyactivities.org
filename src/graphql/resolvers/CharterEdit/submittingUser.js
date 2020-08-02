@@ -1,3 +1,3 @@
-export default edit => {
-	return edit.submittingUser || edit.getSubmittingUser();
+export default (edit, args, { models }) => {
+	return models.users.idLoader.load(edit.submittingUserId);
 };

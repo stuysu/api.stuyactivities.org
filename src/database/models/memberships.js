@@ -1,6 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
 import findManyLoader from '../dataloaders/findManyLoader';
+import findOneLoader from '../dataloaders/findOneLoader';
 
 module.exports = (sequelize, DataTypes) => {
 	class memberships extends Model {
@@ -15,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 			memberships.belongsTo(models.users);
 		}
 
+		static idLoader = findOneLoader(memberships, 'id');
 		static userIdLoader = findManyLoader(memberships, 'userId');
 		static orgIdLoader = findManyLoader(memberships, 'organizationId');
 	}

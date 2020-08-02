@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		static idLoader = findOneLoader(organizations);
+		static urlLoader = findOneLoader(organizations, 'url');
 	}
 
 	organizations.init(

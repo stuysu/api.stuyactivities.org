@@ -65,7 +65,7 @@
 		"recursive": true
 	},
 	"engines": {
-		"node": ">=14.0"
+		"node": "14.5.0"
 	},
 	"engineStrict": true
 }

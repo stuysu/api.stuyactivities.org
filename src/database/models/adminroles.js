@@ -1,6 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
 import findManyLoader from '../dataloaders/findManyLoader';
+import findOneLoader from '../dataloaders/findOneLoader';
 
 module.exports = (sequelize, DataTypes) => {
 	class adminRoles extends Model {
@@ -15,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		static userIdLoader = findManyLoader(adminRoles, 'userId');
+		static idLoader = findOneLoader(adminRoles, 'id');
 	}
 	adminRoles.init(
 		{

@@ -1,1 +1,3 @@
-export default role => role.user || role.getUser();
+export default (role, args, { models }) => {
+	return models.users.idLoader.load(role.userId);
+};

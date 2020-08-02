@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		static orgIdLoader = findOneLoader(charters, 'organizationId');
+		static idLoader = findOneLoader(charters, 'id');
 	}
 	charters.init(
 		{

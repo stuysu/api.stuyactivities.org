@@ -1,1 +1,3 @@
-export default edit => edit.reviewer || edit.getReviewer();
+export default (edit, args, { models }) => {
+	return models.users.idLoader.load(edit.reviewerId);
+};
