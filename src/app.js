@@ -1,6 +1,5 @@
 import honeybadger from './middleware/honeybadger';
 import express from 'express';
-import logger from './middleware/logger';
 
 // The app is served behind a cloudflare proxy
 // This is so our app doesn't think legitimate requests are fraudulent
@@ -12,6 +11,7 @@ import apolloSessionValidators from './middleware/apolloSessionValidators';
 import parsers from './middleware/parsers';
 import apolloServer from './graphql';
 import serverErrorHandler from './middleware/serverErrorHandler';
+import logger from './middleware/logger';
 
 const app = express();
 

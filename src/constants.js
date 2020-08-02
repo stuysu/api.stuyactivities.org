@@ -32,7 +32,7 @@ export const NODE_ENV = process.env.NODE_ENV;
 export const SESSION_SECRET =
 	process.env.SESSION_SECRET || 'some-temporary-secret';
 
-export const LOGGER_FORMAT = process.env.LOGGER_FORMAT || 'dev';
+export const LOGGER_FORMAT = process.env.LOGGER_FORMAT || 'combined';
 export const NODEMAILER_URL = process.env.NODEMAILER_URL || '';
 
 export const GOOGLE_CLIENT_ID =
