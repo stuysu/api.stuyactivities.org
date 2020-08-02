@@ -5,15 +5,12 @@
 	"author": "StuySU",
 	"main": "src/index.js",
 	"scripts": {
-		"clean": "rimraf dist",
-		"compile": "npx babel src/ -d dist",
-		"serve": "node dist/index.js",
-		"start": "npm-run-all compile serve",
-		"test": "cd dist/ && npx mocha",
-		"dev": "nodemon --ignore dist/ --exec npm-run-all clean compile start",
-		"migrate": "npx sequelize db:migrate",
+		"start": "node --require esm src/index.js",
+		"test": "npx nyc mocha --require esm",
+		"dev": "nodemon --require esm src/index.js",
+		"migrate": "node --require esm node_modules/.bin/sequelize-cli db:migrate",
 		"prettier": "npx prettier --write .",
-		"build": "npm-run-all compile migrate",
+		"build": "npm run migrate",
 		"heroku-postbuild": "npm install pg pg-native && npm run build"
 	},
 	"dependencies": {
@@ -45,14 +42,6 @@
 		"url-join": "^4.0.1"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.10.5",
-		"@babel/core": "^7.10.5",
-		"@babel/node": "^7.10.5",
-		"@babel/plugin-proposal-class-properties": "^7.10.4",
-		"@babel/plugin-transform-modules-commonjs": "^7.10.4",
-		"@babel/plugin-transform-regenerator": "^7.10.4",
-		"@babel/preset-env": "^7.10.4",
-		"@babel/register": "^7.10.5",
 		"chai": "^4.2.0",
 		"esm": "^3.2.25",
 		"mocha": "^8.0.1",

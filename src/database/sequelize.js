@@ -1,5 +1,3 @@
-require('@babel/register');
-
 import { SEQUELIZE_URL } from '../constants';
 
 const logsEnabled = process.env.SEQUELIZE_LOG === 'true';
