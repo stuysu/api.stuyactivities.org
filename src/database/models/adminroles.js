@@ -11,17 +11,14 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			adminRoles.belongsTo(models.users, {
-				foreignKey: 'email',
-				targetKey: 'email'
-			});
+			adminRoles.belongsTo(models.users);
 		}
 
-		static emailLoader = findManyLoader(adminRoles, 'email');
+		static userIdLoader = findManyLoader(adminRoles, 'userId');
 	}
 	adminRoles.init(
 		{
-			email: DataTypes.STRING,
+			userId: DataTypes.INTEGER,
 			role: DataTypes.STRING
 		},
 		{

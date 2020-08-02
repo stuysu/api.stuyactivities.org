@@ -1,5 +1,6 @@
 'use strict';
 import { Model } from 'sequelize';
+import findOneLoader from '../dataloaders/findOneLoader';
 module.exports = (sequelize, DataTypes) => {
 	class charters extends Model {
 		/**
@@ -12,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
 
 			charters.belongsTo(models.organizations);
 		}
+
+		static orgIdLoader = findOneLoader(charters, 'organizationId');
 	}
 	charters.init(
 		{
