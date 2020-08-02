@@ -63,5 +63,9 @@
 	},
 	"mocha": {
 		"recursive": true
-	}
+	},
+	"engines": {
+		"node": ">=12.0"
+	},
+	"engineStrict": true
 }
