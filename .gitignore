@@ -106,6 +106,3 @@ dist/
 # sqlite database files
 *.db
 *.db-journal
-
-# Uncomment after template is created
-.idea/
