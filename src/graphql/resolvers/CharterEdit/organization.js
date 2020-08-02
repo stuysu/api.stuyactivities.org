@@ -1,3 +1,3 @@
-export default edit => {
-	return edit.organization || edit.getOrganization();
+export default (edit, args, { models }) => {
+	return models.organizations.idLoader.load(edit.organizationId);
 };

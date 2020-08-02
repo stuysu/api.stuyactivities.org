@@ -1,5 +1,6 @@
 'use strict';
 import { Model } from 'sequelize';
+import findManyLoader from '../dataloaders/findManyLoader';
 module.exports = (sequelize, DataTypes) => {
 	class oAuthIds extends Model {
 		/**
@@ -11,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 			oAuthIds.belongsTo(models.users, { foreignKey: 'userId' });
 		}
+
+		static userIdLoader = findManyLoader(oAuthIds, 'userId');
 	}
 	oAuthIds.init(
 		{

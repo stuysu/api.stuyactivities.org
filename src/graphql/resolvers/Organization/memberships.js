@@ -1,15 +1,10 @@
-export default (org, params) => {
-	if (!params.onlyLeaders) {
-		return org.memberships || org.getMembers();
+export default async (org, params, { models }) => {
+	const memberships =
+		org.memberships || (await models.memberships.orgIdLoader.load(org.id));
+
+	if (params.onlyLeaders) {
+		return memberships.filter(mem => mem.adminPrivileges);
 	}
 
-	if (org.memberships) {
-		return org.memberships.filter(member => member.adminPrivileges);
-	}
-
-	return org.getMembers({
-		where: {
-			adminPrivileges: true
-		}
-	});
+	return memberships;
 };

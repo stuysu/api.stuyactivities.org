@@ -1,8 +1,6 @@
 import { ForbiddenError } from 'apollo-server-express';
 
-const { oAuthIds } = require('../../../database');
-
-export default async (user, args, context) => {
+export default async (user, args, { models, session }) => {
 	context.session.authenticationRequired(['oAuths']);
 
 	if (context.session.userId !== user.id) {
@@ -11,9 +9,5 @@ export default async (user, args, context) => {
 		);
 	}
 
-	return await oAuthIds.findAll({
-		where: {
-			userId: user.id
-		}
-	});
+	return await models.oAuthIds.userIdLoader.load(session.userId);
 };

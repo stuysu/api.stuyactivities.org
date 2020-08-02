@@ -16,5 +16,6 @@ export default gql`
 
 		# Can only be accessed by the user themselves or someone with admin privileges
 		hasPassword: Boolean
+		memberships: [Membership]
 	}
 `;

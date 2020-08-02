@@ -1,7 +1,7 @@
-export default membership => {
+export default (membership, args, { models }) => {
 	if (membership.user) {
 		return membership.user;
 	}
 
-	return membership.getUser();
+	return models.users.idLoader.load(membership.userId);
 };

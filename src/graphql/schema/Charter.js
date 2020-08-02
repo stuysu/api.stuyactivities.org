@@ -2,6 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
 	type Charter {
+		organization: Organization
 		picture: String
 		mission: String
 		purpose: String
