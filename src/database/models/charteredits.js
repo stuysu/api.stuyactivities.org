@@ -1,5 +1,6 @@
 'use strict';
 import { Model } from 'sequelize';
+import findManyLoader from '../dataloaders/findManyLoader';
 module.exports = (sequelize, DataTypes) => {
 	class charterEdits extends Model {
 		/**
@@ -22,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
 				targetKey: 'id'
 			});
 		}
+
+		static orgIdLoader = findManyLoader(charterEdits, 'organizationId');
 	}
 	charterEdits.init(
 		{
