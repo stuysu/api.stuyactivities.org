@@ -1,6 +1,12 @@
 import { SEQUELIZE_URL } from '../constants';
 
-const logging = process.env.SEQUELIZE_LOG === 'true' ? console.log : false;
+const logger =
+	process.env.SEQUELIZE_LOG === 'advanced'
+		? console.log
+		: query => console.log(query);
+
+const logging = process.env.SEQUELIZE_LOG ? logger : false;
+
 module.exports = {
 	development: {
 		url: SEQUELIZE_URL,
