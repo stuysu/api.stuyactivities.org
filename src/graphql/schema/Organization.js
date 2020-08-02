@@ -11,5 +11,6 @@ export default gql`
 		charter: Charter
 
 		memberships(onlyLeaders: Boolean = false): [Membership]
+		charterEdits: [CharterEdit]!
 	}
 `;

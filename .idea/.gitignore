@@ -4,3 +4,6 @@ usage.statistics.xml
 tasks.xml
 shelf/
 modules.xml
+deployment.xml
+sshConfigs.xml
+webServers.xml

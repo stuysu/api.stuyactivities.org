@@ -12,10 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			users.hasMany(models.oAuthIds);
-			users.hasMany(models.adminRoles, {
-				foreignKey: 'email',
-				sourceKey: 'email'
-			});
+			users.hasMany(models.adminRoles);
 
 			users.hasMany(models.passwordResets);
 

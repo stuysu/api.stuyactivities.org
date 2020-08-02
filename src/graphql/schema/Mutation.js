@@ -47,7 +47,10 @@ export default gql`
 			charter: CharterParams!
 		): CharterEdit
 
-		approveCharterFields(orgId: Int!, fields: [String!]!): Boolean
-		rejectCharterFields(orgId: Int!, fields: [String]!): Boolean
+		approveCharterFields(
+			charterEditId: Int!
+			fields: [String!]!
+		): CharterEdit
+		rejectCharterFields(charterEditId: Int!, fields: [String]!): CharterEdit
 	}
 `;

@@ -1,6 +1,11 @@
 import { SEQUELIZE_URL } from '../constants';
 
-const logsEnabled = process.env.SEQUELIZE_LOG === 'true';
+const logger =
+	process.env.SEQUELIZE_LOG === 'advanced'
+		? console.log
+		: query => console.log(query);
+
+const logging = process.env.SEQUELIZE_LOG ? logger : false;
 
 module.exports = {
 	development: {
@@ -11,7 +16,7 @@ module.exports = {
 		},
 		ssl: true,
 		native: true,
-		logging: logsEnabled ? console.log : false
+		logging
 	},
 	production: {
 		url: SEQUELIZE_URL,
@@ -27,6 +32,6 @@ module.exports = {
 		},
 		native: true,
 		ssl: true,
-		logging: false
+		logging
 	}
 };
