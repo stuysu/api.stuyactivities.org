@@ -4,7 +4,7 @@ const findManyLoader = (model, field) =>
 	new Dataloader(async keys => {
 		const keyMap = {};
 
-		const entries = model.findAll({ where: { [field]: keys } });
+		const entries = await model.findAll({ where: { [field]: keys } });
 
 		entries.forEach(entry => {
 			const key = entry[field];
