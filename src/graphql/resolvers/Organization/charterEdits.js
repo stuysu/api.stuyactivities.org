@@ -1,3 +1,3 @@
 export default (org, args, context) => {
-	return context.charterEdits.orgIdLoader.load(org.id);
+	return context.models.charterEdits.orgIdLoader.load(org.id);
 };
