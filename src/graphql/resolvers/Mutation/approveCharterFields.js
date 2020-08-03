@@ -50,7 +50,9 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 	if (!org.active) {
 		const canBeActive = EDITABLE_CHARTER_FIELDS.every(
 			field =>
-				typeof charter[field] !== 'undefined' && charter[field] !== null
+				(typeof charter[field] !== 'undefined' &&
+					charter[field] !== null) ||
+				field === 'extra'
 		);
 
 		if (canBeActive) {

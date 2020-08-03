@@ -1,11 +1,6 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-	input meetingFrequencyParams {
-		min: Int! = 1
-		max: Int! = 20
-	}
-
 	type Query {
 		user(email: String, id: Int): User
 		users(keyword: String!): [User]!
@@ -16,7 +11,6 @@ export default gql`
 			tags: [String]
 			commitmentLevels: [String]
 			meetingDays: [String]
-			meetingFrequency: meetingFrequencyParams
 			limit: Int! = 50
 			offset: Int! = 0
 			active: Boolean

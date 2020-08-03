@@ -9,6 +9,7 @@
 		"test": "npx nyc mocha --require esm",
 		"dev": "nodemon --require esm src/index.js",
 		"migrate": "node --require esm node_modules/.bin/sequelize-cli db:migrate",
+		"seed": "node --require esm node_modules/.bin/sequelize-cli db:seed:all",
 		"prettier": "npx prettier --write .",
 		"build": "npm run migrate",
 		"heroku-postbuild": "npm install pg pg-native && npm run build"
@@ -44,6 +45,7 @@
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
+		"faker": "^4.1.0",
 		"mocha": "^8.0.1",
 		"nodemon": "^2.0.4",
 		"nyc": "^15.1.0",

@@ -1,10 +1,9 @@
 export default async (org, params, { models }) => {
-	const memberships =
-		org.memberships || (await models.memberships.orgIdLoader.load(org.id));
-
-	if (params.onlyLeaders) {
-		return memberships.filter(mem => mem.adminPrivileges);
+	if (!params.onlyLeaders) {
+		return models.memberships.orgIdLoader.load(org.id);
 	}
 
-	return memberships;
+	const memberships = await models.memberships.orgIdLoader.load(org.id);
+
+	return memberships.filter(mem => mem.adminPrivileges);
 };

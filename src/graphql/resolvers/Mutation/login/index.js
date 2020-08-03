@@ -4,7 +4,10 @@ const { users } = require('../../../../database');
 import loginWithGoogle from './loginWithGoogle';
 
 export default async (root, params, context) => {
-	const { users, session } = context.models;
+	const {
+		models: { users },
+		session
+	} = context;
 
 	if (session.signedIn) {
 		throw new ApolloError(
