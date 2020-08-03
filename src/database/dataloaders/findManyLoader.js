@@ -5,7 +5,10 @@ const findManyLoader = (model, field) =>
 		async keys => {
 			const keyMap = {};
 
-			const entries = await model.findAll({ where: { [field]: keys } });
+			const uniqueKeys = [...new Set(keys)];
+			const entries = await model.findAll({
+				where: { [field]: uniqueKeys }
+			});
 
 			entries.forEach(entry => {
 				const key = entry[field];

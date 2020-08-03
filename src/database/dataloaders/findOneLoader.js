@@ -5,8 +5,9 @@ const findOneLoader = (model, key = 'id') => {
 		async keyValues => {
 			const keyMap = {};
 
+			const uniqueKeys = [...new Set(keyValues)];
 			const results = await model.findAll({
-				where: { [key]: keyValues }
+				where: { [key]: uniqueKeys }
 			});
 
 			results.forEach(instance => {
