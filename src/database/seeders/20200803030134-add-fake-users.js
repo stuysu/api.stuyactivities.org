@@ -12,7 +12,7 @@ module.exports = {
 		 */
 
 		const now = new Date();
-		const users = Array(50)
+		const users = Array(500)
 			.fill(0)
 			.map(() => {
 				const gradYear = Math.floor(Math.random() * 4) + 2020;
