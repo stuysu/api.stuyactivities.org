@@ -57,7 +57,7 @@ module.exports = {
 		const charterProps = dbOrgs.map(org => {
 			return {
 				organizationId: org.id,
-				picture: faker.image.city(),
+				picture: faker.random.image(),
 				mission: faker.random.words(10),
 				purpose: org.active ? getBigField() : null,
 				benefit: org.active ? getBigField() : null,
@@ -136,7 +136,7 @@ module.exports = {
 					organizationId: org.id,
 					submittingUserId: submittingUser.id,
 					picture: shouldUpdateField('picture')
-						? faker.image.city()
+						? faker.random.image()
 						: null,
 					mission: shouldUpdateField('mission')
 						? faker.random.words(10)
