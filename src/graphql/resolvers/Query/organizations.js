@@ -4,7 +4,6 @@ export default async (root, args, context) => {
 		tags,
 		commitmentLevels,
 		meetingDays,
-		meetingFrequency,
 		limit,
 		offset
 	} = args;
@@ -21,26 +20,10 @@ export default async (root, args, context) => {
 		offset
 	};
 
-	let min = 1;
-	let max = 20;
-
-	// If they are provided, update the default
-	if (meetingFrequency) {
-		min = meetingFrequency.min;
-		max = meetingFrequency.max;
-	}
-
 	const charterInclude = {
 		model: models.charters,
 		where: {
-			[Op.and]: [
-				{
-					meetingFrequency: {
-						[Op.gte]: min,
-						[Op.lte]: max
-					}
-				}
-			]
+			[Op.and]: []
 		},
 		required: true
 	};

@@ -11,7 +11,6 @@ export const EDITABLE_CHARTER_FIELDS = [
 	'uniqueness',
 	'meetingSchedule',
 	'meetingDays',
-	'meetingFrequency',
 	'commitmentLevel',
 	'extra',
 	'keywords'

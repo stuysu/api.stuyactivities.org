@@ -40,13 +40,6 @@ const charterValidator = (field, value, silent = false) => {
 		commitmentLevel: {
 			type: 'string',
 			in: ['low', 'medium', 'high']
-		},
-		meetingFrequency: {
-			type: 'number',
-			range: {
-				min: 1,
-				max: 20
-			}
 		}
 	};
 

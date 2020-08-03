@@ -38,9 +38,6 @@ module.exports = {
 			meetingDays: {
 				type: Sequelize.STRING
 			},
-			meetingFrequency: {
-				type: Sequelize.INTEGER
-			},
 			commitmentLevel: {
 				type: Sequelize.ENUM('low', 'medium', 'high')
 			},

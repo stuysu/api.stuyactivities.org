@@ -14,8 +14,6 @@ export default gql`
 		uniqueness: String
 		meetingSchedule: String
 		meetingDays: [String!]
-		# Number of meetings per month
-		meetingFrequency: Int
 		commitmentLevel: String
 		keywords: [String!]
 		extra: String
