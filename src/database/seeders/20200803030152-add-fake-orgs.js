@@ -42,6 +42,7 @@ module.exports = {
 			if (!meetingDays.length) {
 				meetingDays = ['monday'];
 			}
+			return meetingDays;
 		};
 
 		const getBigField = () => {
