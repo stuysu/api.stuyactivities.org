@@ -42,5 +42,22 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 	});
 	await charter.save();
 
+	const org = await models.organizations.idLoader.load(
+		approvedEdits.organizationId
+	);
+
+	// This org has fulfilled the charter req and we can now make their charter public
+	if (!org.active) {
+		const canBeActive = EDITABLE_CHARTER_FIELDS.every(
+			field =>
+				typeof charter[field] !== 'undefined' && charter[field] !== null
+		);
+
+		if (canBeActive) {
+			org.active = true;
+			await org.save();
+		}
+	}
+
 	return approvedEdits;
 };
