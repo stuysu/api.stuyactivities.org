@@ -9,7 +9,8 @@ export default (root, args, context) => {
 	} = context.models;
 
 	const orgInclude = {
-		model: organizations
+		model: organizations,
+		where: {}
 	};
 
 	if (orgUrl) {
