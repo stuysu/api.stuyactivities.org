@@ -2,10 +2,10 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
 	type Query {
-		user(email: String, id: Int): User
-		users(keyword: String!): [User]!
 		authenticatedUser: User
-		resetTokenIsValid(token: String!): Boolean!
+		charter(id: Int, orgUrl: String, orgId: Int): Charter
+
+		organization(url: String, id: String): Organization
 		organizations(
 			keyword: String
 			tags: [String]
@@ -16,11 +16,14 @@ export default gql`
 			active: Boolean
 			pendingCharterEdits: Boolean
 		): [Organization]!
-		organization(url: String, id: String): Organization
-		charter(orgUrl: String, orgId: Int): Charter
-		members(orgUrl: String, orgId: Int): [Membership]
 		organizationsWithPendingCharters: [Organization]!
 
-		tags(keyword: String): [Tag]!
+		resetTokenIsValid(token: String!): Boolean!
+
+		members(orgUrl: String, orgId: Int): [Membership]
+
+		tags(keyword: String, orgId: Int, orgUrl: Int): [Tag]!
+		user(email: String, id: Int): User
+		users(keyword: String!): [User]!
 	}
 `;
