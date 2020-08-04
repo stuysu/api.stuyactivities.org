@@ -22,7 +22,9 @@ export default gql`
 
 		members(orgUrl: String, orgId: Int): [Membership]
 
+		# Returns all tags if no parameters are provided or tags that match the given parameters
 		tags(keyword: String, orgId: Int, orgUrl: Int): [Tag]!
+
 		user(email: String, id: Int): User
 		users(keyword: String!): [User]!
 	}
