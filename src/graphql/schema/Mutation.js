@@ -21,7 +21,7 @@ export default gql`
 	}
 
 	type Mutation {
-		login(credentials: StdLoginParams, googleToken: String): User!
+		login(loginToken: String, googleToken: String): User!
 		logout: Boolean
 
 		createOrganization(

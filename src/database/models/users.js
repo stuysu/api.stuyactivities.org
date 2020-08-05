@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		static idLoader = findOneLoader(users);
+		static emailLoader = findOneLoader(users, 'email');
 	}
 
 	users.init(

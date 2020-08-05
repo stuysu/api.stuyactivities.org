@@ -14,6 +14,9 @@ module.exports = {
 			token: {
 				type: Sequelize.STRING
 			},
+			used: {
+				type: Sequelize.BOOLEAN
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE
