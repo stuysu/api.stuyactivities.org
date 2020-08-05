@@ -11,8 +11,8 @@ export default gql`
 			tags: [String]
 			commitmentLevels: [String]
 			meetingDays: [String]
-			limit: Int! = 50
-			offset: Int! = 0
+			limit: Int
+			offset: Int
 			active: Boolean
 			pendingCharterEdits: Boolean
 		): [Organization]!

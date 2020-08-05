@@ -15,10 +15,16 @@ export default async (root, args, context) => {
 		where: {
 			active: true
 		},
-		include: [],
-		limit,
-		offset
+		include: []
 	};
+
+	if (limit) {
+		filterParams.limit = limit;
+	}
+
+	if (offset) {
+		filterParams.offset = offset;
+	}
 
 	const charterInclude = {
 		model: models.charters,
