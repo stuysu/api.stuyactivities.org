@@ -18,8 +18,6 @@ export default gql`
 		): [Organization]!
 		organizationsWithPendingCharters: [Organization]!
 
-		resetTokenIsValid(token: String!): Boolean!
-
 		members(orgUrl: String, orgId: Int): [Membership]
 
 		# Returns all tags if no parameters are provided or tags that match the given parameters

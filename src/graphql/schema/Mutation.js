@@ -21,10 +21,9 @@ export default gql`
 	}
 
 	type Mutation {
-		login(credentials: StdLoginParams, googleToken: String): User!
+		login(loginToken: String, googleToken: String): User!
 		logout: Boolean
-		requestPasswordReset(email: String!): Boolean
-		usePasswordResetToken(token: String!, password: String!): Boolean
+
 		createOrganization(
 			name: String!
 			url: String!
@@ -50,5 +49,7 @@ export default gql`
 			fields: [String!]!
 		): CharterEdit
 		rejectCharterFields(charterEditId: Int!, fields: [String]!): CharterEdit
+
+		requestLoginToken(email: String!): Boolean
 	}
 `;

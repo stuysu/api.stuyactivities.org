@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable('passwordResets', {
+		await queryInterface.createTable('loginTokens', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -14,6 +14,9 @@ module.exports = {
 			token: {
 				type: Sequelize.STRING
 			},
+			used: {
+				type: Sequelize.BOOLEAN
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE
@@ -25,6 +28,6 @@ module.exports = {
 		});
 	},
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable('passwordResets');
+		await queryInterface.dropTable('loginTokens');
 	}
 };
