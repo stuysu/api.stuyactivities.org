@@ -49,5 +49,7 @@ export default gql`
 			fields: [String!]!
 		): CharterEdit
 		rejectCharterFields(charterEditId: Int!, fields: [String]!): CharterEdit
+
+		requestLoginToken(email: String!): Boolean
 	}
 `;

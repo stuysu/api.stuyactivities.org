@@ -18,17 +18,19 @@ module.exports = (sequelize, DataTypes) => {
 		static idLoader = findOneLoader(loginTokens, 'id');
 		static userIdLoader = findManyLoader(loginTokens, 'userId');
 
+		// Thirty minutes
+		static maxAge = 1000 * 60 * 30;
+
 		isValid() {
 			if (this.used) {
 				return false;
 			}
 
 			const now = new Date();
-			const thirtyMinutes = 1000 * 60 * 30;
 
 			const timeSinceCreated = now.getTime() - this.createdAt.getTime();
 
-			return timeSinceCreated < thirtyMinutes;
+			return timeSinceCreated < loginTokens.maxAge;
 		}
 	}
 	loginTokens.init(
