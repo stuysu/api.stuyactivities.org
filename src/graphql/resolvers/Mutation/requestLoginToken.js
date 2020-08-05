@@ -51,7 +51,7 @@ export default async (
 		);
 	}
 
-	const tokenString = cryptoRandomString({ length: 128, type: 'base64' });
+	const tokenString = cryptoRandomString({ length: 128, type: 'url-safe' });
 
 	const loginToken = await loginTokens.create({
 		userId: user.id,
