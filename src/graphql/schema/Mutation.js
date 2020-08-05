@@ -23,8 +23,7 @@ export default gql`
 	type Mutation {
 		login(credentials: StdLoginParams, googleToken: String): User!
 		logout: Boolean
-		requestPasswordReset(email: String!): Boolean
-		usePasswordResetToken(token: String!, password: String!): Boolean
+
 		createOrganization(
 			name: String!
 			url: String!
