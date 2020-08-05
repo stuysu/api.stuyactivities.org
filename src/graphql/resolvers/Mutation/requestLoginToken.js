@@ -3,7 +3,7 @@ import cryptoRandomString from 'crypto-random-string';
 import emailRenderer from './../../../utils/emailRenderer';
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
-import HTMLParser from 'node-html-parser';
+import { parse } from 'node-html-parser';
 import mailer from '../../../utils/mailer';
 
 export default async (
@@ -61,7 +61,7 @@ export default async (
 
 	const url = urlJoin(PUBLIC_URL, 'token', tokenString);
 	const htmlEmail = emailRenderer.render('magicLink.html', { user, url });
-	const plainTextMail = HTMLParser.parse(htmlEmail).structuredText;
+	const plainTextMail = parse(htmlEmail).structuredText;
 
 	await mailer.sendMail({
 		from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',

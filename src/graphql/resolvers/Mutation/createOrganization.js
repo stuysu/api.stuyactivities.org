@@ -4,7 +4,7 @@ import getAvatarUrl from '../../../utils/getAvatarUrl';
 import cryptoRandomString from 'crypto-random-string';
 import mailer from '../../../utils/mailer';
 import emailRenderer from './../../../utils/emailRenderer';
-import HTMLParser from 'node-html-parser';
+import { parse } from 'node-html-parser';
 
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
@@ -211,7 +211,7 @@ export default async (root, args, context) => {
 			org,
 			joinUrl
 		});
-		const plainTextMail = HTMLParser.parse(htmlMail).structuredText;
+		const plainTextMail = parse(htmlMail).structuredText;
 
 		await mailer.sendMail({
 			from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',
