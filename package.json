@@ -15,7 +15,7 @@
 		"heroku-postbuild": "npm install pg pg-native && npm run build"
 	},
 	"dependencies": {
-		"apollo-server-express": "^2.15.1",
+		"apollo-server-express": "^2.16.1",
 		"axios": "^0.19.2",
 		"bcrypt": "^5.0.0",
 		"body-parser": "latest",
