@@ -20,7 +20,7 @@
 		"bcrypt": "^5.0.0",
 		"body-parser": "latest",
 		"cloudinary": "^1.22.0",
-		"connect-session-sequelize": "^7.0.0",
+		"connect-session-sequelize": "^7.0.1",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
 		"crypto-random-string": "^3.2.0",
