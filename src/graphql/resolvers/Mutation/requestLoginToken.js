@@ -5,6 +5,7 @@ import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 import { parse } from 'node-html-parser';
 import mailer from '../../../utils/mailer';
+import moment from 'moment-timezone';
 
 export default async (
 	parent,
@@ -59,8 +60,17 @@ export default async (
 		token: tokenString
 	});
 
+	const expiration = moment(now)
+		.add(30, 'm')
+		.tz('America/New_York')
+		.format('dddd, MMMM Do YYYY, h:mm a');
+
 	const url = urlJoin(PUBLIC_URL, 'token', tokenString);
-	const htmlEmail = emailRenderer.render('magicLink.html', { user, url });
+	const htmlEmail = emailRenderer.render('magicLink.html', {
+		user,
+		url,
+		expiration
+	});
 	const plainTextMail = parse(htmlEmail).structuredText;
 
 	await mailer.sendMail({
