@@ -10,7 +10,8 @@ const findManyLoader = (model, field) =>
 				where: { [field]: uniqueKeys }
 			});
 
-			entries.forEach(entry => {
+			for (let x = 0; x < entries.length; x++) {
+				const entry = entries[x];
 				const key = entry[field];
 
 				if (!keyMap[key]) {
@@ -18,9 +19,16 @@ const findManyLoader = (model, field) =>
 				}
 
 				keyMap[key].push(entry);
-			});
+			}
 
-			return keys.map(key => keyMap[key] || []);
+			const response = [];
+
+			for (let x = 0; x < keys.length; x++) {
+				const key = keys[x];
+				response.push(keyMap[key] || []);
+			}
+
+			return response;
 		},
 		{ cache: false }
 	);

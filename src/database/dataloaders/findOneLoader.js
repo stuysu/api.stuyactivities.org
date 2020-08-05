@@ -10,11 +10,19 @@ const findOneLoader = (model, key = 'id') => {
 				where: { [key]: uniqueKeys }
 			});
 
-			results.forEach(instance => {
+			for (let x = 0; x < results.length; x++) {
+				const instance = results[x];
 				keyMap[instance[key]] = instance;
-			});
+			}
 
-			return keyValues.map(keyVal => keyMap[keyVal] || null);
+			const response = [];
+
+			for (let x = 0; x < keyValues.length; x++) {
+				const keyVal = keyValues[x];
+				response.push(keyMap[keyVal] || null);
+			}
+
+			return response;
 		},
 		{ cache: false }
 	);
