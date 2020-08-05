@@ -21,7 +21,6 @@ module.exports = {
 					firstName: faker.name.firstName(),
 					lastName: faker.name.lastName(),
 					email: faker.internet.email(),
-					password: null,
 					gradYear,
 					picture: faker.internet.avatar(),
 					isFaculty: Boolean(Math.floor(Math.random() * 2)),
