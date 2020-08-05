@@ -22,7 +22,7 @@ export default async (
 	if (!user) {
 		throw new ApolloError(
 			'There is no user with that email address',
-			'USER_NOT_EXISTS'
+			'USER_NOT_FOUND'
 		);
 	}
 
@@ -60,7 +60,7 @@ export default async (
 	});
 
 	const url = urlJoin(PUBLIC_URL, 'token', tokenString);
-	const htmlEmail = emailRenderer.render('magicLink', { user, url });
+	const htmlEmail = emailRenderer.render('magicLink.html', { user, url });
 	const plainTextMail = HTMLParser.parse(htmlEmail).structuredText;
 
 	await mailer.sendMail({
