@@ -11,6 +11,9 @@ export default async function loginWithMagicToken(token, session) {
 		);
 	}
 
+	row.used = true;
+	await row.save();
+
 	session.signedIn = true;
 	session.userId = row.userId;
 
