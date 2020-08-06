@@ -18,7 +18,7 @@ export default gql`
 		): [Organization]!
 		organizationsWithPendingCharters: [Organization]!
 
-		members(orgUrl: String, orgId: Int): [Membership]
+		memberships(orgUrl: String, orgId: Int): [Membership]
 
 		# Returns all tags if no parameters are provided or tags that match the given parameters
 		tags(keyword: String, orgId: Int, orgUrl: Int): [Tag]!

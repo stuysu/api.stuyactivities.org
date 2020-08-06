@@ -10,6 +10,7 @@ export default gql`
 		tags: [Tag]!
 		charter: Charter
 
+		charterApprovalMessages: [CharterApprovalMessage]
 		memberships(onlyLeaders: Boolean = false): [Membership]
 		charterEdits: [CharterEdit]!
 	}
