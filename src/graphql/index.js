@@ -1,3 +1,4 @@
+import { createComplexityLimitRule } from 'graphql-validation-complexity';
 import {
 	ApolloServer,
 	ApolloError,
@@ -8,6 +9,12 @@ import resolvers from './resolvers';
 import honeybadger from 'honeybadger';
 
 const models = require('../database');
+
+const ComplexityLimitRule = createComplexityLimitRule(75000, {
+	scalarCost: 1,
+	objectCost: 5,
+	listFactor: 10
+});
 
 const apolloServer = new ApolloServer({
 	typeDefs,
@@ -27,6 +34,7 @@ const apolloServer = new ApolloServer({
 			'request.credentials': 'same-origin'
 		}
 	},
+	validationRules: [ComplexityLimitRule],
 	formatError: err => {
 		const safeError =
 			err.originalError instanceof ApolloError ||

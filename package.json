@@ -30,6 +30,7 @@
 		"express": "latest",
 		"express-session": "^1.17.1",
 		"google-auth-library": "^6.0.6",
+		"graphql-validation-complexity": "^0.3.0",
 		"honeybadger": "^1.4.0",
 		"ip-range-check": "^0.2.0",
 		"moment-timezone": "^0.5.31",
