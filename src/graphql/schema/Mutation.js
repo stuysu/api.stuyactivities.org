@@ -51,5 +51,7 @@ export default gql`
 		rejectCharterFields(charterEditId: Int!, fields: [String]!): CharterEdit
 
 		requestLoginToken(email: String!): Boolean
+
+		linkOAuthProvider(provider: String!, token: String!): OAuthIdentity
 	}
 `;

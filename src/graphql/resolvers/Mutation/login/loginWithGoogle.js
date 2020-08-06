@@ -1,29 +1,13 @@
 import { ApolloError } from 'apollo-server-express';
+import resolveGoogleIdToken from '../../../../utils/resolveGoogleIdToken';
 const { users, oAuthIds } = require('../../../../database');
-import { GOOGLE_CLIENT_ID } from '../../../../constants';
-import { OAuth2Client } from 'google-auth-library';
-
-const client = new OAuth2Client(GOOGLE_CLIENT_ID);
-
-const resolveGoogleIdToken = async idToken => {
-	try {
-		const ticket = await client.verifyIdToken({
-			idToken,
-			audience: GOOGLE_CLIENT_ID
-		});
-
-		return await ticket.getPayload();
-	} catch (e) {
-		return null;
-	}
-};
 
 const loginWithGoogle = async (googleOAuthToken, session) => {
 	const payload = await resolveGoogleIdToken(googleOAuthToken);
 
 	if (!payload) {
 		throw new ApolloError(
-			'That Google Id Token is not valid for this app.',
+			'That Google id token is not valid for this app.',
 			'INVALID_OAUTH_TOKEN'
 		);
 	}
