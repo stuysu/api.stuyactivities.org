@@ -27,7 +27,7 @@ export default async (parent, args, context) => {
 			}
 		);
 	}
-	
+
 	//see if user is an admin
 	const isAdmin = await memberships.findOne({
 		where: {
@@ -37,7 +37,7 @@ export default async (parent, args, context) => {
 		}
 	});
 	if (!isAdmin) {
-		session.authenticationRequired(["charters"])
+		session.authenticationRequired(['charters']);
 	}
 
 	//Make sure the organization exists
@@ -56,5 +56,5 @@ export default async (parent, args, context) => {
 		message,
 		auto: false,
 		seen: false
-	})
+	});
 };
