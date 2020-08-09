@@ -54,6 +54,9 @@ export default gql`
 
 		linkOAuthPlatform(platform: String!, token: String!): OAuthIdentity
 
-		createCharterApprovalMessage(orgId: Int!, message: String!): CharterApprovalMessage
+		createCharterApprovalMessage(
+			orgId: Int!
+			message: String!
+		): CharterApprovalMessage
 	}
 `;
