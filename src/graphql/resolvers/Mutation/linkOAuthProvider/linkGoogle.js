@@ -32,6 +32,18 @@ export default async (token, session) => {
 		);
 	}
 
+	// Check to see if this google account is linked to any other stuyactivities accounts
+	const linkedToAnother = await oAuthIds.findOne({
+		where: { platformId: payload.sub, platform: 'google' }
+	});
+
+	if (linkedToAnother) {
+		throw new ApolloError(
+			'That Google account is already linked to another StuyActivities account. You must unlink it from there before you can link it to this account.',
+			'EMAIL_LINKED_TO_OTHER'
+		);
+	}
+
 	return await oAuthIds.create({
 		userId: session.userId,
 		platform: 'google',
