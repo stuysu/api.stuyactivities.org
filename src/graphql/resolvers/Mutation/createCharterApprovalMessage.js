@@ -17,13 +17,13 @@ export default async (parent, args, context) => {
 		}
 	} = context;
 
-	const { org, message } = args;
+	const { orgId, message } = args;
 
-	if (!org || !message) {
+	if (!orgId || !message) {
 		throw new UserInputError(
 			'The organization ID and message are required to make a comment!',
 			{
-				invalidArgs: ['org', 'message']
+				invalidArgs: ['orgId', 'message']
 			}
 		);
 	}
@@ -33,7 +33,7 @@ export default async (parent, args, context) => {
 		where: {
 			userId: session.userId,
 			adminPrivileges: true,
-			organizationId: org
+			organizationId: orgId
 		}
 	});
 	if (!isAdmin) {
@@ -41,7 +41,7 @@ export default async (parent, args, context) => {
 	}
 
 	//Make sure the organization exists
-	const organization = await organizations.findOne({ where: { id: org } });
+	const organization = await organizations.findOne({ where: { id: orgId } });
 	if (!organization) {
 		throw new ApolloError(
 			'Could not find an organization with that id',
@@ -51,7 +51,7 @@ export default async (parent, args, context) => {
 
 	// Make the comment
 	return await charterApprovalMessages.create({
-		organizationId: org,
+		organizationId: orgId,
 		userId: session.userId,
 		message,
 		auto: false,
