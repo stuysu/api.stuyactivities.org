@@ -7,7 +7,7 @@ export default async (token, session) => {
 	const userOAuths = await oAuthIds.userIdLoader.load(session.userId);
 
 	const alreadyLinkedToGoogle = userOAuths.find(
-		row => row.provider === 'google'
+		row => row.platform === 'google'
 	);
 
 	if (alreadyLinkedToGoogle) {

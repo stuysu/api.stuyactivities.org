@@ -52,6 +52,6 @@ export default gql`
 
 		requestLoginToken(email: String!): Boolean
 
-		linkOAuthProvider(provider: String!, token: String!): OAuthIdentity
+		linkOAuthPlatform(platform: String!, token: String!): OAuthIdentity
 	}
 `;
