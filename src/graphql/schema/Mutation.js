@@ -53,5 +53,7 @@ export default gql`
 		requestLoginToken(email: String!): Boolean
 
 		linkOAuthPlatform(platform: String!, token: String!): OAuthIdentity
+
+		createCharterApprovalMessage(org: Int!, message: String!): CharterApprovalMessage
 	}
 `;
