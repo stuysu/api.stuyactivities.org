@@ -20,6 +20,11 @@ export default gql`
 		picture: Upload
 	}
 
+	input LeaderParams {
+		userId: Int!
+		role: String!
+	}
+
 	type Mutation {
 		login(loginToken: String, googleToken: String): User!
 		logout: Boolean
@@ -30,7 +35,7 @@ export default gql`
 			charter: CharterParams!
 			tags: [Int!]!
 			# String of emails
-			leaders: [Int!]!
+			leaders: [LeaderParams!]!
 		): Organization
 
 		alterCharter(

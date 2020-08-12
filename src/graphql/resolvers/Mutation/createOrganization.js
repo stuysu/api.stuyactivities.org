@@ -185,7 +185,16 @@ export default async (root, args, context) => {
 	}
 
 	// Remove any duplicates from leaders
-	leaders = [...new Set(leaders)];
+	const leaderRoles = {};
+
+	leaders = [
+		...new Set(
+			leaders.map(leader => {
+				leaderRoles[leader.userId] = leader.role;
+				return leader.userId;
+			})
+		)
+	];
 
 	// Add the other admins and send them an email
 	const leaderUsers = await users.findAll({ where: { id: leaders } });
@@ -197,7 +206,7 @@ export default async (root, args, context) => {
 		await membershipRequests.create({
 			organizationId: org.id,
 			userId: leader.id,
-			role: 'Leader',
+			role: leaderRoles[leader.id] || 'Leader',
 			adminPrivileges: true,
 			userMessage: null,
 			adminMessage,
