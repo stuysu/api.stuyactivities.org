@@ -33,8 +33,8 @@ const charterValidator = (field, value, silent = false) => {
 		meetingSchedule: {
 			type: 'string',
 			characters: {
-				min: 5,
-				max: 200
+				min: 50,
+				max: 1000
 			}
 		},
 		commitmentLevel: {
