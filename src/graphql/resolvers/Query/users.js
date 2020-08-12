@@ -1,4 +1,8 @@
-export default async (parent, { keyword }, { models, session }) => {
+export default async (
+	parent,
+	{ keyword, limit, offset },
+	{ models, session }
+) => {
 	session.authenticationRequired(['users']);
 
 	const {
@@ -25,6 +29,8 @@ export default async (parent, { keyword }, { models, session }) => {
 	return users.findAll({
 		where: {
 			[Op.and]: conditions
-		}
+		},
+		limit,
+		offset
 	});
 };

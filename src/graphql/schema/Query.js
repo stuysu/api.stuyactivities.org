@@ -24,6 +24,6 @@ export default gql`
 		tags(keyword: String, orgId: Int, orgUrl: Int): [Tag]!
 
 		user(email: String, id: Int): User
-		users(keyword: String!): [User]!
+		users(keyword: String!, offset: Int, limit: Int): [User]!
 	}
 `;
