@@ -157,6 +157,7 @@ export default async (root, args, context) => {
 		mission: charter.mission,
 		purpose: charter.purpose,
 		benefit: charter.benefit,
+		uniqueness: charter.uniqueness,
 		appointmentProcedures: charter.appointmentProcedures,
 		meetingSchedule: charter.meetingSchedule,
 		meetingDays: JSON.stringify(charter.meetingDays),

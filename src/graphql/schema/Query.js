@@ -5,7 +5,7 @@ export default gql`
 		authenticatedUser: User
 		charter(id: Int, orgUrl: String, orgId: Int): Charter
 
-		organization(url: String, id: String): Organization
+		organization(url: String, id: Int): Organization
 		organizations(
 			keyword: String
 			tags: [String]
