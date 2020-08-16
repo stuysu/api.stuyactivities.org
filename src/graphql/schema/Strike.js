@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-	type Strikes {
+	type Strike {
 		organization: Organization
 		organizationId: Int
 		weight: Int
