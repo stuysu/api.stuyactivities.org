@@ -5,7 +5,7 @@ export default gql`
 		organization: Organization
 		organizationId: Int
 		weight: Int
-		reviewer: [String]
+		reviewer: User
 		reviewerId: Int
 		reason: String
 	}

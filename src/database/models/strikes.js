@@ -1,4 +1,6 @@
 'use strict';
+import findOneLoader from '../dataloaders/findOneLoader';
+import findManyLoader from '../dataloaders/findManyLoader';
 const {
   Model
 } = require('sequelize');
@@ -12,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
+
+    static orgIdLoader = findManyLoader(strikes, "organizationId");
+    static idLoader = findOneLoader(strikes, "id");
+    static reviewerIdLoader = findManyLoader(strikes, "reviewerId");
+  }
   strikes.init({
     organizationId: DataTypes.INTEGER,
     weight: DataTypes.INTEGER,

@@ -9,6 +9,7 @@ export default gql`
 		createdAt: String!
 		tags: [Tag]!
 		charter: Charter
+		strikes: [Strike]
 
 		charterApprovalMessages: [CharterApprovalMessage]
 		memberships(onlyLeaders: Boolean = false): [Membership]
