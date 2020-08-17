@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+		strikes.belongsTo(models.organizations);
+		strikes.belongsTo(models.users, {
+				as: 'reviewer',
+				foreignKey: 'reviewerId',
+				targetKey: 'id'
+			});
     }
 
     static orgIdLoader = findManyLoader(strikes, "organizationId");
