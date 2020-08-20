@@ -10,6 +10,7 @@ import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 import charterValidator from '../../../utils/charterValidator';
 import uploadPicStream from '../../../utils/uploadPicStream';
+import honeybadger from '../../../middleware/honeybadger';
 
 const cloudinary = require('cloudinary').v2;
 
@@ -238,20 +239,25 @@ export default async (root, args, context) => {
 		const randomName = cryptoRandomString({ length: 8 });
 		const filePublicId = `organizations/${url}/${randomName}`;
 
-		uploadPicStream(charter.picture, filePublicId).then(image => {
-			const options = {
-				quality: 90
-			};
+		uploadPicStream(charter.picture, filePublicId)
+			.then(image => {
+				const options = {
+					quality: 90
+				};
 
-			if (image.width > image.height) {
-				options.width = 600;
-			} else {
-				options.height = 600;
-			}
+				if (image.width > image.height) {
+					options.width = 600;
+				} else {
+					options.height = 600;
+				}
 
-			pendingCharter.picture = cloudinary.url(image.public_id, options);
-			pendingCharter.save();
-		});
+				pendingCharter.picture = cloudinary.url(
+					image.public_id,
+					options
+				);
+				pendingCharter.save();
+			})
+			.catch(honeybadger.notify);
 	}
 
 	return org;
