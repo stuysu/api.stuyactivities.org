@@ -12,6 +12,7 @@ import parsers from './middleware/parsers';
 import apolloServer from './graphql';
 import serverErrorHandler from './middleware/serverErrorHandler';
 import logger from './middleware/logger';
+import graphqlUploads from './middleware/graphqlUploads';
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.use(session);
 app.use(apolloSessionValidators);
 
 app.use(parsers);
+
+app.use(graphqlUploads);
 
 apolloServer.applyMiddleware({ app, path: '/graphql', cors: false });
 

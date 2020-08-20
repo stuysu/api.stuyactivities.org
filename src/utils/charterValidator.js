@@ -112,7 +112,7 @@ const charterValidator = (field, value, silent = false) => {
 	}
 
 	if (field === 'picture' && value) {
-		if (value.mimetype.startsWith('image/')) {
+		if (!value.mimetype.startsWith('image/')) {
 			if (silent) {
 				return false;
 			}

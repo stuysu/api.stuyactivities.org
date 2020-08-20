@@ -10,8 +10,11 @@ import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 import charterValidator from '../../../utils/charterValidator';
 import uploadPicStream from '../../../utils/uploadPicStream';
+import fs from 'fs';
 
 export default async (root, args, context) => {
+	context.session.signedIn = true;
+	context.session.userId = 7;
 	const {
 		session,
 		models: {
