@@ -1,3 +1,3 @@
-export default (membership, args, { models }) => {
-	return models.organizations.idLoader.load(membership.organizationId);
+export default (request, args, { models }) => {
+	return models.organizations.idLoader.load(request.organizationId);
 };
