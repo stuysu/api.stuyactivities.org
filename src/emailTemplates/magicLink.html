@@ -3,9 +3,13 @@
 	<body>
 		<p>Hi {{ user.firstName }}!</p>
 		<p>You recently requested a &#10024; Magic Sign In Link &#10024;.</p>
-		<p>If this was you, <b><a href="{{ url }}">click here</a></b>.</p>
+		<p>
+			If this was you, <b><a href="{{ url }}">click here</a></b>.
+		</p>
 		<p>Otherwise, you can ignore this email.</p>
-        <p>This link will expire in thirty minutes, which is at: {{ expiration }}</p>
+		<p>
+			This link will expire in thirty minutes, which is at: {{ expiration }}
+		</p>
 		<p>
 			If the link above doesn't work, try copying and pasting the
 			following in your browser:
