@@ -63,5 +63,7 @@ export default gql`
 			orgId: Int!
 			message: String!
 		): CharterApprovalMessage
+
+		createStrike(orgId: Int!, weight: Int!, reason: String!): Strike
 	}
 `;
