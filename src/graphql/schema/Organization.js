@@ -13,6 +13,8 @@ export default gql`
 
 		charterApprovalMessages: [CharterApprovalMessage]
 		memberships(onlyLeaders: Boolean = false): [Membership]
+		membership: Membership
+		membershipRequest: MembershipRequest
 		charterEdits: [CharterEdit]!
 	}
 `;
