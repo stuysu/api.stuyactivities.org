@@ -3,6 +3,8 @@ export default async (org, args, { models, session }) => {
 		return null;
 	}
 
-	const memberships = await models.memberships.userIdLoader(session.userId);
+	const memberships = await models.memberships.userIdLoader.load(
+		session.userId
+	);
 	return memberships.find(mem => mem.organizationId === org.id);
 };
