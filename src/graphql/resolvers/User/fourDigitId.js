@@ -1,7 +1,13 @@
-export default (user, args, { models }) => {
+export default async (user, args, { models }) => {
 	if (user.isFaculty) {
 		return null;
 	}
 
-	return models.fourDigitIds.userIdLoader.load(user.id);
+	let id = models.fourDigitIds.userIdLoader.load(user.id);
+
+	if (!id) {
+		id = models.fourDigitIds.userIdCreateLoader(user.id);
+	}
+
+	return id;
 };
