@@ -1,7 +1,16 @@
 import { AuthenticationError, ForbiddenError } from 'apollo-server-express';
-const { memberships, adminRoles } = require('./../database');
+const { memberships, adminRoles, users } = require('./../database');
 
 const apolloSessionValidators = (req, res, next) => {
+	let user;
+
+	req.session.getUser = async () => {
+		if (!user) {
+			user = await users.idLoader.load(req.session.id);
+		}
+		return user;
+	};
+
 	req.session.authenticationRequired = fields => {
 		if (!req.session.signedIn) {
 			let message =

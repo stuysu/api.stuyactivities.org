@@ -63,5 +63,13 @@ export default gql`
 			orgId: Int!
 			message: String!
 		): CharterApprovalMessage
+
+		# Give an organization a strike using either the orgId or orgUrl
+		createStrike(
+			orgId: Int
+			orgId: Int
+			weight: Int!
+			reason: String!
+		): Strike
 	}
 `;

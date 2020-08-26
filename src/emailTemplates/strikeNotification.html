@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+	<body>
+		<p>Hi {{ user.firstName }}!</p>
+		<p>This is an email to notify you that {{ organization.name }}, of which you are an admin, has recently received a strike. The details are as outlined below:</p>
+		<p>
+			Reason: {{ strike.reason }}
+		</p>
+        <p>
+            Weight (how many strikes it's worth): {{ strike.weight }}
+        </p>
+        <p>
+            Strike Given At: {{ formattedTime }}
+        </p>
+		<p>You have the ability to inquire further about the strike or submit an appeal <a href="{{ appealUrl }}">here</a></p>
+	</body>
+</html>
