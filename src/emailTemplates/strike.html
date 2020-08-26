@@ -2,10 +2,13 @@
 <html lang="en">
 	<body>
 		<p>Hi {{ user.firstName }}!</p>
-		<p>Your club has recently recieved a strike for: </p>
+		<p>This is an email to notify you that {{ organization.name }}, of which you are an admin, has recently received a strike. The details are as outlined below:</p>
 		<p>
-			{{ reason }}
+			Reason: {{ reason }}
 		</p>
-		<p>If you believe that this is incorrect, you may submit an appeal to (idk if we have an email for this).</p>
+        <p>
+            Strike Given At: {{ formattedTime }}
+        </p>
+		<p>You have the ability to inquire further about the strike or submit an appeal <a href="{{ appealUrl }}">here</a></p>
 	</body>
 </html>
