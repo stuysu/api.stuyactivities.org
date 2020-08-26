@@ -33,25 +33,32 @@ module.exports = (sequelize, DataTypes) => {
 				const newRows = [];
 				let lowestUnusedId = 1000;
 
-				uniqueUserIds.forEach(userId => {
-					if (!userIdMap[userId]) {
-						while (
-							lowestUnusedId < 10000 &&
-							usedFourDigitMap[lowestUnusedId]
-						) {
-							lowestUnusedId++;
-						}
-
-						if (!usedFourDigitMap[lowestUnusedId]) {
-							usedFourDigitMap[lowestUnusedId] = true;
-							userIdMap[userId] = lowestUnusedId;
-							newRows.push({
-								userId,
-								value: lowestUnusedId
-							});
-						}
+				for (let x = 0; x < uniqueUserIds; x++) {
+					const userId = uniqueUserIds[x];
+					if (userIdMap[userId]) {
+						continue;
 					}
-				});
+
+					if (lowestUnusedId >= 9999) {
+						break;
+					}
+
+					while (
+						lowestUnusedId < 9999 &&
+						usedFourDigitMap[lowestUnusedId]
+					) {
+						lowestUnusedId++;
+					}
+
+					if (!usedFourDigitMap[lowestUnusedId]) {
+						usedFourDigitMap[lowestUnusedId] = true;
+						userIdMap[userId] = lowestUnusedId;
+						newRows.push({
+							userId,
+							value: lowestUnusedId
+						});
+					}
+				}
 
 				if (newRows.length) {
 					await fourDigitIds.bulkCreate(newRows);
