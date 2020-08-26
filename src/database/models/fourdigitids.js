@@ -17,48 +17,54 @@ module.exports = (sequelize, DataTypes) => {
 
 		static userIdLoader = findOneLoader(fourDigitIds, 'userId');
 
-		static userIdCreateLoader = new DataLoader(async userIds => {
-			const idUsedMap = Array(10000).fill(false);
-			const allFourDigits = await fourDigitIds.findAll();
-			const userIdMap = {};
+		static userIdCreateLoader = new DataLoader(
+			async userIds => {
+				const idUsedMap = Array(10000).fill(false);
+				const allFourDigits = await fourDigitIds.findAll();
+				const userIdMap = {};
 
-			for (let i = 0; i < allFourDigits; i++) {
-				const id = allFourDigits[i];
-				idUsedMap[id.value] = true;
-				userIdMap[id.userId] = id.value;
-			}
+				for (let i = 0; i < allFourDigits; i++) {
+					const id = allFourDigits[i];
+					idUsedMap[id.value] = true;
+					userIdMap[id.userId] = id.value;
+				}
 
-			const response = [];
-			const newRows = [];
-			let lowestUnusedId = 1000;
+				const response = [];
+				const newRows = [];
+				let lowestUnusedId = 1000;
 
-			for (let x = 0; x < userIds.length; x++) {
-				const userId = userIds[x];
-				const existingVal = userIdMap[userId];
-				if (existingVal) {
-					response.push(existingVal);
-				} else {
-					while (lowestUnusedId < 9999 && idUsedMap[lowestUnusedId]) {
-						lowestUnusedId++;
-					}
-					if (!idUsedMap[lowestUnusedId]) {
-						idUsedMap[lowestUnusedId] = true;
-						userIdMap[userId] = lowestUnusedId;
-						newRows.push({
-							userId,
-							value: lowestUnusedId
-						});
-						response.push(lowestUnusedId);
+				for (let x = 0; x < userIds.length; x++) {
+					const userId = userIds[x];
+					const existingVal = userIdMap[userId];
+					if (existingVal) {
+						response.push(existingVal);
 					} else {
-						// There aren't any four digit ids left
-						response.push(null);
+						while (
+							lowestUnusedId < 9999 &&
+							idUsedMap[lowestUnusedId]
+						) {
+							lowestUnusedId++;
+						}
+						if (!idUsedMap[lowestUnusedId]) {
+							idUsedMap[lowestUnusedId] = true;
+							userIdMap[userId] = lowestUnusedId;
+							newRows.push({
+								userId,
+								value: lowestUnusedId
+							});
+							response.push(lowestUnusedId);
+						} else {
+							// There aren't any four digit ids left
+							response.push(null);
+						}
 					}
 				}
-			}
 
-			await fourDigitIds.bulkCreate(newRows);
-			return response;
-		});
+				await fourDigitIds.bulkCreate(newRows);
+				return response;
+			},
+			{ cache: false }
+		);
 	}
 	fourDigitIds.init(
 		{

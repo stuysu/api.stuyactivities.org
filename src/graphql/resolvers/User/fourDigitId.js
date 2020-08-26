@@ -3,10 +3,13 @@ export default async (user, args, { models }) => {
 		return null;
 	}
 
-	let id = models.fourDigitIds.userIdLoader.load(user.id);
+	let id;
+	let row = await models.fourDigitIds.userIdLoader.load(user.id);
 
-	if (!id) {
-		id = models.fourDigitIds.userIdCreateLoader(user.id);
+	if (row) {
+		id = row.value;
+	} else {
+		id = await models.fourDigitIds.userIdCreateLoader.load(user.id);
 	}
 
 	return id;
