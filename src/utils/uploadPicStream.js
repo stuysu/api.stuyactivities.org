@@ -1,3 +1,5 @@
+import honeybadger from '../middleware/honeybadger';
+
 const cloudinary = require('cloudinary').v2;
 const uploadPicStream = (picture, publicId) =>
 	new Promise((resolve, reject) => {
@@ -8,7 +10,7 @@ const uploadPicStream = (picture, publicId) =>
 			}
 		);
 
-		picture.pipe(uploadStream);
+		picture.createReadStream().pipe(uploadStream);
 	});
 
 export default uploadPicStream;

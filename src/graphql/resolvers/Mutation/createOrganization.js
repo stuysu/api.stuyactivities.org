@@ -10,6 +10,9 @@ import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 import charterValidator from '../../../utils/charterValidator';
 import uploadPicStream from '../../../utils/uploadPicStream';
+import honeybadger from '../../../middleware/honeybadger';
+
+const cloudinary = require('cloudinary').v2;
 
 export default async (root, args, context) => {
 	const {
@@ -139,7 +142,7 @@ export default async (root, args, context) => {
 		)
 	);
 
-	let actualPicture = charter.picture || getAvatarUrl(name);
+	let actualPicture = getAvatarUrl(name);
 
 	// Now insert into the database
 	const org = await organizations.create({
@@ -164,7 +167,7 @@ export default async (root, args, context) => {
 		commitmentLevel: charter.commitmentLevel,
 		keywords: JSON.stringify(charter.keywords),
 		extra: charter.extra,
-		picture: actualPicture,
+		picture: null,
 		status: 'pending',
 		submittingUserId: currentUser.id,
 		organizationId: org.id
@@ -234,12 +237,27 @@ export default async (root, args, context) => {
 
 	if (charter.picture) {
 		const randomName = cryptoRandomString({ length: 8 });
-		const filePublicId = `/organizations/${url}/${randomName}`;
+		const filePublicId = `organizations/${url}/${randomName}`;
 
-		uploadPicStream(charter.picture, filePublicId).then(image => {
-			pendingCharter.picture = image.secure_url;
-			pendingCharter.save();
-		});
+		uploadPicStream(charter.picture, filePublicId)
+			.then(image => {
+				const options = {
+					quality: 90
+				};
+
+				if (image.width > image.height) {
+					options.width = 600;
+				} else {
+					options.height = 600;
+				}
+
+				pendingCharter.picture = cloudinary.url(
+					image.public_id,
+					options
+				);
+				pendingCharter.save();
+			})
+			.catch(honeybadger.notify);
 	}
 
 	return org;

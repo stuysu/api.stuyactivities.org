@@ -108,3 +108,4 @@ dist/
 *.db-journal
 
 **no-git**
+temp/

@@ -25,9 +25,7 @@ const apolloServer = new ApolloServer({
 			models
 		};
 	},
-	uploads: {
-		maxFileSize: 5 * 1000 * 1000 // 5 MB
-	},
+	uploads: false,
 	introspection: true,
 	playground: {
 		settings: {
