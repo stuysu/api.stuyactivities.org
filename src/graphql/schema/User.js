@@ -13,6 +13,7 @@ export default gql`
 		adminRoles: [AdminRole]!
 		oAuths: [OAuthIdentity]!
 		picture: String
+		fourDigitId: Int
 
 		# Can only be accessed by the user themselves or someone with admin privileges
 		memberships: [Membership]
