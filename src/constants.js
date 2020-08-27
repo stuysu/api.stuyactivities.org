@@ -34,6 +34,15 @@ export const SESSION_SECRET =
 export const LOGGER_FORMAT = process.env.LOGGER_FORMAT || 'combined';
 export const NODEMAILER_URL = process.env.NODEMAILER_URL || '';
 
-export const GOOGLE_CLIENT_ID =
-	process.env.GOOGLE_CLIENT_ID ||
-	`250174499771-q7m4aptq02nlbo1u8tvqvg0jsckasmnp.apps.googleusercontent.com`;
+export const GOOGLE_LOGIN_CLIENT_ID =
+	process.env.GOOGLE_LOGIN_CLIENT_ID ||
+	`249789152860-ucok38v4tssc04o7epldvseiv3hevcq5.apps.googleusercontent.com`;
+
+export const GOOGLE_APIS_CLIENT_ID =
+	process.env.GOOGLE_APIS_CLIENT_ID ||
+	'249789152860-12uce9nrsb6s0k582epuk92bbjsm8bm7.apps.googleusercontent.com';
+
+export const GOOGLE_PROJECT_ID =
+	process.env.GOOGLE_PROJECT_ID || 'stuyactivities-org';
+
+export const GOOGLE_APIS_CLIENT_SECRET = process.env.GOOGLE_APIS_CLIENT_SECRET;
