@@ -21,9 +21,15 @@ try {
 	token = JSON.parse(savedToken);
 	oAuth2Client.setCredentials(token);
 } catch (e) {
-	throw new Error(
-		"You haven't yet authenticated with google. Do that first by running: npm run authenticate"
-	);
+	if (process.env.CI) {
+		console.log(
+			"Ignoring the fact that authentication hasn't been completed because app is running in CI mode"
+		);
+	} else {
+		throw new Error(
+			"You haven't yet authenticated with google. Do that first by running: npm run authenticate"
+		);
+	}
 }
 
 let oAuthId;
