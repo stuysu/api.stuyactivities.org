@@ -58,5 +58,5 @@ export default async (parent, args, context) => {
 		seen: false
 	});
 
-	return charterApprovalMessages.orgIdLoader.load(orgId)
+	return charterApprovalMessages.orgIdLoader.load(orgId);
 };
