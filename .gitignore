@@ -109,3 +109,6 @@ dist/
 
 **no-git**
 temp/
+
+**credentials.json**
+**token.json**

@@ -12,6 +12,7 @@
 		"seed": "node --require esm node_modules/.bin/sequelize-cli db:seed:all",
 		"prettier": "npx prettier --write .",
 		"build": "npm run migrate",
+		"authenticate": "node -r esm src/googleApis/authenticate.js",
 		"heroku-postbuild": "npm install pg pg-native && npm run build"
 	},
 	"dependencies": {
@@ -30,6 +31,7 @@
 		"express": "latest",
 		"express-session": "^1.17.1",
 		"google-auth-library": "^6.0.6",
+		"googleapis": "^59.0.0",
 		"graphql-upload": "^11.0.0",
 		"graphql-validation-complexity": "^0.3.0",
 		"honeybadger": "^1.4.0",
