@@ -62,7 +62,7 @@ export default gql`
 		createCharterApprovalMessage(
 			orgId: Int!
 			message: String!
-		): CharterApprovalMessage
+		): [CharterApprovalMessage]
 
 		# Give an organization a strike using either the orgId or orgUrl
 		createStrike(

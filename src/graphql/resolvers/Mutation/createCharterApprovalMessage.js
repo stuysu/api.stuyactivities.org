@@ -50,11 +50,13 @@ export default async (parent, args, context) => {
 	}
 
 	// Make the comment
-	return await charterApprovalMessages.create({
+	await charterApprovalMessages.create({
 		organizationId: orgId,
 		userId: session.userId,
 		message,
 		auto: false,
 		seen: false
 	});
+
+	return charterApprovalMessages.orgIdLoader.load(orgId)
 };
