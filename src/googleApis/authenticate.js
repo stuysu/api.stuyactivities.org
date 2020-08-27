@@ -5,16 +5,13 @@ import path from 'path';
 const readline = require('readline');
 const { google } = require('googleapis');
 
-// If modifying these scopes, delete token.json.
 const SCOPES = [
-	'https://www.googleapis.com/auth/calendar https://mail.google.com/'
+	'https://www.googleapis.com/auth/calendar https://mail.google.com/ email profile'
 ];
-// The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
+
 const tokenPath = path.resolve(__dirname, 'token.json');
 
-export const oAuth2Client = new google.auth.OAuth2(
+const oAuth2Client = new google.auth.OAuth2(
 	GOOGLE_APIS_CLIENT_ID,
 	GOOGLE_APIS_CLIENT_SECRET,
 	'urn:ietf:wg:oauth:2.0:oob'
@@ -34,8 +31,9 @@ const rl = readline.createInterface({
 
 rl.question('Enter the code from that page here: ', code => {
 	rl.close();
-	oAuth2Client.getToken(code).then(res => {
+	oAuth2Client.getToken(code).then(async res => {
 		const token = res.tokens;
 		fs.writeFileSync(tokenPath, JSON.stringify(token));
+		console.log('Authentication complete!');
 	});
 });

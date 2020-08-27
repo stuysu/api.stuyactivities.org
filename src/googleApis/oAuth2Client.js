@@ -13,14 +13,31 @@ const oAuth2Client = new google.auth.OAuth2(
 	'urn:ietf:wg:oauth:2.0:oob'
 );
 
+let token;
+
 try {
 	// Check if we have previously stored a token.
 	const savedToken = fs.readFileSync(tokenPath).toString();
-	oAuth2Client.setCredentials(JSON.parse(savedToken));
+	token = JSON.parse(savedToken);
+	oAuth2Client.setCredentials(token);
 } catch (e) {
 	throw new Error(
 		"You haven't yet authenticated with google. Do that first by running: npm run authenticate"
 	);
 }
+
+let oAuthId;
+
+export const getOAuthId = async () => {
+	if (!oAuthId) {
+		const ticket = await oAuth2Client.verifyIdToken({
+			idToken: token.id_token,
+			audience: GOOGLE_APIS_CLIENT_ID
+		});
+
+		oAuthId = ticket.getPayload();
+	}
+	return oAuthId;
+};
 
 export default oAuth2Client;
