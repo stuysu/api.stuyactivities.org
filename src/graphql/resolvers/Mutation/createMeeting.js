@@ -1,4 +1,4 @@
-import { UserInputError } from 'apollo-server-express';
+import { UserInputError, ForbiddenError } from 'apollo-server-express';
 import moment from 'moment-timezone';
 import emailRenderer from '../../../utils/emailRenderer';
 import { parse } from 'node-html-parser';
@@ -26,6 +26,12 @@ export default async (
 		org = await organizations.idLoader.load(orgId);
 	} else if (orgUrl) {
 		org = await organizations.urlLoader.load(orgUrl);
+	}
+
+	if (!org.active) {
+		throw new ForbiddenError(
+			'Only approved organizations are allowed to schedule meetings'
+		);
 	}
 
 	await session.orgAdminRequired(org.id);
