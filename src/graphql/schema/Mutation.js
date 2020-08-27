@@ -71,5 +71,14 @@ export default gql`
 			weight: Int!
 			reason: String!
 		): Strike
+
+		createMeeting(
+			orgId: Int
+			orgUrl: String
+			title: String!
+			description: String!
+			start: String!
+			end: String!
+		): Meeting
 	}
 `;
