@@ -1,11 +1,18 @@
 import { google } from 'googleapis';
 import oAuth2Client from './oAuth2Client';
+import urlJoin from 'url-join';
+import { PUBLIC_URL } from '../constants';
 const {
 	organizations,
 	googleCalendars,
 	memberships,
 	users
 } = require('./../database');
+
+const getData = async promise => {
+	const res = await promise;
+	return res.data;
+};
 
 const CalendarApi = google.calendar({ version: 'v3', auth: oAuth2Client });
 
@@ -62,26 +69,30 @@ export const initOrgCalendar = async orgId => {
 };
 
 export function createCalendar(name, timeZone) {
-	return CalendarApi.calendars.insert({
-		resource: {
-			summary: name,
-			timeZone
-		}
-	});
+	return getData(
+		CalendarApi.calendars.insert({
+			resource: {
+				summary: name,
+				timeZone
+			}
+		})
+	);
 }
 
 export function shareCalendar(calendarId, email, role) {
-	return CalendarApi.acl.insert({
-		calendarId,
-		sendNotifications: true,
-		resource: {
-			role,
-			scope: {
-				type: 'user',
-				value: email
+	return getData(
+		CalendarApi.acl.insert({
+			calendarId,
+			sendNotifications: true,
+			resource: {
+				role,
+				scope: {
+					type: 'user',
+					value: email
+				}
 			}
-		}
-	});
+		})
+	);
 }
 
 export function alterCalendarRole(
@@ -90,25 +101,29 @@ export function alterCalendarRole(
 	role,
 	sendNotifications = false
 ) {
-	return CalendarApi.acl.update({
-		calendarId,
-		sendNotifications,
-		ruleId: `user:${email}`,
-		resource: {
-			scope: {
-				type: 'user',
-				value: email
-			},
-			role
-		}
-	});
+	return getData(
+		CalendarApi.acl.update({
+			calendarId,
+			sendNotifications,
+			ruleId: `user:${email}`,
+			resource: {
+				scope: {
+					type: 'user',
+					value: email
+				},
+				role
+			}
+		})
+	);
 }
 
 export function removeCalendarAccess(calendarId, email) {
-	return CalendarApi.acl.delete({
-		calendarId,
-		ruleId: `user:${email}`
-	});
+	return getData(
+		CalendarApi.acl.delete({
+			calendarId,
+			ruleId: `user:${email}`
+		})
+	);
 }
 
 export function createCalendarEvent(
@@ -120,39 +135,40 @@ export function createCalendarEvent(
 		end,
 		location,
 		source: { title, url },
-		reminders: { useDefault = true },
 		sendUpdates = 'all'
 	}
 ) {
-	return CalendarApi.events.insert({
-		calendarId,
-		conferenceDataVersion: 1,
-		sendUpdates,
-		resource: {
-			end: {
-				dateTime: end
-			},
-			start: {
-				dateTime: start
-			},
-			summary: name,
-			reminders: {
-				useDefault
-			},
-			description,
-			source: {
-				title,
-				url
-			},
-			location,
-			attendees: [
-				{
-					email: calendarId,
-					resource: true
-				}
-			]
-		}
-	});
+	return getData(
+		CalendarApi.events.insert({
+			calendarId,
+			conferenceDataVersion: 1,
+			sendUpdates,
+			resource: {
+				end: {
+					dateTime: end
+				},
+				start: {
+					dateTime: start
+				},
+				summary: name,
+				reminders: {
+					useDefault: true
+				},
+				description,
+				source: {
+					title,
+					url
+				},
+				location,
+				attendees: [
+					{
+						email: calendarId,
+						resource: true
+					}
+				]
+			}
+		})
+	);
 }
 
 export function alterCalendarEvent(
@@ -165,47 +181,50 @@ export function alterCalendarEvent(
 		end,
 		location,
 		source: { title, url },
-		reminders: { useDefault = true },
 		sendUpdates = 'all'
 	}
 ) {
-	return CalendarApi.events.update({
-		calendarId,
-		eventId,
-		conferenceDataVersion: 1,
-		sendUpdates,
-		resource: {
-			end: {
-				dateTime: end
-			},
-			start: {
-				dateTime: start
-			},
-			summary: name,
-			reminders: {
-				useDefault
-			},
-			description,
-			source: {
-				title,
-				url
-			},
-			location,
-			attendees: [
-				{
-					email: calendarId,
-					resource: true
-				}
-			]
-		}
-	});
+	return getData(
+		CalendarApi.events.update({
+			calendarId,
+			eventId,
+			conferenceDataVersion: 1,
+			sendUpdates,
+			resource: {
+				end: {
+					dateTime: end
+				},
+				start: {
+					dateTime: start
+				},
+				summary: name,
+				reminders: {
+					useDefault: true
+				},
+				description,
+				source: {
+					title,
+					url
+				},
+				location,
+				attendees: [
+					{
+						email: calendarId,
+						resource: true
+					}
+				]
+			}
+		})
+	);
 }
 
 export function deleteCalendarEvent(calendarId, eventId, sendUpdates = 'all') {
-	return CalendarApi.events.delete({
-		calendarId,
-		eventId
-	});
+	return getData(
+		CalendarApi.events.delete({
+			calendarId,
+			eventId
+		})
+	);
 }
 
 export default CalendarApi;

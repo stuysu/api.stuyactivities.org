@@ -19,7 +19,8 @@ export default async (
 			meetings,
 			users,
 			memberships,
-			googleCalendars
+			googleCalendars,
+			googleCalendarEvents
 		},
 		session
 	}
@@ -125,7 +126,7 @@ export default async (
 		googleCalendar = await initOrgCalendar(org.id);
 	}
 
-	await createCalendarEvent(googleCalendar.gCalId, {
+	const googleEvent = await createCalendarEvent(googleCalendar.gCalId, {
 		name: title,
 		description: renderedDescription,
 		start: startDate.toISOString(),
@@ -134,6 +135,12 @@ export default async (
 			title: `Meeting by ${org.name} | StuyActivities`,
 			url: urlJoin(PUBLIC_URL, org.url, 'meetings', meeting.id)
 		}
+	});
+
+	await googleCalendarEvents.create({
+		googleCalendarId: googleCalendar.id,
+		meetingId: meeting.id,
+		gCalEventId: googleEvent.id
 	});
 
 	return meeting;
