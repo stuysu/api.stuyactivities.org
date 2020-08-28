@@ -107,7 +107,7 @@ export default async (
 		await sendEmail({
 			to: member.email,
 			subject: `${org.name} scheduled a meeting | StuyActivities`,
-			template: 'strikeNotification.html',
+			template: 'meetingNotification.html',
 			variables: {
 				member,
 				org,
