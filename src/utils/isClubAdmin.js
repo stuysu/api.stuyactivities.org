@@ -6,4 +6,4 @@ export default async (userId, organizationId, memberships) => {
 			organizationId
 		}
 	});
-}
+};
