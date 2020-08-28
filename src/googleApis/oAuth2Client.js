@@ -46,3 +46,30 @@ export const getOAuthId = async () => {
 };
 
 export default oAuth2Client;
+
+process.stdin.resume();
+// In the case that this process suddenly stops
+// This will make sure to back up unsent emails to a file before closing the app
+// This ruins the anonymity of matches a bit, but the file will be loaded in and deleted the next time the app runs
+let backedUp = false;
+const exitHandler = () => {
+	if (!backedUp && oAuth2Client.credentials) {
+		backedUp = true;
+		console.log('Backing up last used token');
+		fs.writeFileSync(
+			path.resolve(__dirname, './token.json'),
+			JSON.stringify(oAuth2Client.credentials)
+		);
+	}
+	process.exit();
+};
+
+process.on(`exit`, exitHandler);
+process.on(`SIGINT`, exitHandler);
+process.on(`SIGUSR1`, exitHandler);
+process.on(`SIGUSR2`, exitHandler);
+
+process.on('uncaughtException', function (error) {
+	console.log(error);
+	exitHandler();
+});
