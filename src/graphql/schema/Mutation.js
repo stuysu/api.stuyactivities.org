@@ -80,5 +80,12 @@ export default gql`
 			start: String!
 			end: String!
 		): Meeting
+
+		alterMembership(adminPrivileges: Boolean, role: String, orgId: Int!, userId: Int!): Membership
+		removeMember(orgId: Int!, userId: Int!): Boolean
+		approveMembershipRequest(orgId: Int!, userId: Int!): Membership
+		requestMembership(orgId: Int!, role: String, adminPrivileges: Boolean, message: String): MembershipRequest
+		# Holding off on this one
+		# inviteMember(adminPrivileges: Boolean!, role: String!, orgId: Int!, userId: Int!)
 	}
 `;
