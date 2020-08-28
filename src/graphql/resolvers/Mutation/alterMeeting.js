@@ -94,7 +94,7 @@ export default async (
 		end: meeting.end.toISOString(),
 		source: {
 			title: `Meeting by ${org.name} | StuyActivities`,
-			url: urlJoin(PUBLIC_URL, org.url, 'meetings', meeting.id)
+			url: urlJoin(PUBLIC_URL, org.url, 'meetings', String(meeting.id))
 		}
 	};
 
