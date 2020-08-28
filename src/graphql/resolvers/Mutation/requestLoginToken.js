@@ -4,7 +4,7 @@ import emailRenderer from './../../../utils/emailRenderer';
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 import { parse } from 'node-html-parser';
-import mailer from '../../../utils/mailer';
+import sendEmail from '../../../utils/sendEmail';
 import moment from 'moment-timezone';
 
 export default async (
@@ -66,19 +66,16 @@ export default async (
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
 	const url = urlJoin(PUBLIC_URL, 'token', tokenString);
-	const htmlEmail = emailRenderer.render('magicLink.html', {
-		user,
-		url,
-		expiration
-	});
-	const plainTextMail = parse(htmlEmail).structuredText;
 
-	await mailer.sendMail({
-		from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',
+	await sendEmail({
 		to: user.email,
 		subject: `✨ Magic Sign-In Link ✨ | StuyActivities`,
-		text: plainTextMail,
-		html: htmlEmail
+		template: 'magicLink.html',
+		variables: {
+			user,
+			url,
+			expiration
+		}
 	});
 
 	return true;

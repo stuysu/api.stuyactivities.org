@@ -1,6 +1,6 @@
 import emailRenderer from '../../../utils/emailRenderer';
 import { parse } from 'node-html-parser';
-import mailer from '../../../utils/mailer';
+import sendEmail from '../../../utils/sendEmail';
 import { UserInputError } from 'apollo-server-express';
 import moment from 'moment-timezone';
 import urlJoin from 'url-join';
@@ -60,20 +60,16 @@ export default async (parent, args, context) => {
 	for (let i = 0; i < orgAdmins; i++) {
 		const user = orgAdmins[i];
 
-		const htmlEmail = emailRenderer.render('strikeNotification.html', {
-			user,
-			strike,
-			formattedTime,
-			appealUrl
-		});
-		const plainTextMail = parse(htmlEmail).structuredText;
-
-		await mailer.sendMail({
-			from: `"StuyActivities Mailer" <mailer@stuyactivities.org>`,
+		await sendEmail({
 			to: user.email,
 			subject: `${org.name} received a strike | StuyActivities`,
-			text: plainTextMail,
-			html: htmlEmail
+			template: 'strikeNotification.html',
+			variables: {
+				user,
+				strike,
+				formattedTime,
+				appealUrl
+			}
 		});
 	}
 

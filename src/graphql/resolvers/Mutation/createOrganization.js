@@ -2,7 +2,7 @@ import simpleValidator from '../../../utils/simpleValidator';
 import { ForbiddenError, ApolloError } from 'apollo-server-express';
 import getAvatarUrl from '../../../utils/getAvatarUrl';
 import cryptoRandomString from 'crypto-random-string';
-import mailer from '../../../utils/mailer';
+import sendEmail from '../../../utils/sendEmail';
 import emailRenderer from './../../../utils/emailRenderer';
 import { parse } from 'node-html-parser';
 
@@ -218,20 +218,16 @@ export default async (root, args, context) => {
 			adminApproval: true
 		});
 
-		const htmlMail = emailRenderer.render('orgLeaderInvite.html', {
-			invitee: leader,
-			inviter: currentUser,
-			org,
-			joinUrl
-		});
-		const plainTextMail = parse(htmlMail).structuredText;
-
-		await mailer.sendMail({
-			from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',
+		await sendEmail({
 			to: leader.email,
-			subject: `Join Request: ${org.name} | StuyActivities`,
-			text: plainTextMail,
-			html: htmlMail
+			subject: 'Join Request: ${org.name} | StuyActivities',
+			template: 'orgLeaderInvite.html',
+			variables: {
+				invitee: leader,
+				inviter: currentUser,
+				org,
+				joinUrl
+			}
 		});
 	}
 

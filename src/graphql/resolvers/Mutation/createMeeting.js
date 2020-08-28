@@ -2,7 +2,7 @@ import { UserInputError, ForbiddenError } from 'apollo-server-express';
 import moment from 'moment-timezone';
 import emailRenderer from '../../../utils/emailRenderer';
 import { parse } from 'node-html-parser';
-import mailer from '../../../utils/mailer';
+import sendEmail from '../../../utils/sendEmail';
 
 export default async (
 	root,
@@ -86,21 +86,17 @@ export default async (
 	for (let i = 0; i < members.length; i++) {
 		const member = members[i];
 
-		const htmlEmail = emailRenderer.render('strikeNotification.html', {
-			member,
-			org,
-			meeting,
-			formattedStart,
-			formattedEnd
-		});
-		const plainTextMail = parse(htmlEmail).structuredText;
-
-		await mailer.sendMail({
-			from: `"StuyActivities Mailer" <mailer@stuyactivities.org>`,
+		await sendEmail({
 			to: member.email,
 			subject: `${org.name} scheduled a meeting | StuyActivities`,
-			text: plainTextMail,
-			html: htmlEmail
+			template: 'strikeNotification.html',
+			variables: {
+				member,
+				org,
+				meeting,
+				formattedStart,
+				formattedEnd
+			}
 		});
 	}
 
