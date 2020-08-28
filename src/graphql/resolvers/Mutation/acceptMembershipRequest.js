@@ -70,5 +70,5 @@ export default async (
 		}
 	});
 
-	return mem;
+	return request;
 };
