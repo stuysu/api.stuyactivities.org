@@ -98,7 +98,9 @@ export default async (
 		}
 	};
 
-	let googleEvent = googleCalendarEvents.meetingIdLoader.load(meeting.id);
+	let googleEvent = await googleCalendarEvents.meetingIdLoader.load(
+		meeting.id
+	);
 
 	if (!googleEvent) {
 		let googleCalendar = await googleCalendars.orgIdLoader.load(
