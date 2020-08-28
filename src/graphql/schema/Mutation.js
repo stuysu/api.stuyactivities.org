@@ -79,7 +79,7 @@ export default gql`
 			message: String
 		): MembershipRequest
 
-		deleteMembershipRequest(orgId: Int, orgUrl: String): Boolean
+		deleteMembershipRequest(requestId: Int!): Boolean
 
 		acceptMembershipRequest(requestId: Int!): MembershipRequest
 

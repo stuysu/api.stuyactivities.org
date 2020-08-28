@@ -3,10 +3,7 @@ import { ForbiddenError, UserInputError } from 'apollo-server-errors';
 export default async (
 	root,
 	{ orgId, orgUrl, message },
-	{
-		models: { membershipRequests, organizations, users, memberships },
-		session
-	}
+	{ models: { membershipRequests, organizations, memberships }, session }
 ) => {
 	session.authenticationRequired(['createMembershipRequest']);
 
