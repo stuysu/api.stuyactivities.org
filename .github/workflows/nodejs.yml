@@ -19,7 +19,7 @@ jobs:
                     --health-timeout 5s
                     --health-retries 5
                 ports:
-                    # Maps tcp port 5432 on calendar container to the host
+                    # Maps tcp port 5432 on service container to the host
                     - 5432:5432
 
         strategy:
@@ -105,7 +105,7 @@ jobs:
                     --health-timeout=5s
                     --health-retries=3
                 ports:
-                    # Maps tcp port 5432 on calendar container to the host
+                    # Maps tcp port 5432 on service container to the host
                     - 3306:3306
 
         strategy:
