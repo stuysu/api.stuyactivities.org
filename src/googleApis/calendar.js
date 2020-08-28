@@ -32,9 +32,14 @@ export const initOrgCalendar = async orgId => {
 		);
 	}
 
-	const cal = await createCalendar(org.name);
+	const gCal = await createCalendar(org.name);
 
-	const gCalId = cal.id;
+	const gCalId = gCal.id;
+
+	let cal = await googleCalendars.create({
+		organizationId: org.id,
+		gCalId
+	});
 
 	const memberships = await memberships.orgIdLoader.load(orgId);
 

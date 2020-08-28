@@ -1,9 +1,7 @@
-import { ForbiddenError, ApolloError } from 'apollo-server-express';
+import { ApolloError, ForbiddenError } from 'apollo-server-express';
 import cryptoRandomString from 'crypto-random-string';
-import emailRenderer from './../../../utils/emailRenderer';
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
-import { parse } from 'node-html-parser';
 import sendEmail from '../../../utils/sendEmail';
 import moment from 'moment-timezone';
 

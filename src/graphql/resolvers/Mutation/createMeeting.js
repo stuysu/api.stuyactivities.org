@@ -1,13 +1,28 @@
-import { UserInputError, ForbiddenError } from 'apollo-server-express';
+import { ForbiddenError, UserInputError } from 'apollo-server-express';
 import moment from 'moment-timezone';
-import emailRenderer from '../../../utils/emailRenderer';
-import { parse } from 'node-html-parser';
 import sendEmail from '../../../utils/sendEmail';
+import {
+	createCalendarEvent,
+	initOrgCalendar
+} from '../../../googleApis/calendar';
+import urlJoin from 'url-join';
+import { PUBLIC_URL } from '../../../constants';
+
+const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 export default async (
 	root,
 	{ orgId, orgUrl, title, description, start, end },
-	{ models: { organizations, meetings, users, memberships }, session }
+	{
+		models: {
+			organizations,
+			meetings,
+			users,
+			memberships,
+			googleCalendars
+		},
+		session
+	}
 ) => {
 	session.authenticationRequired(['createMeeting']);
 
@@ -83,6 +98,8 @@ export default async (
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
+	const renderedDescription = markdownIt.render(description);
+
 	for (let i = 0; i < members.length; i++) {
 		const member = members[i];
 
@@ -95,10 +112,29 @@ export default async (
 				org,
 				meeting,
 				formattedStart,
-				formattedEnd
+				formattedEnd,
+				renderedDescription
 			}
 		});
 	}
+
+	// Add the meeting to the google calendar
+	let googleCalendar = await googleCalendars.orgIdLoader.load(org.id);
+
+	if (!googleCalendar) {
+		googleCalendar = await initOrgCalendar(org.id);
+	}
+
+	await createCalendarEvent(googleCalendar.gCalId, {
+		name: title,
+		description: renderedDescription,
+		start: startDate.toISOString(),
+		end: endDate.toISOString(),
+		source: {
+			title: `Meeting by ${org.name} | StuyActivities`,
+			url: urlJoin(PUBLIC_URL, org.url, 'meetings', meeting.id)
+		}
+	});
 
 	return meeting;
 };
