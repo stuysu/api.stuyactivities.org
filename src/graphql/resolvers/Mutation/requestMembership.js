@@ -1,7 +1,4 @@
-import {
-	ApolloError,
-	UserInputError
-} from 'apollo-server-express';
+import { ApolloError, UserInputError } from 'apollo-server-express';
 export default async (parent, args, context) => {
 	const {
 		session,
@@ -33,32 +30,41 @@ export default async (parent, args, context) => {
 		);
 	}
 	//See if the user is a member
-	const membership = await memberships.findOne({where: {id: orgId, userId: session.userId}})
+	const membership = await memberships.findOne({
+		where: { id: orgId, userId: session.userId }
+	});
 	if (membership) {
 		throw new ApolloError(
-			"You are already a member of this club!",
-			"MEMBERSHIP_ALREADY_EXISTS"
-		)
+			'You are already a member of this club!',
+			'MEMBERSHIP_ALREADY_EXISTS'
+		);
 	}
 
 	//See if the user has a membership request
-	const existingRequest = await membershipRequests.findOne({where: {organizationId: orgId, userId: session.userId}})
+	const existingRequest = await membershipRequests.findOne({
+		where: { organizationId: orgId, userId: session.userId }
+	});
 	if (existingRequest) {
 		//update existing request
 		membershipRequests.update({
 			role: role || existingRequest.role,
-			adminPrivileges: adminPrivileges === undefined ? existingRequest.adminPrivileges : adminPrivileges,
+			adminPrivileges:
+				adminPrivileges === undefined
+					? existingRequest.adminPrivileges
+					: adminPrivileges,
 			userMessage: message || existingRequest.userMessage
-		})
+		});
 		//TODO: is there a way to circumvent another request?
-		return await membershipRequests.findOne({where: {organizationId: orgId, userId: session.userId}})
+		return await membershipRequests.findOne({
+			where: { organizationId: orgId, userId: session.userId }
+		});
 	}
 	return await membershipRequests.create({
 		organizationId: orgId,
 		userId: session.userId,
-		role: role || "Member",
+		role: role || 'Member',
 		adminPrivileges: adminPrivileges || 0,
-		userMessage: message || "",
+		userMessage: message || '',
 		userApproval: 1
-	})
+	});
 };

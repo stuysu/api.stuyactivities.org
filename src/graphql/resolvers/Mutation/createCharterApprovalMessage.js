@@ -1,8 +1,5 @@
-import {
-	ApolloError,
-	UserInputError
-} from 'apollo-server-express';
-import isClubAdmin from "../../../utils/isClubAdmin"
+import { ApolloError, UserInputError } from 'apollo-server-express';
+import isClubAdmin from '../../../utils/isClubAdmin';
 
 export default async (parent, args, context) => {
 	// first steps, make sure they have sufficient permissions to make changes to the charter
