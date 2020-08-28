@@ -1,14 +1,13 @@
 import nodemailer from 'nodemailer';
 import oAuth2Client, { getOAuthId } from '../googleApis/oAuth2Client';
-import { GOOGLE_APIS_CLIENT_ID, GOOGLE_APIS_CLIENT_SECRET } from '../constants';
 import emailRenderer from './emailRenderer';
 import { parse } from 'node-html-parser';
 
-let transport;
+let transporter;
 
-const transportSetup = new Promise(async resolve => {
+const transporterSetup = new Promise(async resolve => {
 	const user = await getOAuthId();
-	transport = nodemailer.createTransport(
+	transporter = nodemailer.createTransport(
 		{
 			host: 'smtp.gmail.com',
 			port: 465,
@@ -16,10 +15,7 @@ const transportSetup = new Promise(async resolve => {
 			auth: {
 				type: 'OAuth2',
 				user: user.email,
-				accessToken: oAuth2Client.credentials.access_token,
-				clientId: GOOGLE_APIS_CLIENT_ID,
-				refreshToken: oAuth2Client.credentials.refresh_token,
-				clientSecret: GOOGLE_APIS_CLIENT_SECRET
+				accessToken: oAuth2Client.credentials.access_token
 			}
 		},
 		{
@@ -27,20 +23,24 @@ const transportSetup = new Promise(async resolve => {
 		}
 	);
 
+	transporter.set('oauth2_provision_cb', (user, renew, callback) => {
+		return callback(null, oAuth2Client.credentials.access_token);
+	});
+
 	resolve();
 });
 
-export const getTransport = async () => {
-	await transportSetup;
-	return transport;
+export const getTransporter = async () => {
+	await transporterSetup;
+	return transporter;
 };
 
 const sendEmail = async ({ to, subject, template, variables, cc, bcc }) => {
-	await transportSetup;
+	await transporterSetup;
 
 	const html = emailRenderer.render(template, variables);
 	const text = parse(html).structuredText;
-	return transport.sendMail({
+	return transporter.sendMail({
 		to,
 		cc,
 		bcc,
