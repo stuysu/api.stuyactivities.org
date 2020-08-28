@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
 			organizations.hasMany(models.memberships);
 			organizations.hasMany(models.membershipRequests);
+			organizations.hasOne(models.googleCalendars);
 		}
 
 		static idLoader = findOneLoader(organizations);
