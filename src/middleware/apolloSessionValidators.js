@@ -28,7 +28,7 @@ const apolloSessionValidators = (req, res, next) => {
 
 	let membershipsWithAdminPrivileges;
 
-	req.session.orgAdminRequired = async (orgId, fields) => {
+	req.session.orgAdminRequired = async (orgId, fields, silent = false) => {
 		if (!membershipsWithAdminPrivileges) {
 			membershipsWithAdminPrivileges = await memberships.findAll({
 				where: { adminPrivileges: true, userId: req.session.userId }
@@ -40,6 +40,10 @@ const apolloSessionValidators = (req, res, next) => {
 		);
 
 		if (!canPerformOperation) {
+			if (silent) {
+				return false;
+			}
+
 			let message =
 				'You must be an admin of one or more organizations to perform one or more parts of this request.';
 
@@ -51,11 +55,15 @@ const apolloSessionValidators = (req, res, next) => {
 
 			throw new ForbiddenError(message);
 		}
+
+		if (silent) {
+			return true;
+		}
 	};
 
 	let adminRolesPresent;
 
-	req.session.adminRoleRequired = async (role, fields) => {
+	req.session.adminRoleRequired = async (role, fields, silent = false) => {
 		if (!adminRolesPresent) {
 			adminRolesPresent = await adminRoles.userIdLoader.load(
 				req.session.userId
@@ -67,6 +75,10 @@ const apolloSessionValidators = (req, res, next) => {
 		);
 
 		if (!canPerformOperation) {
+			if (silent) {
+				return false;
+			}
+
 			let message = `You must have the ${role} admin role to perform one or more parts of this request.`;
 
 			if (fields) {
@@ -76,6 +88,10 @@ const apolloSessionValidators = (req, res, next) => {
 			}
 
 			throw new ForbiddenError(message);
+		}
+
+		if (silent) {
+			return true;
 		}
 	};
 

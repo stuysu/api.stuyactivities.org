@@ -1,62 +1,74 @@
-import {
-	ApolloError,
-	UserInputError,
-	ForbiddenError
-} from 'apollo-server-express';
-import isClubAdmin from '../../../utils/isClubAdmin';
+import { ApolloError, ForbiddenError } from 'apollo-server-errors';
+import { shareCalendar } from '../../../googleApis/calendar';
 import sendEmail from '../../../utils/sendEmail';
 
-export default async (parent, args, context) => {
-	const { orgId, userId } = args;
-	const {
-		session,
-		models: { memberships, membershipRequests }
-	} = context;
-
-	if (!orgId || !userId) {
-		throw new UserInputError(
-			'The organization ID (orgId) and user ID (userId) are required to approve a membership request!',
-			{ invalidArgs: ['orgId', 'userId'] }
-		);
+export default async (
+	root,
+	{ requestId },
+	{
+		models: {
+			membershipRequests,
+			memberships,
+			googleCalendars,
+			organizations,
+			users
+		},
+		session
 	}
-	//see if user is an admin
-	if (!isClubAdmin(session.userId, orgId, memberships)) {
-		throw new ForbiddenError(
-			'You do not have the right to remove members from this club!'
-		);
-	}
+) => {
+	session.authenticationRequired(['acceptMembershipRequest']);
 
-	const membershipRequest = await membershipRequests.findOne({
-		where: {
-			organizationId: orgId,
-			userId,
-			userApproval: true
-		}
-	});
-	if (!membershipRequest) {
+	const request = await membershipRequests.idLoader.load(requestId);
+
+	if (!request) {
 		throw new ApolloError(
-			'Could not find an incoming membership request with that userId and that orgId',
-			'REQUEST_NOT_FOUND'
+			'There is no membership request with that id.',
+			'ID_NOT_FOUND'
 		);
 	}
 
-	const membership = await memberships.create({
-		userId,
-		organizationId: orgId,
-		role: membershipRequest.role,
-		adminPrivileges: membershipRequest.adminPrivileges
+	// That means this is an invite and the user hasn't yet approved
+	if (request.adminApproval) {
+		if (session.userId !== request.userId) {
+			throw new ForbiddenError(
+				'Only the user the request belongs to may accept it.'
+			);
+		}
+
+		request.userApproval = true;
+	} else {
+		// this is an admin approving it for the user
+		await session.orgAdminRequired(request.organizationId);
+		request.adminApproval = true;
+	}
+
+	await request.save();
+
+	const mem = await memberships.create({
+		organizationId: request.organizationId,
+		userId: request.userId,
+		role: request.role,
+		adminPrivileges: request.adminPrivileges
 	});
 
-	const user = await membershipRequest.getUser();
-	const organization = await membershipRequest.getOrganization();
+	const org = await organizations.idLoader.load(request.organizationId);
+
+	const newUser = await users.idLoader.load(request.userId);
+
+	if (org.active) {
+		const calendarAssoc = await googleCalendars.orgIdLoader.load(org.id);
+		await shareCalendar(calendarAssoc.gCalId, newUser.email, 'reader');
+	}
+
 	await sendEmail({
-		to: user.email,
-		subject: 'You have been added to a club',
-		template: 'memberAdded.html',
+		to: newUser.email,
+		template: 'joinConfirmation.html',
+		subject: `Membership Approved ${org.name} | StuyActivities`,
 		variables: {
-			user,
-			organization
+			user: newUser,
+			org
 		}
 	});
-	return membership;
+
+	return request;
 };

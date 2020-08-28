@@ -26,8 +26,14 @@ export default gql`
 	}
 
 	type Mutation {
+		# --- Auth fields ---
+
 		login(loginToken: String, googleToken: String): User!
+		requestLoginToken(email: String!): Boolean
+		linkOAuthPlatform(platform: String!, token: String!): OAuthIdentity
 		logout: Boolean
+
+		# --- Chartering fields ---
 
 		createOrganization(
 			name: String!
@@ -37,35 +43,25 @@ export default gql`
 			# String of emails
 			leaders: [LeaderParams!]!
 		): Organization
-
 		alterCharter(
-			# Either the orgUrl or orgId must be provided
 			orgUrl: String
 			orgId: Int
-
 			# In case the new changes conflict with changes that were already proposed
 			force: Boolean = false
-
 			charter: CharterParams!
 		): CharterEdit
-
 		approveCharterFields(
 			charterEditId: Int!
 			fields: [String!]!
 		): CharterEdit
-
 		rejectCharterFields(charterEditId: Int!, fields: [String]!): CharterEdit
-
-		requestLoginToken(email: String!): Boolean
-
-		linkOAuthPlatform(platform: String!, token: String!): OAuthIdentity
-
 		createCharterApprovalMessage(
 			orgId: Int!
 			message: String!
 		): CharterApprovalMessage
 
-		# Give an organization a strike using either the orgId or orgUrl
+		# --- Strike fields ---
+
 		createStrike(
 			orgId: Int
 			orgUrl: Int
@@ -73,21 +69,25 @@ export default gql`
 			reason: String!
 		): Strike
 
+		# --- Membership fields ---
+
 		createMembershipRequest(
 			orgId: Int
 			orgUrl: String
 			message: String
 		): MembershipRequest
-
 		deleteMembershipRequest(requestId: Int!): Boolean
+		approveMembershipRequest(requestId: Int!): MembershipRequest
+		rejectMembershipRequest(requestId: Int!): MembershipRequest
+		alterMembership(
+			membershipId: Int!
+			adminPrivileges: Boolean
+			role: String
+			notify: Boolean
+		): Membership
+		deleteMembership(membershipId: Int!, notify: Boolean): Boolean
 
-		acceptMembershipRequest(requestId: Int!): MembershipRequest
-
-		rejectMembershipRequest(
-			requestId: Int!
-			message: String
-		): MembershipRequest
-
+		# --- Meeting fields ---
 		createMeeting(
 			orgId: Int
 			orgUrl: String
@@ -96,24 +96,6 @@ export default gql`
 			start: String!
 			end: String!
 		): Meeting
-
-		alterMembership(
-			adminPrivileges: Boolean
-			role: String
-			orgId: Int!
-			userId: Int!
-		): Membership
-		removeMember(orgId: Int!, userId: Int!): Boolean
-		approveMembershipRequest(orgId: Int!, userId: Int!): Membership
-		requestMembership(
-			orgId: Int!
-			role: String
-			adminPrivileges: Boolean
-			message: String
-		): MembershipRequest
-		# Holding off on this one
-		# inviteMember(adminPrivileges: Boolean!, role: String!, orgId: Int!, userId: Int!)
-
 		alterMeeting(
 			meetingId: Int!
 			title: String
@@ -121,7 +103,6 @@ export default gql`
 			start: String
 			end: String
 		): Meeting
-
 		deleteMeeting(meetingId: Int!): Boolean
 	}
 `;

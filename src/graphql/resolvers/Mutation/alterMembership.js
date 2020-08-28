@@ -1,72 +1,61 @@
-import {
-	ApolloError,
-	UserInputError,
-	ForbiddenError
-} from 'apollo-server-express';
-import isClubAdmin from '../../../utils/isClubAdmin';
+import { ApolloError, ForbiddenError } from 'apollo-server-express';
 import sendEmail from '../../../utils/sendEmail';
 
 export default async (parent, args, context) => {
-	const { adminPrivileges, role, orgId, userId } = args;
+	const { adminPrivileges, role, membershipId, notify } = args;
 	const {
 		session,
-		models: { memberships }
+		models: { memberships, users, organizations }
 	} = context;
 
-	if (!orgId || !userId || (adminPrivileges === undefined && !role)) {
-		throw new UserInputError(
-			'The organizationID, userID, and at least one of the adminPrivileges and role are required to alter a membership!',
-			{ invalidArgs: ['orgId', 'userId', 'adminPrivileges', 'role'] }
-		);
-	}
+	session.authenticationRequired(['alterMembership']);
 
-	//see if user is an admin
-	if (!isClubAdmin(session.userId, orgId, memberships)) {
-		throw new ForbiddenError(
-			'You do not have the right to alter a membership in this club!'
-		);
-	}
-	const membership = await memberships.findOne({
-		where: {
-			organizationId: orgId,
-			userId
-		}
-	});
+	const membership = await memberships.idLoader.load(membershipId);
+
 	if (!membership) {
 		throw new ApolloError(
-			'Could not find a membership with that userId and that orgId',
-			'MEMBERSHIP_NOT_FOUND'
+			'Could not find a membership with that id.',
+			'ID_NOT_FOUND'
 		);
 	}
-	const updateObj = {};
-	if (adminPrivileges !== undefined) {
-		updateObj.adminPrivileges = adminPrivileges;
+
+	await session.orgAdminRequired(membership.organizationId, [
+		'alterMembership'
+	]);
+
+	if (typeof adminPrivileges !== 'undefined') {
+		if (membership.userId === session.userId && !adminPrivileges) {
+			throw new ForbiddenError(
+				'You are not allowed to remove yourself as an admin.'
+			);
+		}
+
+		membership.adminPrivileges = adminPrivileges;
 	}
+
 	if (role) {
-		updateObj.role = role;
+		membership.role = role;
 	}
-	memberships.update(updateObj, {
-		where: { organizationId: orgId, userId }
-	});
 
-	const user = await membership.getUser();
-	const organization = await membership.getOrganization();
-	await sendEmail({
-		to: user.email,
-		subject: 'A club membership of yours has been altered',
-		template: 'memberAltered.html',
-		variables: {
-			membership,
-			user,
-			organization
-		}
-	});
+	await membership.save();
 
-	// TODO: Should there not be another request to the database like it is now or can it be avoided?
-	return await memberships.findOne({
-		where: {
-			organizationId: orgId,
-			userId
-		}
-	});
+	if (notify) {
+		const user = await users.idLoader.load(membership.userId);
+		const organization = await organizations.idLoader.load(
+			membership.organizationId
+		);
+
+		await sendEmail({
+			to: user.email,
+			subject: `${organization.name}: Membership Altered | StuyActivities`,
+			template: 'memberAltered.html',
+			variables: {
+				membership,
+				organization,
+				user
+			}
+		});
+	}
+
+	return membership;
 };
