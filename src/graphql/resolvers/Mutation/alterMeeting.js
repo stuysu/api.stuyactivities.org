@@ -63,7 +63,11 @@ export default async (
 	if (end) {
 		const endDate = new Date(end);
 
-		if (isNaN(endDate) || endDate < meeting.start || endDate < now) {
+		if (
+			isNaN(endDate.getTime()) ||
+			endDate < meeting.start ||
+			endDate < now
+		) {
 			throw new UserInputError('End time is not valid or is in the past');
 		}
 		meeting.end = endDate;

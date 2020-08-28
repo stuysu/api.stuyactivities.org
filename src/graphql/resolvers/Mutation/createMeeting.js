@@ -68,7 +68,7 @@ export default async (
 		});
 	}
 
-	if (isNaN || endDate < startDate || endDate < now) {
+	if (isNaN(endDate.getTime()) || endDate < startDate || endDate < now) {
 		throw new UserInputError('End date is not valid', {
 			invalidArgs: ['end']
 		});
