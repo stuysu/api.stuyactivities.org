@@ -45,6 +45,24 @@ export const getOAuthId = async () => {
 	return oAuthId;
 };
 
+export const refreshOAuth2Token = async (force = false) => {
+	const now = new Date();
+	const expires = new Date(oAuth2Client.credentials.expiry_date);
+
+	const thirtyMinutes = 1000 * 60 * 30;
+	const diff = expires.getTime() - now.getTime();
+
+	if (diff < thirtyMinutes || force) {
+		await oAuth2Client.getRequestHeaders();
+	}
+};
+
+// Every minute check if the token needs to be refreshed
+let refreshInterval;
+if (!process.env.CI) {
+	refreshInterval = setInterval(refreshOAuth2Token, 1000 * 60);
+}
+
 export default oAuth2Client;
 
 process.stdin.resume();
@@ -55,6 +73,9 @@ let backedUp = false;
 const exitHandler = () => {
 	if (!backedUp && oAuth2Client.credentials) {
 		backedUp = true;
+		if (refreshInterval) {
+			clearInterval(refreshInterval);
+		}
 		console.log('Backing up last used token');
 		fs.writeFileSync(
 			path.resolve(__dirname, './token.json'),

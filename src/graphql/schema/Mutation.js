@@ -53,6 +53,7 @@ export default gql`
 			charterEditId: Int!
 			fields: [String!]!
 		): CharterEdit
+
 		rejectCharterFields(charterEditId: Int!, fields: [String]!): CharterEdit
 
 		requestLoginToken(email: String!): Boolean
@@ -71,6 +72,21 @@ export default gql`
 			weight: Int!
 			reason: String!
 		): Strike
+
+		createMembershipRequest(
+			orgId: Int
+			orgUrl: String
+			message: String
+		): MembershipRequest
+
+		deleteMembershipRequest(requestId: Int!): Boolean
+
+		acceptMembershipRequest(requestId: Int!): MembershipRequest
+
+		rejectMembershipRequest(
+			requestId: Int!
+			message: String
+		): MembershipRequest
 
 		createMeeting(
 			orgId: Int

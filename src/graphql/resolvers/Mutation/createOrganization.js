@@ -218,7 +218,7 @@ export default async (root, args, context) => {
 
 		await sendEmail({
 			to: leader.email,
-			subject: 'Join Request: ${org.name} | StuyActivities',
+			subject: `Join Request: ${org.name} | StuyActivities`,
 			template: 'orgLeaderInvite.html',
 			variables: {
 				invitee: leader,
