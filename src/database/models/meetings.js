@@ -1,5 +1,6 @@
 'use strict';
 import findOneLoader from '../dataloaders/findOneLoader';
+import findManyLoader from '../dataloaders/findManyLoader';
 
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
@@ -14,7 +15,16 @@ module.exports = (sequelize, DataTypes) => {
 			meetings.belongsTo(models.organizations);
 		}
 
-		static orgIdLoader = findOneLoader(meetings, 'organizationId');
+		static orgIdUpcomingLoader = findManyLoader(
+			meetings,
+			'organizationId',
+			{
+				start: {
+					[sequelize.Op.gt]: new Date()
+				}
+			}
+		);
+		static orgIdLoader = findManyLoader(meetings, 'organizationId');
 		static idLoader = findOneLoader(meetings, 'id');
 	}
 	meetings.init(

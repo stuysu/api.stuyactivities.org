@@ -17,5 +17,6 @@ export default gql`
 		membershipRequest: MembershipRequest
 		charterEdits: [CharterEdit]!
 		meetings: [Meeting]
+		upcomingMeetings: [Meeting]
 	}
 `;
