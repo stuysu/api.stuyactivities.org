@@ -1,7 +1,7 @@
 import { createComplexityLimitRule } from 'graphql-validation-complexity';
 import {
-	ApolloServer,
 	ApolloError,
+	ApolloServer,
 	ValidationError
 } from 'apollo-server-express';
 import typeDefs from './schema';

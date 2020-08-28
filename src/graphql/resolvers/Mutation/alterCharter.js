@@ -1,7 +1,7 @@
 import {
 	ApolloError,
-	UserInputError,
-	ForbiddenError
+	ForbiddenError,
+	UserInputError
 } from 'apollo-server-express';
 
 import uploadPicStream from '../../../utils/uploadPicStream';
