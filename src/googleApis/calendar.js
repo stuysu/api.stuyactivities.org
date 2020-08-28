@@ -48,11 +48,11 @@ export const initOrgCalendar = async orgId => {
 		gCalId
 	});
 
-	const memberships = await memberships.orgIdLoader.load(orgId);
+	const mems = await memberships.orgIdLoader.load(orgId);
 
 	// using dataloaders to keep things efficient if ever needed in a N+1 query
 	const members = await Promise.all(
-		memberships.map(async mem => ({
+		mems.map(async mem => ({
 			membership: mem,
 			user: await users.idLoader.load(mem.userId)
 		}))
