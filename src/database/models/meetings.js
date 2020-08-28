@@ -2,7 +2,7 @@
 import findOneLoader from '../dataloaders/findOneLoader';
 import findManyLoader from '../dataloaders/findManyLoader';
 
-const { Model } = require('sequelize');
+const { Model, Op } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class meetings extends Model {
 		/**
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 			'organizationId',
 			{
 				start: {
-					[sequelize.Op.gt]: new Date()
+					[Op.gt]: new Date()
 				}
 			}
 		);
