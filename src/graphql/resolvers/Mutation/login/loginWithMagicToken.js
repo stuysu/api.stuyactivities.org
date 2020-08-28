@@ -1,4 +1,5 @@
 import { ApolloError } from 'apollo-server-express';
+
 const { users, loginTokens } = require('../../../../database');
 
 export default async function loginWithMagicToken(token, session) {
