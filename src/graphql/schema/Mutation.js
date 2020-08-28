@@ -80,5 +80,13 @@ export default gql`
 			start: String!
 			end: String!
 		): Meeting
+
+		alterMeeting(
+			meetingId: Int!
+			title: String
+			description: String
+			start: String
+			end: String
+		): Meeting
 	}
 `;

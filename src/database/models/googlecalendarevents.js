@@ -21,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
 			'googleCalendarId'
 		);
 
-		static meetingLoader = findOneLoader(googleCalendarEvents, 'meetingId');
+		static meetingIdLoader = findOneLoader(
+			googleCalendarEvents,
+			'meetingId'
+		);
 	}
 	googleCalendarEvents.init(
 		{
