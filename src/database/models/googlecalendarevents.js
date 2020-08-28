@@ -1,5 +1,6 @@
 'use strict';
 import findOneLoader from '../dataloaders/findOneLoader';
+import findManyLoader from '../dataloaders/findManyLoader';
 
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
@@ -16,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		static idLoader = findOneLoader(googleCalendarEvents);
-		static googleCalendarIdLoader = findOneLoader(
+		static googleCalendarIdLoader = findManyLoader(
 			googleCalendarEvents,
 			'googleCalendarId'
 		);

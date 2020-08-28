@@ -67,7 +67,7 @@ export default gql`
 		# Give an organization a strike using either the orgId or orgUrl
 		createStrike(
 			orgId: Int
-			orgId: Int
+			orgUrl: Int
 			weight: Int!
 			reason: String!
 		): Strike
@@ -88,5 +88,7 @@ export default gql`
 			start: String
 			end: String
 		): Meeting
+
+		deleteMeeting(meetingId: Int!): Boolean
 	}
 `;
