@@ -11,9 +11,9 @@
 			which are below.
 		</p>
 		<p>Title: {{ meeting.title }}</p>
-		{{ renderedDescription }}
-		<p>Start Date: {{ formattedStart }}</p>
+        <p>Start Date: {{ formattedStart }}</p>
+        <p>End Date: {{ formattedEnd }}</p>
 
-		<p>End Date: {{ formattedEnd }}</p>
+		{{ renderedDescription | safe }}
 	</body>
 </html>

@@ -83,7 +83,7 @@ export default async (
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
-	const renderedDescription = markdownIt.render(description);
+	const renderedDescription = markdownIt.render(meeting.description);
 
 	const org = await organizations.idLoader.load(meeting.organizationId);
 
