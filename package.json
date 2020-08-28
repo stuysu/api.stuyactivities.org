@@ -16,6 +16,7 @@
 		"heroku-postbuild": "npm install pg pg-native && npm run build"
 	},
 	"dependencies": {
+		"apollo-server-errors": "^2.4.2",
 		"apollo-server-express": "^2.16.1",
 		"axios": "^0.20.0",
 		"bcrypt": "^5.0.0",
@@ -36,6 +37,7 @@
 		"graphql-validation-complexity": "^0.3.0",
 		"honeybadger": "^1.4.0",
 		"ip-range-check": "^0.2.0",
+		"markdown-it": "^11.0.0",
 		"moment-timezone": "^0.5.31",
 		"morgan": "^1.10.0",
 		"mysql2": "^2.1.0",

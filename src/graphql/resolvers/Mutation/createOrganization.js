@@ -1,10 +1,8 @@
 import simpleValidator from '../../../utils/simpleValidator';
-import { ForbiddenError, ApolloError } from 'apollo-server-express';
+import { ApolloError, ForbiddenError } from 'apollo-server-express';
 import getAvatarUrl from '../../../utils/getAvatarUrl';
 import cryptoRandomString from 'crypto-random-string';
 import sendEmail from '../../../utils/sendEmail';
-import emailRenderer from './../../../utils/emailRenderer';
-import { parse } from 'node-html-parser';
 
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
