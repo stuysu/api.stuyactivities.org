@@ -1,8 +1,5 @@
-import {
-	ApolloError,
-	UserInputError,
-	ForbiddenError
-} from 'apollo-server-express';
+import { ApolloError, UserInputError } from 'apollo-server-express';
+import isClubAdmin from '../../../utils/isClubAdmin';
 
 export default async (parent, args, context) => {
 	// first steps, make sure they have sufficient permissions to make changes to the charter
@@ -28,15 +25,7 @@ export default async (parent, args, context) => {
 		);
 	}
 
-	//see if user is an admin
-	const isAdmin = await memberships.findOne({
-		where: {
-			userId: session.userId,
-			adminPrivileges: true,
-			organizationId: orgId
-		}
-	});
-	if (!isAdmin) {
+	if (!isClubAdmin(session.userId, orgId, memberships)) {
 		session.authenticationRequired(['charters']);
 	}
 
