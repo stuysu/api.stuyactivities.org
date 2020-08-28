@@ -120,8 +120,12 @@ export default async (
 			gCalEventId: gCalEvent.id
 		});
 	} else {
+		const googleCalendar = await googleCalendars.idLoader.load(
+			googleEvent.googleCalendarId
+		);
+
 		await alterCalendarEvent(
-			googleEvent.googleCalendarId,
+			googleCalendar.gCalId,
 			googleEvent.gCalEventId,
 			gEventInfo
 		);
