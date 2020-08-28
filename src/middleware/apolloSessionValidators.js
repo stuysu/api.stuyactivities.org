@@ -30,7 +30,7 @@ const apolloSessionValidators = (req, res, next) => {
 
 	req.session.orgAdminRequired = async (orgId, fields) => {
 		if (!membershipsWithAdminPrivileges) {
-			membershipsWithAdminPrivileges = await userMemberships.findAll({
+			membershipsWithAdminPrivileges = await memberships.findAll({
 				where: { adminPrivileges: true, userId: req.session.userId }
 			});
 		}
