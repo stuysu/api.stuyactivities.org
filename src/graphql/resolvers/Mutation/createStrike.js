@@ -1,5 +1,3 @@
-import emailRenderer from '../../../utils/emailRenderer';
-import { parse } from 'node-html-parser';
 import sendEmail from '../../../utils/sendEmail';
 import { UserInputError } from 'apollo-server-express';
 import moment from 'moment-timezone';

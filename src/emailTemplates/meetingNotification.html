@@ -10,18 +10,10 @@
 			This email is to let you know of an upcoming meeting. The details of
 			which are below.
 		</p>
-		<p>
-			Title: {{ meeting.title }}
-		</p>
-		<p>
-			Description: {{ meeting.description }}
-		</p>
-		<p>
-			Start Date: {{ formattedStart }}
-		</p>
+		<p>Title: {{ meeting.title }}</p>
+        <p>Start Date: {{ formattedStart }}</p>
+        <p>End Date: {{ formattedEnd }}</p>
 
-		<p>
-			End Date: {{ formattedEnd }}
-		</p>
+		{{ renderedDescription | safe }}
 	</body>
 </html>

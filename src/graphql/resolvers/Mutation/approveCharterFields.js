@@ -1,5 +1,6 @@
 import { ApolloError, UserInputError } from 'apollo-server-express';
 import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
+import { initOrgCalendar } from '../../../googleApis/calendar';
 
 export default async (root, { fields, charterEditId }, { models, session }) => {
 	session.authenticationRequired('rejectCharterFields');
@@ -58,6 +59,7 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 		if (canBeActive) {
 			org.active = true;
 			await org.save();
+			await initOrgCalendar(org.id);
 		}
 	}
 
