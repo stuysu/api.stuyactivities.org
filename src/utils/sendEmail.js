@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import oAuth2Client, { getOAuthId } from '../googleApis/oAuth2Client';
 import emailRenderer from './emailRenderer';
 import { parse } from 'node-html-parser';
+import { GOOGLE_APIS_CLIENT_ID, GOOGLE_APIS_CLIENT_SECRET } from '../constants';
 
 let transporter;
 
@@ -15,17 +16,16 @@ const transporterSetup = new Promise(async resolve => {
 			auth: {
 				type: 'OAuth2',
 				user: user.email,
-				accessToken: oAuth2Client.credentials.access_token
+				clientId: GOOGLE_APIS_CLIENT_ID,
+				clientSecret: GOOGLE_APIS_CLIENT_SECRET,
+				accessToken: oAuth2Client.credentials.access_token,
+				refreshToken: oAuth2Client.credentials.refresh_token
 			}
 		},
 		{
 			from: `${user.name} <${user.email}>`
 		}
 	);
-
-	transporter.set('oauth2_provision_cb', (user, renew, callback) => {
-		return callback(null, oAuth2Client.credentials.access_token);
-	});
 
 	resolve();
 });
