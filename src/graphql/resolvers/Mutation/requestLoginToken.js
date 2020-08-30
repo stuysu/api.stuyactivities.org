@@ -16,7 +16,7 @@ export default async (
 		}
 	}
 ) => {
-	const user = await users.emailLoader.load(email);
+	const user = await users.emailLoader.load(email.toLowerCase());
 
 	if (!user) {
 		throw new ApolloError(
