@@ -7,7 +7,6 @@ import {
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import honeybadger from 'honeybadger';
-import { extensions } from 'sequelize/types/lib/utils/validator-extras';
 
 const models = require('../database');
 

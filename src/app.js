@@ -39,3 +39,8 @@ app.use(honeybadger.errorHandler);
 app.use(serverErrorHandler);
 
 export default app;
+
+process.on('uncaughtException', function (error) {
+	honeybadger.reportUncaught(error);
+	console.error(error);
+});
