@@ -22,7 +22,9 @@ const apolloServer = new ApolloServer({
 	context: ({ req }) => {
 		return {
 			session: req.session,
-			models
+			models,
+			ipAddress:
+				req.headers['x-forwarded-for'] || req.connection.remoteAddress
 		};
 	},
 	uploads: false,
