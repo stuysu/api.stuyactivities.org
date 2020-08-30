@@ -78,7 +78,6 @@ export default gql`
 		): MembershipRequest
 		deleteMembershipRequest(requestId: Int!): Boolean
 		approveMembershipRequest(requestId: Int!): MembershipRequest
-		rejectMembershipRequest(requestId: Int!): MembershipRequest
 		alterMembership(
 			membershipId: Int!
 			adminPrivileges: Boolean
