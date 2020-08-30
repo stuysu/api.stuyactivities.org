@@ -117,9 +117,12 @@ export default gql`
 		closeHelpRequest(requestId: Int!): Boolean
 		# alterHelpRequest meant only for admin use
 		alterHelpRequest(
+			requestId: Int!
 			title: String
 			description: String
 			status: String
+			honeybadgerId: String
+			path: String
 		): HelpRequest
 		createHelpRequestMessage(
 			requestId: Int!
