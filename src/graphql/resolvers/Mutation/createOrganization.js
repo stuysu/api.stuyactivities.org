@@ -236,7 +236,8 @@ export default async (root, args, context) => {
 		uploadPicStream(charter.picture, filePublicId)
 			.then(image => {
 				const options = {
-					quality: 90
+					quality: 90,
+					secure: true
 				};
 
 				if (image.width > image.height) {
