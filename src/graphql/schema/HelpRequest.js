@@ -10,6 +10,7 @@ export default gql`
 		honeybadgerId: String
 		path: String
 		status: String
+		ipAddress: String
 		createdAt: String
 
 		user: User

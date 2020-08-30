@@ -30,7 +30,7 @@ export default async (
 		);
 	}
 
-	if (!EmailValidator.validate(email)) {
+	if (!session.signedIn && !EmailValidator.validate(email)) {
 		throw new ForbiddenError('That email address is not valid.');
 	}
 
@@ -46,11 +46,11 @@ export default async (
 		throw new ForbiddenError('That ReCaptcha token is not valid.');
 	}
 
-	if (!response.data.success) {
-		throw new ForbiddenError(
-			'ReCaptcha validation failed. Please try again.'
-		);
-	}
+	// if (!response.data.success) {
+	// 	throw new ForbiddenError(
+	// 		'ReCaptcha validation failed. Please try again.'
+	// 	);
+	// }
 
 	const now = new Date();
 	const captchaCreation = new Date(response.data.challenge_ts);
@@ -66,7 +66,7 @@ export default async (
 	}
 
 	// Now check to see how many were submitted by this ip address recently
-	const similarRequests = await helpRequests.findMany({
+	const similarRequests = await helpRequests.findAll({
 		where: {
 			ipAddress,
 			createdAt: {
