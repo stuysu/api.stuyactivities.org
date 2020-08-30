@@ -7,6 +7,7 @@ import {
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import honeybadger from 'honeybadger';
+import { extensions } from 'sequelize/types/lib/utils/validator-extras';
 
 const models = require('../database');
 
@@ -39,8 +40,14 @@ const apolloServer = new ApolloServer({
 			err instanceof ValidationError ||
 			err.originalError.message === 'Not allowed by CORS';
 
+		const internalError =
+			err &&
+			err.extensions &&
+			err.extensions.code &&
+			err.extensions.code === 'INTERNAL_SERVER_ERROR';
+
 		// This is an unexpected error and might have secrets
-		if (!safeError) {
+		if (!safeError || internalError) {
 			console.error(err.originalError);
 
 			// report this error to us but hide it from the client
