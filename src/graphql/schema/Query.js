@@ -26,5 +26,13 @@ export default gql`
 
 		user(email: String, id: Int): User
 		users(keyword: String!, offset: Int, limit: Int): [User]!
+
+		helpRequests(
+			userId: Int
+			honeybadgerId: String
+			status: String
+			path: String
+			ipAddress: String
+		): [HelpRequest]
 	}
 `;
