@@ -104,5 +104,26 @@ export default gql`
 			end: String
 		): Meeting
 		deleteMeeting(meetingId: Int!): Boolean
+
+		# --- Help Requests ---
+		createHelpRequest(
+			email: String
+			title: String!
+			description: String!
+			captchaToken: String!
+			honeybadgerId: String
+			path: String
+		): HelpRequest
+		closeHelpRequest(requestId: Int!): Boolean
+		# alterHelpRequest meant only for admin use
+		alterHelpRequest(
+			title: String
+			description: String
+			status: String
+		): HelpRequest
+		createHelpRequestMessage(
+			requestId: Int!
+			message: String!
+		): HelpRequestMessage
 	}
 `;
