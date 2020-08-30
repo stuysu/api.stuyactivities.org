@@ -52,7 +52,9 @@ const apolloServer = new ApolloServer({
 
 			// report this error to us but hide it from the client
 			honeybadger.notify(err.originalError);
-			return new Error('There was an unknown error on the server');
+			return new Error(
+				`There was an unknown error on the server. Rest assured it has been reported. Feel free to contact us at it@stuysu.org to provide more information.`
+			);
 		}
 
 		// Might want to hide the stack trace for security in production
