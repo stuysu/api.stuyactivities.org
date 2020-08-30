@@ -34,5 +34,6 @@ export default gql`
 			path: String
 			ipAddress: String
 		): [HelpRequest]
+		helpRequest(requestId: Int!): HelpRequest
 	}
 `;
