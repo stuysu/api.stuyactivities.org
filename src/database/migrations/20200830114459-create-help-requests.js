@@ -26,6 +26,9 @@ module.exports = {
 			status: {
 				type: Sequelize.STRING
 			},
+			ipAddress: {
+				type: Sequelize.STRING
+			},
 			honeybadgerId: {
 				type: Sequelize.STRING
 			},

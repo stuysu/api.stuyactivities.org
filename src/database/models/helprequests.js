@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
 
 		static idLoader = findOneLoader(helpRequests);
 		static userIdLoader = findManyLoader(helpRequests, 'userId');
+		static ipAddressLoader = findManyLoader(helpRequests, 'ipAddress');
 	}
 	helpRequests.init(
 		{
@@ -28,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
 			captchaToken: DataTypes.STRING,
 			honeybadgerId: DataTypes.STRING,
 			path: DataTypes.STRING,
-			status: DataTypes.STRING
+			status: DataTypes.STRING,
+			ipAddress: DataTypes.STRING
 		},
 		{
 			sequelize,
