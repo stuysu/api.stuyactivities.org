@@ -7,7 +7,7 @@ export default async (
 ) => {
 	session.authenticationRequired(['closeHelpRequest']);
 
-	const request = helpRequests.idLoader.load(requestId);
+	const request = await helpRequests.idLoader.load(requestId);
 
 	if (!request) {
 		throw new ApolloError(

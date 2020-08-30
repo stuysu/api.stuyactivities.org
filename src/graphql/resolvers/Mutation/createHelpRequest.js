@@ -81,7 +81,9 @@ export default async (
 		);
 	}
 
-	const requestObj = {
+	// Now we can actually go about creating the request
+	return await helpRequests.create({
+		userId: session.signedIn ? session.userId : null,
 		email,
 		title,
 		description,
@@ -90,12 +92,5 @@ export default async (
 		path,
 		ipAddress,
 		status: 'new'
-	};
-
-	if (session.signedIn) {
-		requestObj.userId = session.userId;
-	}
-
-	// Now we can actually go about creating the request
-	return helpRequests.create(requestObj);
+	});
 };

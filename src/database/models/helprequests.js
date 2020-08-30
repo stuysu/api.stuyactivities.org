@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			helpRequests.belongsTo(models.users);
-			helpRequests.hasMany(models.helpMessages);
+			helpRequests.hasMany(models.helpRequestMessages);
 		}
 
 		static idLoader = findOneLoader(helpRequests);

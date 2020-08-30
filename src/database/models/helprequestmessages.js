@@ -4,7 +4,7 @@ import findOneLoader from '../dataloaders/findOneLoader';
 
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-	class helpMessages extends Model {
+	class helpRequestMessages extends Model {
 		/**
 		 * Helper method for defining associations.
 		 * This method is not a part of Sequelize lifecycle.
@@ -12,18 +12,18 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			helpMessages.belongsTo(models.helpRequests);
-			helpMessages.belongsTo(models.users);
+			helpRequestMessages.belongsTo(models.helpRequests);
+			helpRequestMessages.belongsTo(models.users);
 		}
 
-		static userIdLoader = findManyLoader(helpMessages, 'userId');
+		static userIdLoader = findManyLoader(helpRequestMessages, 'userId');
 		static helpRequestIdLoader = findManyLoader(
-			helpMessages,
+			helpRequestMessages,
 			'helpRequestId'
 		);
-		static idLoader = findOneLoader(helpMessages);
+		static idLoader = findOneLoader(helpRequestMessages);
 	}
-	helpMessages.init(
+	helpRequestMessages.init(
 		{
 			helpRequestId: DataTypes.INTEGER,
 			userId: DataTypes.INTEGER,
@@ -32,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			sequelize,
-			modelName: 'helpMessages'
+			modelName: 'helpRequestMessages'
 		}
 	);
-	return helpMessages;
+	return helpRequestMessages;
 };
