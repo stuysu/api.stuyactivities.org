@@ -8,9 +8,9 @@ export default gql`
 		organization(url: String, id: Int): Organization
 		organizations(
 			keyword: String
-			tags: [String]
-			commitmentLevels: [String]
-			meetingDays: [String]
+			tags: [Int!]
+			commitmentLevels: [String!]
+			meetingDays: [String!]
 			limit: Int
 			offset: Int
 			active: Boolean

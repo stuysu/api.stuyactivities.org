@@ -86,7 +86,7 @@ export default async (root, args, context) => {
 	if (Array.isArray(tags) && tags.length > 0) {
 		tagsInclude.required = true;
 		tagsInclude.where = {
-			name: tags
+			id: tags
 		};
 	}
 
