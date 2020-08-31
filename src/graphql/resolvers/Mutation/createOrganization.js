@@ -1,5 +1,9 @@
 import simpleValidator from '../../../utils/simpleValidator';
-import { ApolloError, ForbiddenError } from 'apollo-server-express';
+import {
+	ApolloError,
+	ForbiddenError,
+	UserInputError
+} from 'apollo-server-express';
 import getAvatarUrl from '../../../utils/getAvatarUrl';
 import cryptoRandomString from 'crypto-random-string';
 import sendEmail from '../../../utils/sendEmail';
@@ -124,21 +128,16 @@ export default async (root, args, context) => {
 		charterValidator(field, charter[field])
 	);
 
-	const getTags = await Tags.findAll();
-	const allTags = getTags.map(tag => tag.id);
+	const getTags = await Tags.findAll({
+		id: tags
+	});
 
-	tags = [...new Set(allTags)];
-
-	tags.forEach(tag =>
-		simpleValidator(
-			tag,
-			{
-				type: 'number',
-				in: allTags
-			},
-			['tags']
-		)
-	);
+	tags = getTags.map(tag => tag.id);
+	if (!tags.length) {
+		throw new UserInputError('You must provide at least one tag.', {
+			invalidArgs: 'tags'
+		});
+	}
 
 	let actualPicture = getAvatarUrl(name);
 
