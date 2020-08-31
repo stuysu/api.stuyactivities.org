@@ -137,7 +137,13 @@ export default async (root, args, context) => {
 	tags = getTags.map(tag => tag.id);
 	if (!tags.length) {
 		throw new UserInputError('You must provide at least one tag.', {
-			invalidArgs: 'tags'
+			invalidArgs: ['tags']
+		});
+	}
+
+	if (tags.length > 3) {
+		throw new UserInputError('You cannot select more than 3 tags.', {
+			invalidArgs: ['tags']
 		});
 	}
 
