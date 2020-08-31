@@ -16,6 +16,16 @@ import honeybadger from '../../../middleware/honeybadger';
 
 const cloudinary = require('cloudinary').v2;
 
+const URL_BLACKLIST = [
+	'charter',
+	'catalog',
+	'admin',
+	'rules',
+	'about',
+	'help',
+	'app'
+];
+
 export default async (root, args, context) => {
 	const {
 		session,
@@ -94,17 +104,16 @@ export default async (root, args, context) => {
 		['name']
 	);
 
-	const urlExists = await organizations.findOne({
-		where: {
-			url
-		}
-	});
+	const urlExists =
+		URL_BLACKLIST.includes(url) ||
+		(await organizations.findOne({
+			where: {
+				url
+			}
+		}));
 
 	if (urlExists) {
-		throw new ApolloError(
-			'There is already an organization with that url.',
-			'URL_EXISTS'
-		);
+		throw new ApolloError('That URL is already in use.', 'URL_EXISTS');
 	}
 
 	if (charter.picture) {
