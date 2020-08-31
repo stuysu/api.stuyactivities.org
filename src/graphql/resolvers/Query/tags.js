@@ -8,34 +8,37 @@ export default (root, args, context) => {
 		}
 	} = context.models;
 
-	const orgInclude = {
-		model: organizations,
-		where: {}
+	const include = [];
+
+	if (orgUrl || orgId) {
+		const orgInclude = {
+			model: organizations,
+			where: {}
+		};
+		orgInclude.required = true;
+
+		if (orgId) {
+			orgInclude.where.id = orgId;
+		}
+
+		if (orgUrl) {
+			orgInclude.where.url = orgUrl;
+		}
+
+		include.push(orgInclude);
+	}
+
+	const search = `%${keyword || ''}%`;
+
+	const where = {
+		[or]: [
+			{ name: { [like]: search } },
+			{ description: { [like]: search } }
+		]
 	};
 
-	if (orgUrl) {
-		orgInclude.where.url = orgUrl;
-		orgInclude.required = true;
-	}
-
-	if (orgId) {
-		orgInclude.where.id = orgId;
-		orgInclude.required = true;
-	}
-
-	if (!keyword) {
-		return tags.findAll({ include: orgInclude });
-	}
-
-	const search = `%${keyword}%`;
-
 	return tags.findAll({
-		where: {
-			[or]: [
-				{ name: { [like]: search } },
-				{ description: { [like]: search } }
-			]
-		},
-		include: orgInclude
+		where,
+		include
 	});
 };
