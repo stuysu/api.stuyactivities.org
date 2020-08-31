@@ -23,7 +23,8 @@ const URL_BLACKLIST = [
 	'rules',
 	'about',
 	'help',
-	'app'
+	'app',
+	'token'
 ];
 
 export default async (root, args, context) => {
