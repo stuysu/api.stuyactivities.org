@@ -129,7 +129,9 @@ export default async (root, args, context) => {
 	);
 
 	const getTags = await Tags.findAll({
-		id: tags
+		where: {
+			id: tags
+		}
 	});
 
 	tags = getTags.map(tag => tag.id);
