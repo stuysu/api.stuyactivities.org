@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-	<body>
+	<body style="padding: 2rem">
+		<div style="text-align: center">
+			<img
+				style="width: 400px; max-width: 80vw; max-height: 45vh"
+				src="https://res.cloudinary.com/stuyactivities/image/upload/v1598990171/emailVectors/undraw_order_confirmed_aaw7_ilxlzu.png"
+				alt="Two people placing a pin on the ground"
+			/>
+		</div>
+
 		<p>Hi {{ user.firstName }}!</p>
 		<p>Congrats! You're now a member of {{ org.name }}</p>
+		{% if org.active %}
 		<p>
-			Very soon, you'll receive an invite to join the google calendar for this organization.
-            Any meetings that the organization creates will also be added to this google calendar.
+			Very soon, you'll receive an invite to join the google calendar for
+			this organization.
 		</p>
-        <p>
-            Remember to click on the link to add the calendar once you receive the email!
-        </p>
-        <p>We hope you enjoy your club experience at Stuy</p>
-        <br/>
-        <p>- With love from the StuyActivities team <3</p>
+		{% else %}
+		<p>
+			The activity has not been approved yet, but once it is, you'll
+			receive an invite to a google calendar for this activity.
+		</p>
+		{% endif %}
+
+		<p>
+			Any meetings that the organization creates will also be added to
+			this google calendar. Remember to click on the link to add the
+			calendar once you receive the email!
+		</p>
+
+		<p>We hope you enjoy your club experience at Stuy</p>
+		<br />
+		<p>With love</p>
+		<p>The StuyActivities Team</p>
+		<br />
+		<p>
+			If you need any technical assistance, email us at
+			help@stuyactivities.org. If you have general questions about Clubs &
+			Pubs, reach out to us at clubpub@stuysu.org.
+		</p>
 	</body>
 </html>

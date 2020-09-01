@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-	<body>
-		<p>Hi {{ user.firstName }}!</p>
+	<body style="padding: 2rem">
+		<div style="text-align: center">
+			<img
+				style="width: 400px; max-width: 80vw; max-height: 45vh"
+				src="https://res.cloudinary.com/stuyactivities/image/upload/v1598990644/emailVectors/undraw_Login_re_4vu2_rkwfbh.png"
+				alt="Two people placing a pin on the ground"
+			/>
+		</div>
+
+		<p>Hi {{ user.firstName }} {{ user.lastName }},</p>
 		<p>You recently requested a &#10024; Magic Sign In Link &#10024;.</p>
 		<p>
 			If this was you, <b><a href="{{ url }}">click here</a></b
@@ -9,13 +17,29 @@
 		</p>
 		<p>Otherwise, you can ignore this email.</p>
 		<p>
-			This link will expire in thirty minutes, which is at: {{ expiration
-			}}
+			This link will expire in thirty minutes, which is at:&nbsp;
+			<span>{{ expiration }}</span>
 		</p>
+
+		<p>
+			You will automatically be logged out of StuyActivities after 60 days
+			of inactivity, after which you may request another link to resume
+			your login session.
+		</p>
+
 		<p>
 			If the link above doesn't work, try copying and pasting the
 			following in your browser:
 		</p>
 		<p>{{ url }}</p>
+		<br />
+
+		<p>With Love</p>
+		<p>The StuyActivities Team</p>
+		<br />
+		<p>
+			For technical concerns, email help@stuyactivities.org. For general
+			questions about clubs & pubs, email clubpub@stuysu.org.
+		</p>
 	</body>
 </html>
