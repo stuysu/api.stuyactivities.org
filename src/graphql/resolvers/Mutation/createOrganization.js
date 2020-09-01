@@ -217,7 +217,7 @@ export default async (root, args, context) => {
 
 	// Add the other admins and send them an email
 	const leaderUsers = await users.findAll({ where: { id: leaders } });
-	const joinUrl = urlJoin(PUBLIC_URL, 'organizations', url, 'join');
+	const joinUrl = urlJoin(PUBLIC_URL, url, 'join');
 	for (let i = 0; i < leaderUsers.length; i++) {
 		const leader = leaderUsers[i];
 		const adminMessage = `${currentUser.firstName} ${currentUser.lastName} is asking you to join as a leader of the organization ${org.name} on StuyActivities.`;
@@ -235,7 +235,7 @@ export default async (root, args, context) => {
 
 		await sendEmail({
 			to: leader.email,
-			subject: `Join Request: ${org.name} | StuyActivities`,
+			subject: `Confirm Leadership of ${org.name} | StuyActivities`,
 			template: 'orgLeaderInvite.html',
 			variables: {
 				invitee: leader,
@@ -248,7 +248,7 @@ export default async (root, args, context) => {
 
 	if (charter.picture) {
 		const randomName = cryptoRandomString({ length: 8 });
-		const filePublicId = `/${url}/${randomName}`;
+		const filePublicId = `organizations/${url}/${randomName}`;
 
 		uploadPicStream(charter.picture, filePublicId)
 			.then(image => {

@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-	<body>
-		<p>Hi {{ invitee.firstName }}!</p>
-		<p>
-			{{ inviter.firstName }} {{ inviter.lastName }} has invited you to
-			join {{ org.name }} as a leader on StuyActivities.
-		</p>
-		<p>
-			To accept this request, click on the button below. Otherwise, you
-			may ignore this email.
-		</p>
-		<a href="{{ joinUrl }}">Accept Request</a>
-	</body>
+	<body style="padding: 2rem">
+        <div style="text-align: center">
+            <img
+                    style="width: 400px;max-width: 80vw;max-height: 45vh;"
+                    src="https://res.cloudinary.com/stuyactivities/image/upload/v1598987877/emailVectors/marginalia-location-access_q9yxeo.svg"
+                    alt="Two people placing a pin on the ground"
+            />
+        </div>
+        <p>Hi {{ invitee.firstName }}</p>
+        <br/>
+        <p>
+            You have been requested to become a leader of {{ org.name }}. Please <a href="{{ joinUrl }}">click
+            here</a> to confirm your leadership role.
+        </p>
+        <br/>
+        <p>
+            With love,
+        </p>
+        <p>
+            StuyActivities Team
+        </p>
+
+        <br/>
+
+        <p>
+            For technical concerns, email help@stuyactivities.org. For general questions about clubs & pubs, email clubpub@stuysu.org.
+        </p>
+    </body>
 </html>
