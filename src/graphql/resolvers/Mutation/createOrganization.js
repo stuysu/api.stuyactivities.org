@@ -238,7 +238,7 @@ export default async (root, args, context) => {
 
 	if (charter.picture) {
 		const randomName = cryptoRandomString({ length: 8 });
-		const filePublicId = `organizations/${url}/${randomName}`;
+		const filePublicId = `/${url}/${randomName}`;
 
 		uploadPicStream(charter.picture, filePublicId)
 			.then(image => {
