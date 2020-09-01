@@ -87,7 +87,7 @@ export default async (root, args, context) => {
 		url,
 		{
 			type: 'string',
-			match: '^[a-z0-9-]+$',
+			match: '^[a-zA-Z0-9-]+$',
 			characters: {
 				min: 1
 			}
