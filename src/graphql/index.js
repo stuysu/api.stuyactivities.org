@@ -41,6 +41,12 @@ const apolloServer = new ApolloServer({
 			err instanceof ValidationError ||
 			err.originalError.message === 'Not allowed by CORS';
 
+		honeybadger.notify(err, {
+			context: {
+				originalError: err.originalError
+			}
+		});
+
 		const internalError =
 			err &&
 			err.extensions &&
@@ -52,7 +58,7 @@ const apolloServer = new ApolloServer({
 			console.error(err.originalError);
 
 			// report this error to us but hide it from the client
-			honeybadger.notify(err.originalError);
+			// honeybadger.notify(err.originalError);
 			return new Error(
 				`There was an unknown error on the server. Rest assured it has been reported. Feel free to contact us at it@stuysu.org to provide more information.`
 			);
