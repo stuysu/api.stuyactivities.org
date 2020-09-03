@@ -18,5 +18,6 @@ export default gql`
 
 		keywords: [String]
 		extra: String
+		updatedAt: DateTime
 	}
 `;
