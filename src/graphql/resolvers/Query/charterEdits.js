@@ -1,10 +1,7 @@
 import { ForbiddenError } from 'apollo-server-errors';
+import charterEdits from '../Organization/charterEdits';
 
-export default async (
-	root,
-	{ pending, status, orgId },
-	{ models, session }
-) => {
+export default async (root, { orgId, status }, { models, session }) => {
 	const fields = ['charterEdits'];
 	session.authenticationRequired(fields);
 
@@ -17,5 +14,13 @@ export default async (
 		);
 	}
 
-	return await models.charterEdits.orgIdLoader.load(orgId);
+	const where = {
+		organizationId: orgId
+	};
+
+	if (status) {
+		where.status = status;
+	}
+
+	return await charterEdits.findAll({ where });
 };

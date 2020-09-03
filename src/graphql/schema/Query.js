@@ -17,7 +17,7 @@ export default gql`
 			pendingCharterEdits: Boolean
 		): [Organization]!
 		organizationsWithPendingCharters: [Organization]
-		charterEdits(orgId: Int): [CharterEdit]
+		charterEdits(orgId: Int, status: String): [CharterEdit]
 
 		memberships(orgUrl: String, orgId: Int): [Membership]
 		membershipRequests(orgId: Int): [MembershipRequest]
