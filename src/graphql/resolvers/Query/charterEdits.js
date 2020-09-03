@@ -22,5 +22,5 @@ export default async (root, { orgId, status }, { models, session }) => {
 		where.status = status;
 	}
 
-	return await charterEdits.findAll({ where });
+	return await models.charterEdits.findAll({ where });
 };
