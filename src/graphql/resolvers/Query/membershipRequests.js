@@ -1,24 +1,20 @@
-import { UserInputError } from 'apollo-server-express';
+import { ForbiddenError } from 'apollo-server-errors';
 
-export default (parent, { orgUrl, orgId }, { models }) => {
-	if (!orgUrl && !orgId) {
-		throw new UserInputError(
-			'You need to provide an organization id or url to query members',
-			{ invalidArgs: ['orgId', 'orgUrl'] }
+export default async (parent, { orgId }, { models, session }) => {
+	const fields = ['charterApprovalMessages'];
+	session.authenticationRequired(fields);
+
+	const isOrgAdmin = await session.orgAdminRequired(orgId, fields, true);
+
+	if (!isOrgAdmin) {
+		throw new ForbiddenError(
+			"You don't have permission to view membership requests for this organization."
 		);
 	}
 
-	if (orgId) {
-		return models.membershipRequests.orgIdLoader.load(orgId);
+	if (!orgId) {
+		return null;
 	}
 
-	if (orgUrl) {
-		return models.membershipRequests.findAll({
-			include: {
-				model: models.organizations,
-				where: { url: orgUrl },
-				required: true
-			}
-		});
-	}
+	return models.membershipRequests.orgIdLoader.load(orgId);
 };
