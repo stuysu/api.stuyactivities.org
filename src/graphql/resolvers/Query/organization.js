@@ -7,12 +7,7 @@ export default (root, args, context) => {
 	} = context;
 
 	if (!id && !url) {
-		throw new UserInputError(
-			'You must pass a url or an id to query an organization.',
-			{
-				invalidArgs: ['id', 'url']
-			}
-		);
+		return null;
 	}
 
 	const include = [
