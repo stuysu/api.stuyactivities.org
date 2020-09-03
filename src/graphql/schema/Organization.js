@@ -6,7 +6,8 @@ export default gql`
 		name: String!
 		url: String!
 		active: Boolean!
-		createdAt: String!
+		createdAt: DateTime
+		updatedAt: DateTime
 		tags: [Tag]!
 		charter: Charter
 		strikes: [Strike]

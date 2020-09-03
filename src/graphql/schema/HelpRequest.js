@@ -11,7 +11,7 @@ export default gql`
 		path: String
 		status: String
 		ipAddress: String
-		createdAt: String
+		createdAt: DateTime
 
 		user: User
 		messages: [HelpRequestMessage]

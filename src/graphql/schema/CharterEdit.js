@@ -9,8 +9,8 @@ export default gql`
 		reviewer: User
 		approved: Boolean
 
-		createdAt: String
-		updatedAt: String
+		createdAt: DateTime
+		updatedAt: DateTime
 
 		mission: String
 		purpose: String

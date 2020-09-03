@@ -11,7 +11,7 @@ export default gql`
 		adminMessage: String
 		userApproval: Boolean
 		adminApproval: Boolean
-		createdAt: String
-		updatedAt: String
+		createdAt: DateTime
+		updatedAt: DateTime
 	}
 `;

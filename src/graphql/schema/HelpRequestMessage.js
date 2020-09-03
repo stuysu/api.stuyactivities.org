@@ -6,6 +6,6 @@ export default gql`
 		user: User
 		role: String
 		message: String
-		createdAt: String
+		createdAt: DateTime
 	}
 `;

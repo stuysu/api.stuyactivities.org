@@ -9,5 +9,6 @@ export default gql`
 		reviewer: User
 		reviewerId: Int
 		reason: String
+		createdAt: DateTime
 	}
 `;

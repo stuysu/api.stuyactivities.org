@@ -5,8 +5,8 @@ export default gql`
 		id: Int!
 		title: String
 		description: String
-		start: String
-		end: String
+		start: DateTime
+		end: DateTime
 		organization: Organization
 	}
 `;

@@ -7,7 +7,7 @@ export default gql`
 		organization: Organization
 		role: String
 		adminPrivileges: Boolean
-		updatedAt: String
-		createdAt: String
+		updatedAt: DateTime
+		createdAt: DateTime
 	}
 `;

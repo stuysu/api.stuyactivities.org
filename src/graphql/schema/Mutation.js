@@ -92,15 +92,15 @@ export default gql`
 			orgUrl: String
 			title: String!
 			description: String!
-			start: String!
-			end: String!
+			start: DateTime!
+			end: DateTime!
 		): Meeting
 		alterMeeting(
 			meetingId: Int!
 			title: String
 			description: String
-			start: String
-			end: String
+			start: DateTime
+			end: DateTime
 		): Meeting
 		deleteMeeting(meetingId: Int!): Boolean
 
