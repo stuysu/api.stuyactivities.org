@@ -7,8 +7,8 @@ export default gql`
 		picture: String
 		submittingUser: User
 		reviewer: User
-		approved: Boolean
 
+		status: String
 		createdAt: DateTime
 		updatedAt: DateTime
 
