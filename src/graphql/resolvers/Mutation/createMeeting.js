@@ -59,16 +59,14 @@ export default async (
 	}
 
 	const now = new Date();
-	const startDate = new Date(start);
-	const endDate = new Date(end);
 
-	if (isNaN(startDate.getTime()) || startDate < now) {
+	if (start < now) {
 		throw new UserInputError('Start date is not valid', {
 			invalidArgs: ['start']
 		});
 	}
 
-	if (isNaN(endDate.getTime()) || endDate < startDate || endDate < now) {
+	if (end < start || end < now) {
 		throw new UserInputError('End date is not valid', {
 			invalidArgs: ['end']
 		});
@@ -78,8 +76,8 @@ export default async (
 		organizationId: org.id,
 		title,
 		description,
-		start: startDate,
-		end: endDate
+		start,
+		end
 	});
 
 	const members = await users.findAll({
@@ -91,11 +89,11 @@ export default async (
 			required: true
 		}
 	});
-	const formattedStart = moment(startDate)
+	const formattedStart = moment(start)
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
-	const formattedEnd = moment(endDate)
+	const formattedEnd = moment(end)
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
@@ -129,8 +127,8 @@ export default async (
 	const googleEvent = await createCalendarEvent(googleCalendar.gCalId, {
 		name: title,
 		description: renderedDescription,
-		start: startDate.toISOString(),
-		end: endDate.toISOString(),
+		start: start.toISOString(),
+		end: end.toISOString(),
 		source: {
 			title: `Meeting by ${org.name} | StuyActivities`,
 			url: urlJoin(PUBLIC_URL, org.url, 'meetings', String(meeting.id))

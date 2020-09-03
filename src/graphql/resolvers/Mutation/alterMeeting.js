@@ -50,27 +50,19 @@ export default async (
 	const now = new Date();
 
 	if (start) {
-		const startDate = new Date(start);
-
-		if (isNaN(startDate.getTime()) || startDate < now) {
+		if (start < now) {
 			throw new UserInputError(
 				'Start time is not valid or is in the past'
 			);
 		}
-		meeting.start = startDate;
+		meeting.start = start;
 	}
 
 	if (end) {
-		const endDate = new Date(end);
-
-		if (
-			isNaN(endDate.getTime()) ||
-			endDate < meeting.start ||
-			endDate < now
-		) {
+		if (end < meeting.start || end < now) {
 			throw new UserInputError('End time is not valid or is in the past');
 		}
-		meeting.end = endDate;
+		meeting.end = end;
 	}
 
 	await meeting.save();
