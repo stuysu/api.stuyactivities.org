@@ -44,8 +44,7 @@ export default gql`
 			leaders: [LeaderParams!]!
 		): Organization
 		alterCharter(
-			orgUrl: String
-			orgId: Int
+			orgId: Int!
 			# In case the new changes conflict with changes that were already proposed
 			force: Boolean = false
 			charter: CharterParams!

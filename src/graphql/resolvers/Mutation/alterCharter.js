@@ -10,6 +10,8 @@ import cryptoRandomString from 'crypto-random-string';
 
 import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
 
+const cloudinary = require('cloudinary').v2;
+
 export default async (parent, args, context) => {
 	// first steps, make sure they have sufficient permissions to make changes to the charter
 	const {
@@ -23,51 +25,21 @@ export default async (parent, args, context) => {
 		}
 	} = context;
 
-	let { charter, orgUrl, orgId, force } = args;
+	let { charter, orgId, force } = args;
 
-	session.authenticationRequired([]);
+	session.authenticationRequired(['alterCharter']);
 
-	if (!orgId && !orgUrl) {
-		throw new UserInputError(
-			'Either the organization url or its id must be passed in order to alter its charter',
-			{
-				invalidArgs: ['orgUrl', 'orgId']
-			}
-		);
-	}
-
-	let org;
-
-	if (orgId) {
-		org = await organizations.findOne({ where: { id: orgId } });
-	} else if (orgUrl) {
-		org = await organizations.findOne({ where: { url: orgUrl } });
-	}
-
+	const org = await organizations.findOne({ where: { id: orgId } });
 	if (!org) {
 		throw new ApolloError(
 			'Could not find an organization with that url or id',
-			'ORG_NOT_FOUND'
+			'ID_NOT_FOUND'
 		);
 	}
-
-	const isAdmin = await memberships.findOne({
-		where: {
-			userId: session.userId,
-			adminPrivileges: true,
-			organizationId: org.id
-		}
-	});
-
-	if (!isAdmin) {
-		throw new ForbiddenError(
-			'Only admins are allowed to propose changes to the charter'
-		);
-	}
+	await session.orgAdminRequired(org.id, ['alterCharter']);
 
 	// NEXT STEP CHECK WHICH FIELDS WERE CHANGED
-	const alteredFields = [];
-	EDITABLE_CHARTER_FIELDS.filter(
+	const alteredFields = EDITABLE_CHARTER_FIELDS.filter(
 		field =>
 			typeof charter[field] !== 'undefined' && charter[field] !== null
 	);
@@ -108,6 +80,7 @@ export default async (parent, args, context) => {
 
 	const pendingConflicts = await charterEdits.findAll({
 		where: {
+			organizationId: org.id,
 			status: 'pending',
 			[Op.or]: notNullQueries
 		}
@@ -125,7 +98,37 @@ export default async (parent, args, context) => {
 		// Reject the existing pending changes that conflict with this new request
 		for (let x = 0; x < pendingConflicts.length; x++) {
 			const charterEdit = pendingConflicts[x];
-			await charterEdit.rejectFields(alteredFields);
+			const conflictEditAlteredFields = charterEdit.getAlteredFields();
+
+			const conflictingFields = alteredFields.filter(
+				field =>
+					charterEdit[field] !== null &&
+					typeof charterEdit[field] !== 'undefined'
+			);
+
+			// Reject the whole charter edit
+			if (conflictEditAlteredFields.length === conflictingFields.length) {
+				charterEdit.status = 'rejected';
+				charterEdit.reviewerId = session.userId;
+				await charterEdit.save();
+			} else {
+				// Separate the conflicting fields into their own charter edit
+				const newObj = {
+					organizationId: charterEdit.organizationId,
+					createdAt: charterEdit.createdAt,
+					submittingUserId: charterEdit.submittingUserId,
+					reviewerId: session.userId,
+					status: 'rejected'
+				};
+
+				conflictingFields.forEach(field => {
+					newObj[field] = charterEdit[field];
+					charterEdit[field] = null;
+				});
+
+				await charterEdit.save();
+				await charterEdits.create(newObj);
+			}
 		}
 
 		await charterApprovalMessages.create({
@@ -138,16 +141,28 @@ export default async (parent, args, context) => {
 
 	// Now that the fields in the charter have been validated and the conflicts have been resolved, we can now submit the new proposal changes
 	const newEdits = {
+		organizationId: org.id,
 		submittingUserId: session.userId,
 		status: 'pending'
 	};
 
 	if (charter.picture) {
 		const randomName = cryptoRandomString({ length: 8 });
-		const publicId = `/organizations/${org.url}/${randomName}`;
+		const publicId = `organizations/${org.url}/${randomName}`;
 
 		const pic = await uploadPicStream(charter.picture, publicId);
-		charter.picture = pic.secure_url;
+		const options = {
+			quality: 90,
+			secure: true
+		};
+
+		if (pic.width > pic.height) {
+			options.width = 600;
+		} else {
+			options.height = 600;
+		}
+
+		charter.picture = cloudinary.url(pic.public_id, options);
 	}
 
 	alteredFields.forEach(field => {
