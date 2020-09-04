@@ -76,6 +76,10 @@ export default async (parent, args, context) => {
 				[Op.not]: null
 			}
 		});
+
+		if (Array.isArray(charter[field])) {
+			charter[field] = JSON.stringify(charter[field]);
+		}
 	});
 
 	const pendingConflicts = await charterEdits.findAll({
