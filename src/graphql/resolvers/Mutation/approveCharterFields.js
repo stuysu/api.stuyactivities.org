@@ -11,40 +11,64 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 	if (!charterEdit) {
 		throw new ApolloError(
 			'There is no charter edit with that id.',
-			'CHARTER_EDIT_NOT_FOUND'
+			'ID_NOT_FOUND'
 		);
 	}
 
+	const alteredFields = charterEdit.getAlteredFields();
+
 	// Remove duplicates and fields that don't exist
-	fields = [...new Set(fields)];
+	fields = Array.from(new Set(fields));
 
 	fields.forEach(field => {
-		if (!EDITABLE_CHARTER_FIELDS.includes(field)) {
+		if (!alteredFields.includes(field)) {
 			throw new UserInputError(
-				`One or more fields provided do not exist: ${field}`,
+				`One or more fields is not valid for this edit: ${field}`,
 				{ invalidArgs: ['fields'] }
 			);
 		}
 	});
 
-	const approvedEdits = await charterEdit.approveFields(
-		fields,
-		session.userId
-	);
+	let approvedEdit;
+
+	if (alteredFields.length === fields.length) {
+		// approve the current charter edit
+		charterEdit.status = 'approved';
+		charterEdit.reviewerId = session.userId;
+		await charterEdit.save();
+		approvedEdit = charterEdit;
+	} else {
+		// move over the approved fields to a new charter edit
+		const newObj = {
+			organizationId: charterEdit.organizationId,
+			createdAt: charterEdit.createdAt,
+			submittingUserId: charterEdit.submittingUserId,
+			reviewerId: session.userId,
+			status: 'approved'
+		};
+
+		fields.forEach(field => {
+			newObj[field] = charterEdit[field];
+			charterEdit[field] = null;
+		});
+
+		await charterEdit.save();
+
+		approvedEdit = await models.charterEdits.create(newObj);
+	}
 
 	const charter = await models.charters.orgIdLoader.load(
-		approvedEdits.organizationId
+		charterEdit.organizationId
 	);
 
-	const alteredFields = approvedEdits.getAlteredFields();
-
-	alteredFields.forEach(field => {
-		charter[field] = approvedEdits[field];
+	fields.forEach(field => {
+		charter[field] = approvedEdit[field];
 	});
+
 	await charter.save();
 
 	const org = await models.organizations.idLoader.load(
-		approvedEdits.organizationId
+		charter.organizationId
 	);
 
 	// This org has fulfilled the charter req and we can now make their charter public
@@ -63,5 +87,5 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 		}
 	}
 
-	return approvedEdits;
+	return approvedEdit;
 };
