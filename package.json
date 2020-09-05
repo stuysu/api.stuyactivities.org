@@ -48,7 +48,7 @@
 		"npm-run-all": "^4.1.5",
 		"nunjucks": "^3.2.2",
 		"regenerator-runtime": "^0.13.7",
-		"sequelize": "^6.3.4",
+		"sequelize": "^6.3.5",
 		"sqlite3": "^5.0.0",
 		"url-join": "^4.0.1"
 	},
