@@ -85,7 +85,7 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 			org.active = true;
 			await org.save();
 
-			const members = await models.members.findAll({
+			const members = await models.memberships.findAll({
 				where: {
 					organizationId: org.id
 				},
