@@ -14,7 +14,6 @@ export default gql`
 			limit: Int
 			offset: Int
 			active: Boolean
-			pendingCharterEdits: Boolean
 		): [Organization]!
 		organizationsWithPendingCharters: [Organization]
 		charterEdits(orgId: Int, status: String): [CharterEdit]

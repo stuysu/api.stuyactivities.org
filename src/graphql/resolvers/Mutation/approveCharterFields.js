@@ -1,6 +1,7 @@
 import { ApolloError, UserInputError } from 'apollo-server-express';
 import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
 import { initOrgCalendar } from '../../../googleApis/calendar';
+import sendEmail from '../../../utils/sendEmail';
 
 export default async (root, { fields, charterEditId }, { models, session }) => {
 	session.authenticationRequired('rejectCharterFields');
@@ -83,6 +84,27 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 		if (canBeActive) {
 			org.active = true;
 			await org.save();
+
+			const members = await models.members.findAll({
+				where: {
+					organizationId: org.id
+				},
+				include: {
+					model: models.users
+				}
+			});
+
+			members.forEach(member => {
+				sendEmail({
+					to: member.user.email,
+					subject: `${org.name} Approved | StuyActivities`,
+					template: 'orgApproval.html',
+					variables: {
+						org,
+						user: member.user
+					}
+				});
+			});
 			await initOrgCalendar(org.id);
 		}
 	}
