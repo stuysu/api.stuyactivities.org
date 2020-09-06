@@ -87,7 +87,8 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 
 			const members = await models.memberships.findAll({
 				where: {
-					organizationId: org.id
+					organizationId: org.id,
+					adminPrivileges: true
 				},
 				include: {
 					model: models.users

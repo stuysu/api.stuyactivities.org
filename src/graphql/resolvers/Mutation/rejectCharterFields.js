@@ -1,10 +1,14 @@
 import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
 import { ApolloError, UserInputError } from 'apollo-server-express';
+import sendEmail from '../../../utils/sendEmail';
 
 export default async (
 	root,
 	{ fields, charterEditId },
-	{ models: { charterEdits, charterApprovalMessages }, session }
+	{
+		models: { charterEdits, charterApprovalMessages, memberships, users },
+		session
+	}
 ) => {
 	session.authenticationRequired('rejectCharterFields');
 	await session.adminRoleRequired('charters', ['rejectCharterFields']);
@@ -67,6 +71,30 @@ export default async (
 
 		rejectedEdit = await charterEdits.create(newObj);
 	}
+
+	const members = await memberships.findAll({
+		where: {
+			organizationId: charterEdit.organizationId,
+			adminPrivileges: true
+		},
+		include: {
+			model: users
+		}
+	});
+
+	const org = await charterEdit.getOrganization();
+
+	members.forEach(member => {
+		sendEmail({
+			to: member.user.email,
+			subject: `${org.name} Charter Edits Needed | StuyActivities`,
+			template: 'charterFieldDenied.html',
+			variables: {
+				org,
+				user: member.user
+			}
+		});
+	});
 
 	return rejectedEdit;
 };
