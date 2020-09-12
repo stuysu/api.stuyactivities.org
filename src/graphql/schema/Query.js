@@ -19,7 +19,7 @@ export default gql`
 		charterEdits(orgId: Int, status: String): [CharterEdit]
 
 		memberships(orgUrl: String, orgId: Int): [Membership]
-		membershipRequests(orgId: Int): [MembershipRequest]
+		membershipRequests(orgId: Int!): [MembershipRequest]
 
 		# Returns all tags if no parameters are provided or tags that match the given parameters
 		tags(keyword: String, orgId: Int, orgUrl: Int): [Tag]!
