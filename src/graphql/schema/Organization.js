@@ -16,6 +16,8 @@ export default gql`
 		memberships(onlyLeaders: Boolean = false): [Membership]
 		membership: Membership
 		membershipRequest: MembershipRequest
+		membershipRequests: [MembershipRequest]
+
 		charterEdits: [CharterEdit]!
 		meetings: [Meeting]
 		upcomingMeetings: [Meeting]
