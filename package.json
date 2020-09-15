@@ -36,7 +36,7 @@
 		"googleapis": "^59.0.0",
 		"graphql-iso-date": "^3.6.1",
 		"graphql-upload": "^11.0.0",
-		"graphql-validation-complexity": "^0.4.1",
+		"graphql-validation-complexity": "^0.4.2",
 		"honeybadger": "^1.4.0",
 		"ip-range-check": "^0.2.0",
 		"markdown-it": "^11.0.1",
