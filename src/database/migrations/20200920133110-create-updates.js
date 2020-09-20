@@ -23,8 +23,8 @@ module.exports = {
 			type: {
 				type: Sequelize.ENUM('private', 'public')
 			},
-			approved: {
-				type: Sequelize.BOOLEAN
+			approval: {
+				type: Sequelize.ENUM('approved', 'pending', 'rejected')
 			},
 			localPinned: {
 				type: Sequelize.BOOLEAN

@@ -8,7 +8,7 @@ export default gql`
 		title: String
 		content: String
 		type: String
-		approved: Boolean
+		approval: String
 		localPinned: Boolean
 		globalPinned: Boolean
 		createdAt: DateTime

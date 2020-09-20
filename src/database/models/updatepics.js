@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			updateId: DataTypes.INTEGER,
 			publicId: DataTypes.STRING,
+			description: DataTypes.TEXT,
 			width: DataTypes.INTEGER,
 			height: DataTypes.INTEGER,
 			mimetype: DataTypes.STRING

@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 			title: DataTypes.TEXT,
 			content: DataTypes.TEXT,
 			type: DataTypes.ENUM('private', 'public'),
-			approved: DataTypes.BOOLEAN,
+			approval: DataTypes.ENUM('approved', 'pending', 'rejected'),
 			localPinned: DataTypes.BOOLEAN,
 			globalPinned: DataTypes.BOOLEAN
 		},

@@ -14,6 +14,9 @@ module.exports = {
 			publicId: {
 				type: Sequelize.STRING
 			},
+			description: {
+				type: Sequelize.TEXT
+			},
 			width: {
 				type: Sequelize.INTEGER
 			},
