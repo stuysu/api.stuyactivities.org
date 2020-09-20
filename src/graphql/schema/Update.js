@@ -15,6 +15,7 @@ export default gql`
 
 		# These are custom properties
 		organization: Organization
+		approvalMessages: [UpdateApprovalMessage]
 		submittingUser: User
 		links: [LinkPreview]
 		pictures: [UpdatePic]
