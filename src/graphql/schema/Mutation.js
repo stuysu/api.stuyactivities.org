@@ -144,5 +144,11 @@ export default gql`
 			links: [String!]
 			pictures: [UpdatePicUpload!]
 		): Update
+
+		alterClubFairResponse(
+			orgId: Int!
+			isAttending: Boolean!
+			meetingLink: String
+		): ClubFairResponse
 	}
 `;
