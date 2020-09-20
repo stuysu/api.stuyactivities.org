@@ -14,15 +14,15 @@ const getLinkPreview = url => {
 				headers: { 'user-agent': 'googlebot' }
 			},
 			(error, results) => {
-				const title = results?.ogTitle;
-				const description = results?.ogDescription;
-				const url = results?.requestUrl;
-				const ogImage = results?.ogImage?.url;
+				const title = results.ogTitle || null;
+				const description = results.ogDescription || null;
+				const url = results.requestUrl || null;
+				const ogImage = results.ogImage ? results.ogImage.url : null;
 
 				const image = ogImage
-					? resolveUrl(results?.requestUrl, results?.ogImage?.url)
+					? resolveUrl(normalizedUrl, ogImage || '')
 					: undefined;
-				const siteName = results?.ogSiteName;
+				const siteName = results.ogSiteName || null;
 
 				resolve({
 					title,

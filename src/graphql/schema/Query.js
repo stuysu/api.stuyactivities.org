@@ -35,5 +35,7 @@ export default gql`
 			ipAddress: String
 		): [HelpRequest]
 		helpRequest(requestId: Int!): HelpRequest
+
+		linkPreview(url: String!): LinkPreview
 	}
 `;
