@@ -37,5 +37,7 @@ export default gql`
 		helpRequest(requestId: Int!): HelpRequest
 
 		linkPreview(url: String!): LinkPreview
+
+		clubFairResponse(orgId: Int!): ClubFairResponse
 	}
 `;
