@@ -1,7 +1,6 @@
 import emailRenderer from '../../../utils/emailRenderer';
 import { parse } from 'node-html-parser';
 import mailer from '../../../utils/mailer';
-import { ApolloError, ForbiddenError } from 'apollo-server-express';
 
 export default async (parent, args, context) => {
 	const {
@@ -14,6 +13,8 @@ export default async (parent, args, context) => {
 
 	let { orgId, weight, reason, reviewerId } = args;
 
+	const reviewer = await users.findOne({ where: { id: session.userId } });
+
 	const strike = await strikes.create({
 		orgId,
 		weight,
@@ -21,32 +22,22 @@ export default async (parent, args, context) => {
 		reason
 	});
 
-	// const user = await users.emailLoader.load(email);
-	//
-	// if (!user) {
-	// 	throw new ApolloError(
-	// 		'There is no user with that email address',
-	// 		'USER_NOT_FOUND'
-	// 	);
-	// }
-	//
-	// if (user.email && user.email.endsWith('@stuy.edu') && !user.isFaculty) {
-	// 	throw new ForbiddenError(
-	// 		'Only faculty are allowed to use the magic link sign in method at this time.'
-	// 	);
-	// }
-	//
-	// const htmlEmail = emailRenderer.render('strike.html', {
-	// 	user,
-	// 	reason
-	// });
-	// const plainTextMail = parse(htmlEmail).structuredText;
-	//
-	// await mailer.sendMail({
-	// 	from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',
-	// 	to: user.email,
-	// 	subject: `Strikes | StuyActivities`,
-	// 	text: plainTextMail,
-	// 	html: htmlEmail
-	// });
+	const leaderUsers = await users.findAll({ where: { id: leaders } });
+	for (let i = 0; i < leaderUsers.length; i++) {
+		const leader = leaderUsers[i];
+
+		const htmlMail = emailRenderer.render('strike.html', {
+			leader: leader,
+			reason: reason
+		});
+		const plainTextMail = parse(htmlMail).structuredText;
+
+		await mailer.sendMail({
+			from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',
+			to: leader.email,
+			subject: `Strike: ${org.name} | StuyActivities`,
+			text: plainTextMail,
+			html: htmlMail
+		});
+	}
 };
