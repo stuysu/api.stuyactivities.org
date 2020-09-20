@@ -18,6 +18,8 @@ export default gql`
 		membershipRequest: MembershipRequest
 		membershipRequests: [MembershipRequest]
 
+		updates: [Update]
+
 		charterEdits: [CharterEdit]!
 		meetings: [Meeting]
 		upcomingMeetings: [Meeting]

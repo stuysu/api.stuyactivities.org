@@ -25,6 +25,11 @@ export default gql`
 		role: String!
 	}
 
+	input UpdatePicUpload {
+		file: Upload!
+		description: String!
+	}
+
 	type Mutation {
 		# --- Auth fields ---
 
@@ -126,5 +131,18 @@ export default gql`
 			requestId: Int!
 			message: String!
 		): HelpRequestMessage
+
+		# Updates
+		createUpdate(
+			orgId: Int!
+			type: String!
+			title: String!
+			content: String!
+			notifyMembers: Boolean
+			notifyFaculty: Boolean
+			localPinned: Boolean
+			links: [String!]
+			pictures: [UpdatePicUpload!]
+		): Update
 	}
 `;

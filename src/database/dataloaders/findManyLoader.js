@@ -1,13 +1,14 @@
 import Dataloader from 'dataloader';
 
-const findManyLoader = (model, field, conditions = {}) =>
+const findManyLoader = (model, field, conditions = {}, options = {}) =>
 	new Dataloader(
 		async keys => {
 			const keyMap = {};
 
 			const uniqueKeys = [...new Set(keys)];
 			const entries = await model.findAll({
-				where: { [field]: uniqueKeys, ...conditions }
+				where: { [field]: uniqueKeys, ...conditions },
+				...options
 			});
 
 			for (let x = 0; x < entries.length; x++) {

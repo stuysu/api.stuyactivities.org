@@ -2,13 +2,27 @@ import { AuthenticationError, ForbiddenError } from 'apollo-server-express';
 const { memberships, adminRoles, users } = require('./../database');
 
 const apolloSessionValidators = (req, res, next) => {
-	let user;
+	let user, userMemberships;
 
 	req.session.getUser = async () => {
 		if (!user) {
 			user = await users.idLoader.load(req.session.id);
 		}
 		return user;
+	};
+
+	req.session.getMemberships = async () => {
+		if (!req.session.signedIn) {
+			return [];
+		}
+
+		if (!userMemberships) {
+			userMemberships = await memberships.userIdLoader.load(
+				req.session.userId
+			);
+		}
+
+		return userMemberships;
 	};
 
 	req.session.authenticationRequired = fields => {
@@ -26,17 +40,11 @@ const apolloSessionValidators = (req, res, next) => {
 		}
 	};
 
-	let membershipsWithAdminPrivileges;
-
 	req.session.orgAdminRequired = async (orgId, fields, silent = false) => {
-		if (!membershipsWithAdminPrivileges) {
-			membershipsWithAdminPrivileges = await memberships.findAll({
-				where: { adminPrivileges: true, userId: req.session.userId }
-			});
-		}
+		const mems = await req.session.getMemberships();
 
-		const canPerformOperation = membershipsWithAdminPrivileges.some(
-			mem => mem.organizationId === orgId
+		const canPerformOperation = mems.some(
+			mem => mem.organizationId === orgId && mem.adminPrivileges
 		);
 
 		if (!canPerformOperation) {
@@ -94,6 +102,8 @@ const apolloSessionValidators = (req, res, next) => {
 			return true;
 		}
 	};
+
+	req.session.orgMemberRequired = async (role, fields, silent = false) => {};
 
 	next();
 };
