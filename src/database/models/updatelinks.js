@@ -1,4 +1,7 @@
 'use strict';
+import findManyLoader from '../dataloaders/findManyLoader';
+import findOneLoader from '../dataloaders/findOneLoader';
+
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class updateLinks extends Model {
@@ -9,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			updateLinks.belongsTo(models.updates);
 		}
+
+		static updateIdLoader = findManyLoader(updateLinks, 'updateId');
+		static idLoader = findOneLoader(updateLinks);
 	}
 	updateLinks.init(
 		{
