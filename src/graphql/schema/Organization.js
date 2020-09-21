@@ -23,5 +23,7 @@ export default gql`
 		charterEdits: [CharterEdit]!
 		meetings: [Meeting]
 		upcomingMeetings: [Meeting]
+
+		joinInstructions: JoinInstructions
 	}
 `;
