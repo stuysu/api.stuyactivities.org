@@ -4,7 +4,7 @@ export default gql`
 	type JoinInstructions {
 		id: Int!
 		organization: Organization!
-		instructions: String!
-		buttonEnabled: String!
+		instructions: String
+		buttonEnabled: Boolean
 	}
-`
+`;

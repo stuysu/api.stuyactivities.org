@@ -150,5 +150,11 @@ export default gql`
 			isAttending: Boolean!
 			meetingLink: String
 		): ClubFairResponse
+
+		alterJoinInstructions(
+			orgId: Int!
+			instructions: String
+			buttonEnabled: Boolean
+		): JoinInstructions
 	}
 `;
