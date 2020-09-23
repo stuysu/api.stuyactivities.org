@@ -98,6 +98,7 @@ export default gql`
 			description: String!
 			start: DateTime!
 			end: DateTime!
+			notifyFaculty: Boolean
 		): Meeting
 		alterMeeting(
 			meetingId: Int!
@@ -105,6 +106,7 @@ export default gql`
 			description: String
 			start: DateTime
 			end: DateTime
+			notifyMembers: Boolean
 		): Meeting
 		deleteMeeting(meetingId: Int!): Boolean
 

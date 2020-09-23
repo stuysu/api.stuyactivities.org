@@ -12,7 +12,7 @@ const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 export default async (
 	root,
-	{ orgId, orgUrl, title, description, start, end },
+	{ orgId, orgUrl, title, description, start, end, notifyFaculty },
 	{
 		models: {
 			organizations,
@@ -80,7 +80,7 @@ export default async (
 		end
 	});
 
-	const members = await users.findAll({
+	const include = {
 		include: {
 			model: memberships,
 			where: {
@@ -88,7 +88,9 @@ export default async (
 			},
 			required: true
 		}
-	});
+	}
+	const members = await users.findAll(notifyFaculty ? {$or:[{where:{isFaculty: true}}, include]} : include);
+
 	const formattedStart = moment(start)
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');

@@ -1,5 +1,6 @@
 import { UserInputError } from 'apollo-server-express';
 import { ApolloError } from 'apollo-server-errors';
+import sendEmail from '../../../utils/sendEmail';
 import moment from 'moment-timezone';
 import {
 	alterCalendarEvent,
@@ -13,7 +14,7 @@ const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 export default async (
 	root,
-	{ meetingId, title, description, start, end },
+	{ meetingId, title, description, start, end, notifyMembers },
 	{
 		models: {
 			organizations,
@@ -78,6 +79,37 @@ export default async (
 	const renderedDescription = markdownIt.render(meeting.description);
 
 	const org = await organizations.idLoader.load(meeting.organizationId);
+
+	if (notifyMembers) {
+		const members = await users.findAll({
+			include: {
+				model: memberships,
+				where: {
+					organizationId: meeting.organizationId
+				},
+				required: true
+			}
+		})
+
+		for (let i = 0; i < members.length; i++) {
+			const member = members[i];
+
+			await sendEmail({
+				to: member.email,
+				subject: `${org.name} altered a meeting | StuyActivities`,
+				template: 'alterMeetingNotification.html',
+				variables: {
+					member,
+					org,
+					meeting,
+					formattedStart,
+					formattedEnd,
+					renderedDescription
+				}
+			});
+		}
+	}
+
 
 	const gEventInfo = {
 		name: title,
