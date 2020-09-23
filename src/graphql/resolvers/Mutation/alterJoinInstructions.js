@@ -21,7 +21,7 @@ export default async (parent, args, context) => {
 		);
 	}
 
-	await session.orgAdminRequired(orgId)
+	await session.orgAdminRequired(orgId);
 
 	const currJoinInstructions = await joinInstructions.orgIdLoader.load(orgId);
 	if (currJoinInstructions) {
