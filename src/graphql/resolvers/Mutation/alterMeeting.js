@@ -89,7 +89,7 @@ export default async (
 				},
 				required: true
 			}
-		})
+		});
 
 		for (let i = 0; i < members.length; i++) {
 			const member = members[i];
@@ -109,7 +109,6 @@ export default async (
 			});
 		}
 	}
-
 
 	const gEventInfo = {
 		name: title,
