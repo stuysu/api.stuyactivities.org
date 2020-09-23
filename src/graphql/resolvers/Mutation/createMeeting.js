@@ -88,8 +88,12 @@ export default async (
 			},
 			required: true
 		}
-	}
-	const members = await users.findAll(notifyFaculty ? {$or:[{where:{isFaculty: true}}, include]} : include);
+	};
+	const members = await users.findAll(
+		notifyFaculty
+			? { $or: [{ where: { isFaculty: true } }, include] }
+			: include
+	);
 
 	const formattedStart = moment(start)
 		.tz('America/New_York')
