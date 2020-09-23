@@ -1,8 +1,13 @@
+import { ForbiddenError } from 'apollo-server-errors';
+
 export default async (
 	root,
 	{ orgId, isAttending, meetingLink },
 	{ session, models }
 ) => {
+	throw new ForbiddenError(
+		'You are not allowed to change your response after the deadline.'
+	);
 	session.authenticationRequired();
 	await session.orgAdminRequired(orgId);
 
