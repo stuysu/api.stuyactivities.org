@@ -80,20 +80,22 @@ export default async (
 		end
 	});
 
-	const include = {
+	const where = {};
+	
+	if(! notifyFaculty){
+		where.isFaculty = false;	
+	}
+	
+	const members = await users.findAll({
+		where,
 		include: {
 			model: memberships,
 			where: {
 				organizationId: org.id
 			},
-			required: true
+			required: true	
 		}
-	};
-	const members = await users.findAll(
-		notifyFaculty
-			? { $or: [{ where: { isFaculty: true } }, include] }
-			: include
-	);
+	});
 
 	const formattedStart = moment(start)
 		.tz('America/New_York')
