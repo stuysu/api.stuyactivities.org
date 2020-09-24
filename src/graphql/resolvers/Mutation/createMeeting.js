@@ -81,11 +81,11 @@ export default async (
 	});
 
 	const where = {};
-	
-	if(! notifyFaculty){
-		where.isFaculty = false;	
+
+	if (!notifyFaculty) {
+		where.isFaculty = false;
 	}
-	
+
 	const members = await users.findAll({
 		where,
 		include: {
@@ -93,7 +93,7 @@ export default async (
 			where: {
 				organizationId: org.id
 			},
-			required: true	
+			required: true
 		}
 	});
 
