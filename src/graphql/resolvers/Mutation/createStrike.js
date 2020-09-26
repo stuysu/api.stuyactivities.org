@@ -11,18 +11,30 @@ export default async (parent, args, context) => {
 	session.authenticationRequired([]);
 	await session.adminRoleRequired('Strikes', ['createStrike']);
 
-	let { orgId, weight, reason, reviewerId } = args;
+	let { orgId, weight, reason, leaders } = args;
 
 	const reviewer = await users.findOne({ where: { id: session.userId } });
 
 	const strike = await strikes.create({
 		orgId,
 		weight,
-		reviewerId,
+		reviewerId: reviewer,
 		reason
 	});
 
+	const leaderRoles = {};
+
+	leaders = [
+		...new Set(
+			leaders.map(leader => {
+				leaderRoles[leader.userId] = leader.role;
+				return leader.userId;
+			})
+		)
+	];
+
 	const leaderUsers = await users.findAll({ where: { id: leaders } });
+
 	for (let i = 0; i < leaderUsers.length; i++) {
 		const leader = leaderUsers[i];
 
@@ -35,7 +47,7 @@ export default async (parent, args, context) => {
 		await mailer.sendMail({
 			from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',
 			to: leader.email,
-			subject: `Strike: ${org.name} | StuyActivities`,
+			subject: `Strike | StuyActivities`,
 			text: plainTextMail,
 			html: htmlMail
 		});
