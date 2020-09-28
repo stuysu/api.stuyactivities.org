@@ -53,7 +53,12 @@ export default async (parent, args, context) => {
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
-	const appealUrl = urlJoin(PUBLIC_URL, org.url, 'admin/strikes', strike.id);
+	const appealUrl = urlJoin(
+		PUBLIC_URL,
+		org.url,
+		'admin/strikes',
+		String(strike.id)
+	);
 
 	for (let i = 0; i < orgAdmins; i++) {
 		const user = orgAdmins[i];
