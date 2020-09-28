@@ -6,13 +6,24 @@ export default gql`
 		name: String!
 		url: String!
 		active: Boolean!
-		createdAt: String!
+		createdAt: DateTime
+		updatedAt: DateTime
 		tags: [Tag]!
 		charter: Charter
 		strikes: [Strike]
 
 		charterApprovalMessages: [CharterApprovalMessage]
 		memberships(onlyLeaders: Boolean = false): [Membership]
+		membership: Membership
+		membershipRequest: MembershipRequest
+		membershipRequests: [MembershipRequest]
+
+		updates: [Update]
+
 		charterEdits: [CharterEdit]!
+		meetings: [Meeting]
+		upcomingMeetings: [Meeting]
+
+		joinInstructions: JoinInstructions
 	}
 `;

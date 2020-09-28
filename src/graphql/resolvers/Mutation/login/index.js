@@ -1,8 +1,8 @@
 import { ApolloError, UserInputError } from 'apollo-server-express';
-
-const { users } = require('../../../../database');
 import loginWithGoogle from './loginWithGoogle';
 import loginWithMagicToken from './loginWithMagicToken';
+
+const { users } = require('../../../../database');
 
 export default (root, params, context) => {
 	const {

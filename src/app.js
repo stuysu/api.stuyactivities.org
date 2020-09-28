@@ -12,6 +12,7 @@ import parsers from './middleware/parsers';
 import apolloServer from './graphql';
 import serverErrorHandler from './middleware/serverErrorHandler';
 import logger from './middleware/logger';
+import graphqlUploads from './middleware/graphqlUploads';
 
 const app = express();
 
@@ -29,6 +30,8 @@ app.use(apolloSessionValidators);
 
 app.use(parsers);
 
+app.use(graphqlUploads);
+
 apolloServer.applyMiddleware({ app, path: '/graphql', cors: false });
 
 app.use(honeybadger.errorHandler);
@@ -36,3 +39,8 @@ app.use(honeybadger.errorHandler);
 app.use(serverErrorHandler);
 
 export default app;
+
+process.on('uncaughtException', function (error) {
+	honeybadger.notify(error);
+	console.error(error);
+});

@@ -1,5 +1,6 @@
 import { ApolloError } from 'apollo-server-express';
 import resolveGoogleIdToken from '../../../../utils/resolveGoogleIdToken';
+
 const { users, oAuthIds } = require('../../../../database');
 
 const loginWithGoogle = async (googleOAuthToken, session) => {

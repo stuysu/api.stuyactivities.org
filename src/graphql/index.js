@@ -1,7 +1,7 @@
 import { createComplexityLimitRule } from 'graphql-validation-complexity';
 import {
-	ApolloServer,
 	ApolloError,
+	ApolloServer,
 	ValidationError
 } from 'apollo-server-express';
 import typeDefs from './schema';
@@ -22,12 +22,12 @@ const apolloServer = new ApolloServer({
 	context: ({ req }) => {
 		return {
 			session: req.session,
-			models
+			models,
+			ipAddress:
+				req.headers['x-forwarded-for'] || req.connection.remoteAddress
 		};
 	},
-	uploads: {
-		maxFileSize: 5 * 1000 * 1000 // 5 MB
-	},
+	uploads: false,
 	introspection: true,
 	playground: {
 		settings: {
@@ -41,13 +41,27 @@ const apolloServer = new ApolloServer({
 			err instanceof ValidationError ||
 			err.originalError.message === 'Not allowed by CORS';
 
+		honeybadger.notify(err, {
+			context: {
+				originalError: err.originalError
+			}
+		});
+
+		const internalError =
+			err &&
+			err.extensions &&
+			err.extensions.code &&
+			err.extensions.code === 'INTERNAL_SERVER_ERROR';
+
 		// This is an unexpected error and might have secrets
-		if (!safeError) {
+		if (!safeError || internalError) {
 			console.error(err.originalError);
 
 			// report this error to us but hide it from the client
-			honeybadger.notify(err.originalError);
-			return new Error('There was an unknown error on the server');
+			// honeybadger.notify(err.originalError);
+			return new Error(
+				`There was an unknown error on the server. Rest assured it has been reported. Feel free to contact us at it@stuysu.org to provide more information.`
+			);
 		}
 
 		// Might want to hide the stack trace for security in production

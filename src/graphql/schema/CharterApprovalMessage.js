@@ -8,5 +8,6 @@ export default gql`
 		message: String
 		auto: Boolean
 		seen: Boolean
+		createdAt: DateTime
 	}
 `;

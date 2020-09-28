@@ -1,7 +1,7 @@
 import {
 	ApolloError,
-	UserInputError,
-	ForbiddenError
+	ForbiddenError,
+	UserInputError
 } from 'apollo-server-express';
 
 export default async (parent, args, context) => {
@@ -16,37 +16,41 @@ export default async (parent, args, context) => {
 			Sequelize: { Op }
 		}
 	} = context;
-
 	const { orgId, message } = args;
 
-	if (!orgId || !message) {
-		throw new UserInputError(
-			'The organization ID and message are required to make a comment!',
-			{
-				invalidArgs: ['orgId', 'message']
-			}
-		);
-	}
+	const org = await organizations.idLoader.load(orgId);
 
-	//see if user is an admin
-	const isAdmin = await memberships.findOne({
-		where: {
-			userId: session.userId,
-			adminPrivileges: true,
-			organizationId: orgId
-		}
-	});
-	if (!isAdmin) {
-		session.authenticationRequired(['charters']);
-	}
-
-	//Make sure the organization exists
-	const organization = await organizations.findOne({ where: { id: orgId } });
-	if (!organization) {
+	if (!org) {
 		throw new ApolloError(
-			'Could not find an organization with that id',
-			'ORG_NOT_FOUND'
+			"There's no organization with that id",
+			'ID_NOT_FOUND'
 		);
+	}
+
+	session.authenticationRequired(['createCharterApprovalMessage']);
+
+	const isAdmin = await session.adminRoleRequired(
+		'charters',
+		['createCharterApprovalMessage'],
+		true
+	);
+
+	const hasOrgAdmin = await session.orgAdminRequired(
+		orgId,
+		['createCharterApprovalMessage'],
+		true
+	);
+
+	if (!isAdmin && !hasOrgAdmin) {
+		throw new ForbiddenError(
+			'Only club admins or StuyActivities admins are allowed to send messages'
+		);
+	}
+
+	if (!message) {
+		throw new UserInputError('The message cannot be left empty', {
+			invalidArgs: ['message']
+		});
 	}
 
 	// Make the comment

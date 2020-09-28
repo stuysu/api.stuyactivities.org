@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<body style="padding: 2rem">
+		<div style="text-align: center">
+			<img
+				style="
+					width: 400px;
+					max-width: 80vw;
+					max-height: 30vh;
+					object-fit: contain;
+				"
+				src="https://res.cloudinary.com/stuyactivities/image/upload/v1599360054/emailVectors/rush-16_arntt6.png"
+				alt="Phone with an issue on it"
+			/>
+		</div>
+		<p>Hi {{ user.firstName }},</p>
+		<br />
+		<p>
+			We have noticed one or more errors in your charter which must be
+			fixed in order to have your charter approved. Please visit
+			https://stuyactivities.org/{{ org.url }}/admin/charter-edits to make
+			these changes.
+		</p>
+		<br />
+		<p>With love,</p>
+		<p>StuyActivities Team</p>
+
+		<br />
+
+		<p>
+			For technical concerns, email help@stuyactivities.org. For general
+			questions about clubs & pubs, email clubpub@stuysu.org.
+		</p>
+	</body>
+</html>

@@ -108,3 +108,7 @@ dist/
 *.db-journal
 
 **no-git**
+temp/
+
+**credentials.json**
+**token.json**

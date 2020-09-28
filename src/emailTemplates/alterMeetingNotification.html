@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+	<body>
+		<p>Hi {{ member.firstName }}!</p>
+		<p>
+			You are receiving this message because you are a member of {{
+			org.name }}.
+		</p>
+		<p>
+			This email is to let you know that an upcoming meeting has been edited. The new details are below.
+		</p>
+		<p>Title: {{ meeting.title }}</p>
+		<p>Start Date: {{ formattedStart }}</p>
+		<p>End Date: {{ formattedEnd }}</p>
+
+		{{ renderedDescription | safe }}
+	</body>
+</html>

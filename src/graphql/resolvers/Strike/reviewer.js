@@ -1,3 +1,3 @@
 export default (strike, args, { models }) => {
-	return models.users.reviewerIdLoader.load(strike.reviewerId);
+	return models.users.idLoader.load(strike.reviewerId);
 };

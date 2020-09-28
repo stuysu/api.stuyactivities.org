@@ -1,7 +1,30 @@
 import { AuthenticationError, ForbiddenError } from 'apollo-server-express';
-const { memberships, adminRoles } = require('./../database');
+const { memberships, adminRoles, users } = require('./../database');
 
 const apolloSessionValidators = (req, res, next) => {
+	let user, userMemberships;
+
+	req.session.getUser = async () => {
+		if (!user) {
+			user = await users.idLoader.load(req.session.id);
+		}
+		return user;
+	};
+
+	req.session.getMemberships = async () => {
+		if (!req.session.signedIn) {
+			return [];
+		}
+
+		if (!userMemberships) {
+			userMemberships = await memberships.userIdLoader.load(
+				req.session.userId
+			);
+		}
+
+		return userMemberships;
+	};
+
 	req.session.authenticationRequired = fields => {
 		if (!req.session.signedIn) {
 			let message =
@@ -17,20 +40,18 @@ const apolloSessionValidators = (req, res, next) => {
 		}
 	};
 
-	let membershipsWithAdminPrivileges;
+	req.session.orgAdminRequired = async (orgId, fields, silent = false) => {
+		const mems = await req.session.getMemberships();
 
-	req.session.orgAdminRequired = async (orgId, fields) => {
-		if (!membershipsWithAdminPrivileges) {
-			membershipsWithAdminPrivileges = await memberships.findAll({
-				where: { adminPrivileges: true, userId: req.session.userId }
-			});
-		}
-
-		const canPerformOperation = membershipsWithAdminPrivileges.some(
-			mem => mem.organizationId === orgId
+		const canPerformOperation = mems.some(
+			mem => mem.organizationId === orgId && mem.adminPrivileges
 		);
 
 		if (!canPerformOperation) {
+			if (silent) {
+				return false;
+			}
+
 			let message =
 				'You must be an admin of one or more organizations to perform one or more parts of this request.';
 
@@ -42,11 +63,15 @@ const apolloSessionValidators = (req, res, next) => {
 
 			throw new ForbiddenError(message);
 		}
+
+		if (silent) {
+			return true;
+		}
 	};
 
 	let adminRolesPresent;
 
-	req.session.adminRoleRequired = async (role, fields) => {
+	req.session.adminRoleRequired = async (role, fields, silent = false) => {
 		if (!adminRolesPresent) {
 			adminRolesPresent = await adminRoles.userIdLoader.load(
 				req.session.userId
@@ -58,6 +83,10 @@ const apolloSessionValidators = (req, res, next) => {
 		);
 
 		if (!canPerformOperation) {
+			if (silent) {
+				return false;
+			}
+
 			let message = `You must have the ${role} admin role to perform one or more parts of this request.`;
 
 			if (fields) {
@@ -68,7 +97,13 @@ const apolloSessionValidators = (req, res, next) => {
 
 			throw new ForbiddenError(message);
 		}
+
+		if (silent) {
+			return true;
+		}
 	};
+
+	req.session.orgMemberRequired = async (role, fields, silent = false) => {};
 
 	next();
 };

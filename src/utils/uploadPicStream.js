@@ -8,7 +8,7 @@ const uploadPicStream = (picture, publicId) =>
 			}
 		);
 
-		picture.pipe(uploadStream);
+		picture.createReadStream().pipe(uploadStream);
 	});
 
 export default uploadPicStream;

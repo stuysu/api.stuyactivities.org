@@ -1,55 +1,75 @@
-import emailRenderer from '../../../utils/emailRenderer';
-import { parse } from 'node-html-parser';
-import mailer from '../../../utils/mailer';
+import sendEmail from '../../../utils/sendEmail';
+import { UserInputError } from 'apollo-server-express';
+import moment from 'moment-timezone';
+import urlJoin from 'url-join';
+import { PUBLIC_URL } from '../../../constants';
 
 export default async (parent, args, context) => {
 	const {
 		session,
-		models: { strikes, users }
+		models: { strikes, users, organizations, memberships }
 	} = context;
 
-	session.authenticationRequired([]);
-	await session.adminRoleRequired('Strikes', ['createStrike']);
+	session.authenticationRequired(['createStrike']);
+	await session.adminRoleRequired('strikes', ['createStrike']);
 
-	let { orgId, weight, reason, leaders } = args;
+	let { orgId, orgUrl, weight, reason } = args;
 
-	const reviewer = await users.findOne({ where: { id: session.userId } });
+	if (!orgId && !orgUrl) {
+		throw new UserInputError(
+			'You must provide an organization id or url to assign a strike.',
+			{
+				invalidArgs: ['orgId', 'orgUrl']
+			}
+		);
+	}
+
+	let org;
+
+	if (orgId) {
+		org = await organizations.idLoader.load(orgId);
+	} else if (orgUrl) {
+		org = await organizations.urlLoader.load(orgUrl);
+	}
 
 	const strike = await strikes.create({
-		orgId,
+		organizationId: org.id,
+		reviewer: context.session.userId,
 		weight,
-		reviewerId: reviewer,
 		reason
 	});
 
-	const leaderRoles = {};
+	const orgAdmins = await users.findAll({
+		include: {
+			model: memberships,
+			where: {
+				organizationId: org.id,
+				adminPrivileges: true
+			}
+		}
+	});
 
-	leaders = [
-		...new Set(
-			leaders.map(leader => {
-				leaderRoles[leader.userId] = leader.role;
-				return leader.userId;
-			})
-		)
-	];
+	const formattedTime = moment(strike.createdAt)
+		.tz('America/New_York')
+		.format('dddd, MMMM Do YYYY, h:mm a');
 
-	const leaderUsers = await users.findAll({ where: { id: leaders } });
+	const appealUrl = urlJoin(PUBLIC_URL, org.url, 'admin/strikes', strike.id);
 
-	for (let i = 0; i < leaderUsers.length; i++) {
-		const leader = leaderUsers[i];
+	for (let i = 0; i < orgAdmins; i++) {
+		const user = orgAdmins[i];
 
-		const htmlMail = emailRenderer.render('strike.html', {
-			leader: leader,
-			reason: reason
-		});
-		const plainTextMail = parse(htmlMail).structuredText;
-
-		await mailer.sendMail({
-			from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',
-			to: leader.email,
-			subject: `Strike | StuyActivities`,
-			text: plainTextMail,
-			html: htmlMail
+		await sendEmail({
+			to: user.email,
+			subject: `${org.name} received a strike | StuyActivities`,
+			template: 'strikeNotification.html',
+			variables: {
+				user,
+				strike,
+				formattedTime,
+				appealUrl
+			}
 		});
 	}
+
+	return strike;
 };

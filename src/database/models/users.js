@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 
 			users.hasMany(models.membershipRequests);
 			users.hasMany(models.memberships);
+			users.hasOne(models.fourDigitIds);
 		}
 
 		static idLoader = findOneLoader(users);

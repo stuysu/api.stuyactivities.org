@@ -1,15 +1,31 @@
 import simpleValidator from '../../../utils/simpleValidator';
-import { ForbiddenError, ApolloError } from 'apollo-server-express';
+import {
+	ApolloError,
+	ForbiddenError,
+	UserInputError
+} from 'apollo-server-express';
 import getAvatarUrl from '../../../utils/getAvatarUrl';
 import cryptoRandomString from 'crypto-random-string';
-import mailer from '../../../utils/mailer';
-import emailRenderer from './../../../utils/emailRenderer';
-import { parse } from 'node-html-parser';
+import sendEmail from '../../../utils/sendEmail';
 
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 import charterValidator from '../../../utils/charterValidator';
 import uploadPicStream from '../../../utils/uploadPicStream';
+import honeybadger from '../../../middleware/honeybadger';
+
+const cloudinary = require('cloudinary').v2;
+
+const URL_BLACKLIST = [
+	'charter',
+	'catalog',
+	'admin',
+	'rules',
+	'about',
+	'help',
+	'app',
+	'token'
+];
 
 export default async (root, args, context) => {
 	const {
@@ -71,7 +87,7 @@ export default async (root, args, context) => {
 		url,
 		{
 			type: 'string',
-			match: '^[a-z0-9-]+$',
+			match: '^[a-zA-Z0-9-]+$',
 			characters: {
 				min: 1
 			}
@@ -89,17 +105,16 @@ export default async (root, args, context) => {
 		['name']
 	);
 
-	const urlExists = await organizations.findOne({
-		where: {
-			url
-		}
-	});
+	const urlExists =
+		URL_BLACKLIST.includes(url) ||
+		(await organizations.findOne({
+			where: {
+				url
+			}
+		}));
 
 	if (urlExists) {
-		throw new ApolloError(
-			'There is already an organization with that url.',
-			'URL_EXISTS'
-		);
+		throw new ApolloError('That URL is already in use.', 'URL_EXISTS');
 	}
 
 	if (charter.picture) {
@@ -123,23 +138,26 @@ export default async (root, args, context) => {
 		charterValidator(field, charter[field])
 	);
 
-	const getTags = await Tags.findAll();
-	const allTags = getTags.map(tag => tag.id);
+	const getTags = await Tags.findAll({
+		where: {
+			id: tags
+		}
+	});
 
-	tags = [...new Set(allTags)];
+	tags = getTags.map(tag => tag.id);
+	if (!tags.length) {
+		throw new UserInputError('You must provide at least one tag.', {
+			invalidArgs: ['tags']
+		});
+	}
 
-	tags.forEach(tag =>
-		simpleValidator(
-			tag,
-			{
-				type: 'number',
-				in: allTags
-			},
-			['tags']
-		)
-	);
+	if (tags.length > 3) {
+		throw new UserInputError('You cannot select more than 3 tags.', {
+			invalidArgs: ['tags']
+		});
+	}
 
-	let actualPicture = charter.picture || getAvatarUrl(name);
+	let actualPicture = getAvatarUrl(name);
 
 	// Now insert into the database
 	const org = await organizations.create({
@@ -164,7 +182,7 @@ export default async (root, args, context) => {
 		commitmentLevel: charter.commitmentLevel,
 		keywords: JSON.stringify(charter.keywords),
 		extra: charter.extra,
-		picture: actualPicture,
+		picture: null,
 		status: 'pending',
 		submittingUserId: currentUser.id,
 		organizationId: org.id
@@ -199,7 +217,7 @@ export default async (root, args, context) => {
 
 	// Add the other admins and send them an email
 	const leaderUsers = await users.findAll({ where: { id: leaders } });
-	const joinUrl = urlJoin(PUBLIC_URL, 'organizations', url, 'join');
+	const joinUrl = urlJoin(PUBLIC_URL, url, 'join');
 	for (let i = 0; i < leaderUsers.length; i++) {
 		const leader = leaderUsers[i];
 		const adminMessage = `${currentUser.firstName} ${currentUser.lastName} is asking you to join as a leader of the organization ${org.name} on StuyActivities.`;
@@ -215,31 +233,43 @@ export default async (root, args, context) => {
 			adminApproval: true
 		});
 
-		const htmlMail = emailRenderer.render('orgLeaderInvite.html', {
-			invitee: leader,
-			inviter: currentUser,
-			org,
-			joinUrl
-		});
-		const plainTextMail = parse(htmlMail).structuredText;
-
-		await mailer.sendMail({
-			from: '"StuyActivities Mailer" <mailer@stuyactivities.org>',
+		await sendEmail({
 			to: leader.email,
-			subject: `Join Request: ${org.name} | StuyActivities`,
-			text: plainTextMail,
-			html: htmlMail
+			subject: `Confirm Leadership of ${org.name} | StuyActivities`,
+			template: 'orgLeaderInvite.html',
+			variables: {
+				invitee: leader,
+				inviter: currentUser,
+				org,
+				joinUrl
+			}
 		});
 	}
 
 	if (charter.picture) {
 		const randomName = cryptoRandomString({ length: 8 });
-		const filePublicId = `/organizations/${url}/${randomName}`;
+		const filePublicId = `organizations/${url}/${randomName}`;
 
-		uploadPicStream(charter.picture, filePublicId).then(image => {
-			pendingCharter.picture = image.secure_url;
-			pendingCharter.save();
-		});
+		uploadPicStream(charter.picture, filePublicId)
+			.then(image => {
+				const options = {
+					quality: 90,
+					secure: true
+				};
+
+				if (image.width > image.height) {
+					options.width = 600;
+				} else {
+					options.height = 600;
+				}
+
+				pendingCharter.picture = cloudinary.url(
+					image.public_id,
+					options
+				);
+				pendingCharter.save();
+			})
+			.catch(honeybadger.notify);
 	}
 
 	return org;
