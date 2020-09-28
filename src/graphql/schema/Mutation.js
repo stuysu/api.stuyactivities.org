@@ -68,7 +68,7 @@ export default gql`
 
 		createStrike(
 			orgId: Int
-			orgUrl: Int
+			orgUrl: String
 			weight: Int!
 			reason: String!
 		): Strike
