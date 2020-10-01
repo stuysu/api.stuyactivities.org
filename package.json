@@ -33,7 +33,7 @@
 		"express": "latest",
 		"express-session": "^1.17.1",
 		"google-auth-library": "^6.0.6",
-		"googleapis": "^59.0.0",
+		"googleapis": "^60.0.1",
 		"graphql-iso-date": "^3.6.1",
 		"graphql-upload": "^11.0.0",
 		"graphql-validation-complexity": "^0.4.2",
