@@ -23,7 +23,7 @@
 		"body-parser": "latest",
 		"bottleneck": "^2.19.5",
 		"cloudinary": "^1.23.0",
-		"connect-session-sequelize": "^7.0.1",
+		"connect-session-sequelize": "^7.0.3",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
 		"crypto-random-string": "^3.3.0",
