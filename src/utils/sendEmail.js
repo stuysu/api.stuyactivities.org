@@ -2,31 +2,40 @@ import nodemailer from 'nodemailer';
 import oAuth2Client, { getOAuthId } from '../googleApis/oAuth2Client';
 import emailRenderer from './emailRenderer';
 import { parse } from 'node-html-parser';
-import { GOOGLE_APIS_CLIENT_ID, GOOGLE_APIS_CLIENT_SECRET } from '../constants';
+import {
+	GOOGLE_APIS_CLIENT_ID,
+	GOOGLE_APIS_CLIENT_SECRET,
+	MAILER_URL
+} from '../constants';
 
 let transporter;
 
 const transporterSetup = new Promise(async resolve => {
-	const user = await getOAuthId();
-	transporter = nodemailer.createTransport(
-		{
-			host: 'smtp.gmail.com',
-			port: 465,
-			secure: true,
-			auth: {
-				type: 'OAuth2',
-				user: user.email,
-				clientId: GOOGLE_APIS_CLIENT_ID,
-				clientSecret: GOOGLE_APIS_CLIENT_SECRET,
-				accessToken: oAuth2Client.credentials.access_token,
-				refreshToken: oAuth2Client.credentials.refresh_token
+	if (MAILER_URL) {
+		transporter = nodemailer.createTransport(MAILER_URL, {
+			from: 'StuyActivities App <app@stuyactivities.org>'
+		});
+	} else {
+		const user = await getOAuthId();
+		transporter = nodemailer.createTransport(
+			{
+				host: 'smtp.gmail.com',
+				port: 465,
+				secure: true,
+				auth: {
+					type: 'OAuth2',
+					user: user.email,
+					clientId: GOOGLE_APIS_CLIENT_ID,
+					clientSecret: GOOGLE_APIS_CLIENT_SECRET,
+					accessToken: oAuth2Client.credentials.access_token,
+					refreshToken: oAuth2Client.credentials.refresh_token
+				}
+			},
+			{
+				from: `${user.name} <${user.email}>`
 			}
-		},
-		{
-			from: `${user.name} <${user.email}>`
-		}
-	);
-
+		);
+	}
 	resolve();
 });
 
