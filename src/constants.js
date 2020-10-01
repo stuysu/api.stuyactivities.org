@@ -1,4 +1,3 @@
-require('dotenv').config();
 import path from 'path';
 
 const sqlitePath = path.resolve(__dirname, 'app.db');
