@@ -3,13 +3,17 @@ import cluster from 'cluster';
 
 const port = Number(process.env.PORT) || 3001;
 
-if (process.env.NODE_ENV === 'production') {
+if (
+	process.env.NODE_ENV === 'production' &&
+	process.env.DISABLE_CLUSTER !== 'true'
+) {
 	if (cluster.isMaster) {
 		console.log(
 			'Running production server. Now Spawning worker processes...'
 		);
 
-		const cpuCount = require('os').cpus().length;
+		const cpuCount =
+			Number(process.env.NUM_CLUSTERS) || require('os').cpus().length;
 
 		// Create a worker for each CPU
 		for (let i = 0; i < cpuCount; i += 1) {
