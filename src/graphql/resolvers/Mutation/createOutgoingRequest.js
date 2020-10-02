@@ -6,7 +6,10 @@ import urlJoin from 'url-join';
 export default async (
 	root,
 	{ orgId, orgUrl, userId, message, admin, role },
-	{ models: { membershipRequests, organizations, memberships, users }, session }
+	{
+		models: { membershipRequests, organizations, memberships, users },
+		session
+	}
 ) => {
 	session.authenticationRequired(['createMembershipRequest']);
 
@@ -71,9 +74,11 @@ export default async (
 	}
 
 	const joinUrl = urlJoin(PUBLIC_URL, org.url, 'join');
-	const invitee = await users.findOne({where: {id: userId}});
-	const inviter = await users.findOne({where: {id: session.userId}});
-	const adminMessage = message || `${inviter.firstName} ${inviter.lastName} is asking you to join as a leader of the organization ${org.name} on StuyActivities.`;
+	const invitee = await users.findOne({ where: { id: userId } });
+	const inviter = await users.findOne({ where: { id: session.userId } });
+	const adminMessage =
+		message ||
+		`${inviter.firstName} ${inviter.lastName} is asking you to join as a leader of the organization ${org.name} on StuyActivities.`;
 	await sendEmail({
 		to: invitee.email,
 		subject: `Request to join ${org.name} | StuyActivities`,
