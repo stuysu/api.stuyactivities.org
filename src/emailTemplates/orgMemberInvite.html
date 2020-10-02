@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<body style="padding: 2rem">
+		<div style="text-align: center">
+			<img
+				style="
+					width: 400px;
+					max-width: 80vw;
+					max-height: 30vh;
+					object-fit: contain;
+				"
+				src="https://res.cloudinary.com/stuyactivities/image/upload/v1598989521/emailVectors/marginalia-location-access_nisovn.png"
+				alt="Two people placing a pin on the ground"
+			/>
+		</div>
+		<p>Hi {{ invitee.firstName }},</p>
+		<br />
+		<p>
+		You have been requested to become a member of {{ org.name }} with the role "{{ role }}"{% if membership.adminPrivileges
+			%} and administrator privileges{% endif %}. Please
+			<a href="{{ joinUrl }}">click here</a> to confirm your membership.
+			role.
+		</p>
+		<br />
+		<p>With love,</p>
+		<p>StuyActivities Team</p>
+
+		<br />
+
+		<p>
+			For technical concerns, email help@stuyactivities.org. For general
+			questions about clubs & pubs, email clubpub@stuysu.org.
+		</p>
+	</body>
+</html>
