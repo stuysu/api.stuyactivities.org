@@ -87,6 +87,7 @@ export default gql`
 			adminPrivileges: Boolean
 			role: String
 			notify: Boolean
+			privacy: String
 		): Membership
 		deleteMembership(membershipId: Int!, notify: Boolean): Boolean
 
@@ -98,6 +99,7 @@ export default gql`
 			description: String!
 			start: DateTime!
 			end: DateTime!
+			privacy: String! = "private"
 			notifyFaculty: Boolean
 		): Meeting
 		alterMeeting(

@@ -141,7 +141,7 @@ export function createCalendarEvent(
 	return getData(
 		CalendarApi.events.insert({
 			calendarId,
-			conferenceDataVersion: 1,
+			conferenceDataVersion: 0,
 			sendUpdates,
 			resource: {
 				end: {
@@ -188,7 +188,7 @@ export function alterCalendarEvent(
 		CalendarApi.events.update({
 			calendarId,
 			eventId,
-			conferenceDataVersion: 1,
+			conferenceDataVersion: 0,
 			sendUpdates,
 			resource: {
 				end: {
