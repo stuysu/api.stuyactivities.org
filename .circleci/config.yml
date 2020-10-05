@@ -20,7 +20,7 @@ commands:
                       done
                       echo Failed waiting for MySQL && exit 1
 jobs:
-    mysql:
+    production-mysql:
         environment:
             SEQUELIZE_URL: mysql://root:password@localhost:3306/ci
             COVERALLS_GIT_BRANCH: ${ CIRCLE_BRANCH }
@@ -44,7 +44,7 @@ jobs:
                       - run: npm run build
                       - run: npm run test
                       - run: npm run coverage
-    sqlite:
+    development-sqlite:
         environment:
             NODE_ENV: development
         executor:
@@ -62,5 +62,5 @@ jobs:
 workflows:
     build-and-test:
         jobs:
-            - mysql-production
-            - sqlite-development
+            - production-mysql
+            - development-sqlite
