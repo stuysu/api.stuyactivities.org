@@ -1,7 +1,51 @@
 version: 2.1
 orbs:
-  node: circleci/node@3.0.0
+    node: circleci/node@3.0.0
+commands:
+    check-port-listening:
+        parameters:
+            port:
+                type: string
+                default: '3306'
+        steps:
+            - run:
+                  # Our primary container isn't MYSQL so run a sleep command until it's ready.
+                  name: Waiting for port to start listening
+                  command: |
+                      for i in `seq 1 10`;
+                      do
+                        npx is-port-listening --port=<< parameters.port >> && echo Success && exit 0
+                        echo -n .
+                        sleep 2
+                      done
+                      echo Failed waiting for MySQL && exit 1
+
+jobs:
+    mysql:
+        environment:
+            SEQUELIZE_URL: mysql://root:password@localhost:3306/ci
+        executor:
+            name: node/default
+        docker:
+            - image: node:12.12.0
+            - image: circleci/mysql:5.7
+              environment:
+                  MYSQL_DATABASE: ci
+                  MYSQL_ROOT_PASSWORD: password
+        steps:
+            - check-port-listening:
+                  port: '3306'
+
 workflows:
-  node-tests:
-    jobs:
-      - node/test
+    node-test-sqlite-development:
+        environment:
+            NODE_ENV: development
+        jobs:
+            - node/test
+    node-test-mysql-production:
+        environment:
+            NODE_ENV: production
+            SEQUELIZE_URL: mysql://root:password@localhost:3306/ci
+        jobs:
+            - mysql
+            - node/test
