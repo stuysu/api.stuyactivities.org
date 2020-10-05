@@ -24,6 +24,7 @@ jobs:
         environment:
             SEQUELIZE_URL: mysql://root:password@localhost:3306/ci
             COVERALLS_GIT_BRANCH: ${ CIRCLE_BRANCH }
+            NODE_ENV: production
         executor:
             name: node/default
         docker:
@@ -44,6 +45,8 @@ jobs:
                       - run: npm run test
                       - run: npm run coverage
     sqlite:
+        environment:
+            NODE_ENV: development
         executor:
             name: node/default
         docker:
@@ -59,5 +62,5 @@ jobs:
 workflows:
     build-and-test:
         jobs:
-            - mysql
-            - sqlite
+            - mysql-production
+            - sqlite-development
