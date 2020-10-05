@@ -16,7 +16,15 @@ const transporterSetup = new Promise(async resolve => {
 			from: 'StuyActivities App <app@stuyactivities.org>'
 		});
 	} else {
-		const user = await getOAuthId();
+		let user = await getOAuthId();
+
+		if (!user) {
+			user = {
+				email: 'app@stuyactivities.org',
+				name: 'StuyActivities App'
+			};
+		}
+
 		transporter = nodemailer.createTransport(
 			{
 				host: 'smtp.gmail.com',
@@ -24,7 +32,7 @@ const transporterSetup = new Promise(async resolve => {
 				secure: true,
 				auth: {
 					type: 'OAuth2',
-					user: user?.email || 'app@stuyactivities.org',
+					user: user.email,
 					clientId: GOOGLE_APIS_CLIENT_ID,
 					clientSecret: GOOGLE_APIS_CLIENT_SECRET,
 					accessToken: oAuth2Client.credentials.access_token,
@@ -32,9 +40,7 @@ const transporterSetup = new Promise(async resolve => {
 				}
 			},
 			{
-				from: `${user?.name || 'StuyActivities App'} <${
-					user?.email || 'app@stuyactivities.org'
-				}>`
+				from: `${user.name} <${user.email}>`
 			}
 		);
 	}
