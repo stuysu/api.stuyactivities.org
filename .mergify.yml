@@ -1,5 +1,5 @@
 pull_request_rules:
-  - name: automatic merge of bot 🤖 (low priority)
+  - name: automatic merge of dependency updates 🤖
     conditions:
         - author~=^dependabot(|-preview)\[bot\]$
         - "status-success=ci/circleci: production-mysql"
@@ -10,3 +10,9 @@ pull_request_rules:
             method: merge
             strict: smart
             priority: low
+  - name: delete head branch after merge
+    conditions:
+        - merged
+    actions:
+        delete_head_branch: {}
+
