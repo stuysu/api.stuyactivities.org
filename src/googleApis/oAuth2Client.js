@@ -31,6 +31,10 @@ let oAuthId;
 
 export const getOAuthId = async () => {
 	if (!oAuthId) {
+		if (!token || !token.id_token) {
+			return null;
+		}
+
 		const ticket = await oAuth2Client.verifyIdToken({
 			idToken: token.id_token,
 			audience: GOOGLE_APIS_CLIENT_ID
