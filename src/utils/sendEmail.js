@@ -24,7 +24,7 @@ const transporterSetup = new Promise(async resolve => {
 				secure: true,
 				auth: {
 					type: 'OAuth2',
-					user: user.email,
+					user: user?.email || 'app@stuyactivities.org',
 					clientId: GOOGLE_APIS_CLIENT_ID,
 					clientSecret: GOOGLE_APIS_CLIENT_SECRET,
 					accessToken: oAuth2Client.credentials.access_token,
@@ -32,7 +32,9 @@ const transporterSetup = new Promise(async resolve => {
 				}
 			},
 			{
-				from: `${user.name} <${user.email}>`
+				from: `${user?.name || 'StuyActivities App'} <${
+					user?.email || 'app@stuyactivities.org'
+				}>`
 			}
 		);
 	}
