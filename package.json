@@ -13,7 +13,8 @@
 		"prettier": "npx prettier --write .",
 		"build": "npm run migrate",
 		"authenticate": "node -r esm src/googleApis/authenticate.js",
-		"heroku-postbuild": "npm install pg pg-native && npm run build"
+		"heroku-postbuild": "npm install pg pg-native && npm run build",
+		"coverage": "nyc report --require esm --reporter=text-lcov | coveralls"
 	},
 	"dependencies": {
 		"apollo-server-errors": "^2.4.2",
@@ -26,6 +27,7 @@
 		"connect-session-sequelize": "^7.0.3",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
+		"coveralls": "^3.1.0",
 		"crypto-random-string": "^3.3.0",
 		"dataloader": "^2.0.0",
 		"email-validator": "^2.0.4",
@@ -34,6 +36,7 @@
 		"express-session": "^1.17.1",
 		"google-auth-library": "^6.1.0",
 		"googleapis": "^60.0.1",
+		"graphql": "^15.3.0",
 		"graphql-iso-date": "^3.6.1",
 		"graphql-upload": "^11.0.0",
 		"graphql-validation-complexity": "^0.4.2",
