@@ -16,7 +16,15 @@ const transporterSetup = new Promise(async resolve => {
 			from: 'StuyActivities App <app@stuyactivities.org>'
 		});
 	} else {
-		const user = await getOAuthId();
+		let user = await getOAuthId();
+
+		if (!user) {
+			user = {
+				email: 'app@stuyactivities.org',
+				name: 'StuyActivities App'
+			};
+		}
+
 		transporter = nodemailer.createTransport(
 			{
 				host: 'smtp.gmail.com',
