@@ -99,7 +99,7 @@ export default gql`
 			description: String!
 			start: DateTime!
 			end: DateTime!
-			privacy: String! = "private"
+			privacy: String! = "public"
 			notifyFaculty: Boolean
 		): Meeting
 		alterMeeting(
