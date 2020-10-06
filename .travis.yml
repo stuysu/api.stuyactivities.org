@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+    - 14.7.0
+before_script:
+    - npm run build
+env:
+    - NODE_ENV=production
+    - NODE_ENV=development
