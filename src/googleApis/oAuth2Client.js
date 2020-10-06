@@ -11,10 +11,12 @@ const oAuth2Client = new google.auth.OAuth2(
 let token;
 
 try {
-	// Check if we have previously stored a token.
-	const savedToken = process.env.GOOGLE_APIS_TOKEN;
-	token = JSON.parse(savedToken);
-	oAuth2Client.setCredentials(token);
+	if (!process.env.CI) {
+		// Check if we have previously stored a token.
+		const savedToken = process.env.GOOGLE_APIS_TOKEN;
+		token = JSON.parse(savedToken);
+		oAuth2Client.setCredentials(token);
+	}
 } catch (e) {
 	if (process.env.CI) {
 		console.log(
