@@ -100,7 +100,7 @@ export default async (
 
 			const image = await uploadPicStream(file, filePublicId);
 
-			await models.updatePics.create({
+			return await models.updatePics.create({
 				updateId: update.id,
 				publicId: filePublicId,
 				description: pic.description,
@@ -153,13 +153,14 @@ export default async (
 
 		const uploadedPics = await Promise.all(picPromises);
 
-		const pics = uploadedPics.map(i =>
-			cloudinary.url(i.public_id, {
+		const pics = uploadedPics.map(i => ({
+			description: i.description,
+			url: cloudinary.url(i.publicId, {
 				secure: true,
 				height: 600,
 				quality: 'auto'
 			})
-		);
+		}));
 
 		recipients.forEach(user => {
 			sendEmail({

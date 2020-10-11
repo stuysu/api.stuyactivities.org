@@ -6,7 +6,7 @@
 		<ul style="list-style: none">
 			{% for image in pictures %}
 			<li>
-				<img src="{{ image }}" alt="Upload" style="max-height: 400px;max-width: 500px;object-fit: contain;" />
+				<img src="{{ image.url }}" alt="{{ image.description }}" style="max-height: 400px;max-width: 500px;object-fit: contain;" />
 			</li>
 			{% endfor %}
 		</ul>
