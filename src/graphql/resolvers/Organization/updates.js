@@ -1,4 +1,8 @@
 export default async (org, args, { session, models }) => {
+	if (!session.signedIn) {
+		return [];
+	}
+
 	const mems = await session.getMemberships();
 
 	const membership = mems.find(mem => mem.organizationId === org.id);

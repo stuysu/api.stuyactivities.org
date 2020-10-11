@@ -40,6 +40,8 @@ export default gql`
 
 		clubFairResponse(orgId: Int!): ClubFairResponse
 
+		exploreUpdates: [Update]
+
 		upcomingUserMeetings(userId: Int!): [Meeting!]
 	}
 `;
