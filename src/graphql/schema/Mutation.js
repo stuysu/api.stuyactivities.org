@@ -109,6 +109,7 @@ export default gql`
 			start: DateTime
 			end: DateTime
 			notifyMembers: Boolean
+			privacy: String
 		): Meeting
 		deleteMeeting(meetingId: Int!): Boolean
 
