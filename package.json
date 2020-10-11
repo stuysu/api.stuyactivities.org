@@ -13,7 +13,6 @@
 		"prettier": "npx prettier --write .",
 		"build": "npm run migrate",
 		"authenticate": "node -r esm src/googleApis/authenticate.js",
-		"heroku-postbuild": "npm install pg pg-native && npm run build",
 		"coverage": "nyc report --require esm --reporter=text-lcov | coveralls"
 	},
 	"dependencies": {
