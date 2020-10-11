@@ -34,7 +34,7 @@ export default async (parent, args, context) => {
 
 	const strike = await strikes.create({
 		organizationId: org.id,
-		reviewer: context.session.userId,
+		reviewerId: context.session.userId,
 		weight,
 		reason
 	});
