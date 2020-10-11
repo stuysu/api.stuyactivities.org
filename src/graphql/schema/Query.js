@@ -44,5 +44,6 @@ export default gql`
 		exploreMeetings: [Meeting]
 
 		upcomingUserMeetings(userId: Int!): [Meeting!]
+		userUpdates(userId: Int!): [Update]
 	}
 `;
