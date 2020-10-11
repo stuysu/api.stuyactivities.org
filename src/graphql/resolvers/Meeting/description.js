@@ -1,4 +1,8 @@
 export default async (meeting, _, { session }) => {
+	if (!session.signedIn) {
+		return null;
+	}
+
 	if (meeting.privacy === 'private') {
 		if (!session.signedIn) {
 			return null;
