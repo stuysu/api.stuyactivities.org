@@ -15,5 +15,7 @@ export default async (org, args, { session, models }) => {
 		});
 	}
 
+	updates.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
 	return updates;
 };
