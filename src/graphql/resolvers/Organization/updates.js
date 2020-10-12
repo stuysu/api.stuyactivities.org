@@ -9,15 +9,13 @@ export default async (org, args, { session, models }) => {
 
 	let updates = await models.updates.orgIdLoader.load(org.id);
 
-	if (!membership) {
-		updates = updates.filter(update => {
-			if (update.type === 'public' && update.approval === 'approved') {
-				return true;
-			}
+	updates = updates.filter(update => {
+		if (update.type === 'public' && update.approval === 'approved') {
+			return true;
+		}
 
-			return membership.adminPrivileges;
-		});
-	}
+		return membership?.adminPrivileges;
+	});
 
 	updates.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
