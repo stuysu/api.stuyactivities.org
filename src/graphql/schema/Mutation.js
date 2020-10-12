@@ -150,6 +150,8 @@ export default gql`
 			pictures: [UpdatePicUpload!]
 		): Update
 
+		deleteUpdate(updateId: Int!): Boolean
+
 		alterClubFairResponse(
 			orgId: Int!
 			isAttending: Boolean!

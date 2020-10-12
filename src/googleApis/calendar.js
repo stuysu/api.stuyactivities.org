@@ -78,11 +78,16 @@ export function createCalendar(name, timeZone) {
 	);
 }
 
-export function shareCalendar(calendarId, email, role) {
+export function shareCalendar(
+	calendarId,
+	email,
+	role,
+	sendNotifications = true
+) {
 	return getData(
 		CalendarApi.acl.insert({
 			calendarId,
-			sendNotifications: true,
+			sendNotifications,
 			resource: {
 				role,
 				scope: {
