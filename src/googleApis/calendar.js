@@ -1,7 +1,6 @@
 import { google } from 'googleapis';
 import oAuth2Client from './oAuth2Client';
-import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../constants';
+
 const {
 	organizations,
 	googleCalendars,

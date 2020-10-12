@@ -7,6 +7,6 @@ export default (query, args, { session, models }) => {
 				[models.Sequelize.Op.gt]: new Date()
 			}
 		},
-		order: [['start', 'asc']]
+		order: [['start', 'asc'], ['end', 'asc'], models.sequelize.random()]
 	});
 };
