@@ -19,6 +19,7 @@ export default (root, { userId }, { models, session }) => {
 					userId
 				}
 			}
-		}
+		},
+		order: [['start', 'asc']]
 	});
 };
