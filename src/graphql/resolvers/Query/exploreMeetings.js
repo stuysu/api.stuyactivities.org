@@ -3,7 +3,7 @@ export default (query, args, { session, models }) => {
 	return models.meetings.findAll({
 		where: {
 			privacy: 'public',
-			start: {
+			end: {
 				[models.Sequelize.Op.gt]: new Date()
 			}
 		},
