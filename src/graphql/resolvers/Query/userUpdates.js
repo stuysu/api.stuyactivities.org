@@ -17,6 +17,6 @@ export default (root, { userId }, { models, session }) => {
 			},
 			required: true
 		},
-		order: [['createdAt', 'asc']]
+		order: [['createdAt', 'desc']]
 	});
 };
