@@ -8,6 +8,11 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
 		 */
+
+		return queryInterface.addColumn('meetings', 'privacy', {
+			type: Sequelize.ENUM('private', 'public'),
+			defaultValue: 'private'
+		});
 	},
 
 	down: async (queryInterface, Sequelize) => {
@@ -17,5 +22,7 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.dropTable('users');
 		 */
+
+		return queryInterface.removeColumn('meetings', 'privacy');
 	}
 };

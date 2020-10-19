@@ -7,6 +7,7 @@ export default gql`
 		description: String
 		start: DateTime
 		end: DateTime
+		privacy: String
 		organization: Organization
 	}
 `;

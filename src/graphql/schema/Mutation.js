@@ -80,6 +80,14 @@ export default gql`
 			orgUrl: String
 			message: String
 		): MembershipRequest
+		createOutgoingRequest(
+			orgId: Int
+			orgUrl: String
+			userId: Int!
+			message: String
+			admin: Boolean
+			role: String
+		): MembershipRequest
 		deleteMembershipRequest(requestId: Int!): Boolean
 		approveMembershipRequest(requestId: Int!): MembershipRequest
 		alterMembership(
@@ -87,6 +95,7 @@ export default gql`
 			adminPrivileges: Boolean
 			role: String
 			notify: Boolean
+			privacy: String
 		): Membership
 		deleteMembership(membershipId: Int!, notify: Boolean): Boolean
 
@@ -98,6 +107,7 @@ export default gql`
 			description: String!
 			start: DateTime!
 			end: DateTime!
+			privacy: String! = "public"
 			notifyFaculty: Boolean
 		): Meeting
 		alterMeeting(
@@ -107,6 +117,7 @@ export default gql`
 			start: DateTime
 			end: DateTime
 			notifyMembers: Boolean
+			privacy: String
 		): Meeting
 		deleteMeeting(meetingId: Int!): Boolean
 
@@ -146,6 +157,8 @@ export default gql`
 			links: [String!]
 			pictures: [UpdatePicUpload!]
 		): Update
+
+		deleteUpdate(updateId: Int!): Boolean
 
 		alterClubFairResponse(
 			orgId: Int!

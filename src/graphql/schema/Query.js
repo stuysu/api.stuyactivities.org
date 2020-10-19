@@ -39,5 +39,11 @@ export default gql`
 		linkPreview(url: String!): LinkPreview
 
 		clubFairResponse(orgId: Int!): ClubFairResponse
+
+		exploreUpdates: [Update]
+		exploreMeetings: [Meeting]
+
+		upcomingUserMeetings(userId: Int!): [Meeting!]
+		userUpdates(userId: Int!): [Update]
 	}
 `;

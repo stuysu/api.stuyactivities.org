@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import { GOOGLE_APIS_CLIENT_ID, GOOGLE_APIS_CLIENT_SECRET } from '../constants';
 import fs from 'fs';
 import path from 'path';

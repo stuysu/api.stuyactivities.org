@@ -12,7 +12,7 @@ const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 export default async (
 	root,
-	{ orgId, orgUrl, title, description, start, end, notifyFaculty },
+	{ orgId, orgUrl, title, description, privacy, start, end, notifyFaculty },
 	{
 		models: {
 			organizations,
@@ -58,6 +58,15 @@ export default async (
 		});
 	}
 
+	if (!privacy || !['public', 'private'].includes(privacy)) {
+		throw new UserInputError(
+			'A valid privacy must be provided for the meeting',
+			{
+				invalidArgs: ['privacy']
+			}
+		);
+	}
+
 	const now = new Date();
 
 	if (start < now) {
@@ -77,6 +86,7 @@ export default async (
 		title,
 		description,
 		start,
+		privacy,
 		end
 	});
 

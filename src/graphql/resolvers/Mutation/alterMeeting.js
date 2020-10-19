@@ -14,7 +14,7 @@ const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 export default async (
 	root,
-	{ meetingId, title, description, start, end, notifyMembers },
+	{ meetingId, title, description, start, end, privacy, notifyMembers },
 	{
 		models: {
 			organizations,
@@ -46,6 +46,10 @@ export default async (
 
 	if (description) {
 		meeting.description = description;
+	}
+
+	if (privacy && ['public', 'private'].includes(privacy)) {
+		meeting.privacy = privacy;
 	}
 
 	const now = new Date();

@@ -2,7 +2,10 @@ import { UserInputError } from 'apollo-server-errors';
 import getLinkPreview from '../../../utils/getLinkPreview';
 import cryptoRandomString from 'crypto-random-string';
 import uploadPicStream from '../../../utils/uploadPicStream';
-import honeybadger from '../../../middleware/honeybadger';
+import sendEmail from '../../../utils/sendEmail';
+const markdownIt = require('markdown-it')({ html: false, linkify: true });
+
+const cloudinary = require('cloudinary').v2;
 
 const allowedTypes = ['private', 'public'];
 export default async (
@@ -80,11 +83,33 @@ export default async (
 		title,
 		content,
 		type,
-		// Private posts are approved instantly
-		approval: type === 'private' ? 'approved' : 'pending',
+		approval: 'approved',
 		localPinned,
 		globalPinned: false
 	});
+
+	let picPromises = [];
+	const organization = await models.organizations.idLoader.load(orgId);
+
+	if (pictures) {
+		picPromises = pictures.map(async pic => {
+			const randomName = cryptoRandomString({ length: 8 });
+			const filePublicId = `organizations/${organization.url}/${randomName}`;
+
+			const file = pic.file;
+
+			const image = await uploadPicStream(file, filePublicId);
+
+			return await models.updatePics.create({
+				updateId: update.id,
+				publicId: filePublicId,
+				description: pic.description,
+				width: image.width,
+				height: image.height,
+				mimetype: file.mimetype
+			});
+		});
+	}
 
 	if (links) {
 		const linkPromises = links.map(async url => {
@@ -104,24 +129,45 @@ export default async (
 		});
 	}
 
-	if (pictures) {
-		const organization = await models.organizations.idLoader.load(orgId);
+	if (notifyFaculty || notifyMembers) {
+		const notifyAll = notifyMembers && notifyFaculty;
+		const where = {};
+		if (!notifyAll) {
+			where.isFaculty = false;
+		}
 
-		pictures.map(async pic => {
-			const randomName = cryptoRandomString({ length: 8 });
-			const filePublicId = `organizations/${organization.url}/${randomName}`;
+		const recipients = await models.users.findAll({
+			where,
+			include: {
+				model: models.memberships,
+				where: {
+					organizationId: orgId
+				},
+				required: true
+			}
+		});
 
-			const file = pic.file;
+		const renderedContent = markdownIt.render(
+			content.replace(/\n/g, '\n\n')
+		);
 
-			const image = await uploadPicStream(file, filePublicId);
+		const uploadedPics = await Promise.all(picPromises);
 
-			await models.updatePics.create({
-				updateId: update.id,
-				publicId: filePublicId,
-				description: pic.description,
-				width: image.width,
-				height: image.height,
-				mimetype: file.mimetype
+		const pics = uploadedPics.map(i => ({
+			description: i.description,
+			url: cloudinary.url(i.publicId, {
+				secure: true,
+				height: 600,
+				quality: 'auto'
+			})
+		}));
+
+		recipients.forEach(user => {
+			sendEmail({
+				to: user.email,
+				template: 'updateNotification.html',
+				subject: `${update.title} | ${organization.name}`,
+				variables: { update, renderedContent, pictures: pics }
 			});
 		});
 	}

@@ -1,7 +1,6 @@
 import { google } from 'googleapis';
 import oAuth2Client from './oAuth2Client';
-import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../constants';
+
 const {
 	organizations,
 	googleCalendars,
@@ -79,11 +78,16 @@ export function createCalendar(name, timeZone) {
 	);
 }
 
-export function shareCalendar(calendarId, email, role) {
+export function shareCalendar(
+	calendarId,
+	email,
+	role,
+	sendNotifications = true
+) {
 	return getData(
 		CalendarApi.acl.insert({
 			calendarId,
-			sendNotifications: true,
+			sendNotifications,
 			resource: {
 				role,
 				scope: {
@@ -141,7 +145,7 @@ export function createCalendarEvent(
 	return getData(
 		CalendarApi.events.insert({
 			calendarId,
-			conferenceDataVersion: 1,
+			conferenceDataVersion: 0,
 			sendUpdates,
 			resource: {
 				end: {
@@ -188,7 +192,7 @@ export function alterCalendarEvent(
 		CalendarApi.events.update({
 			calendarId,
 			eventId,
-			conferenceDataVersion: 1,
+			conferenceDataVersion: 0,
 			sendUpdates,
 			resource: {
 				end: {

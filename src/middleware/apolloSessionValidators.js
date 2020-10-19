@@ -103,8 +103,6 @@ const apolloSessionValidators = (req, res, next) => {
 		}
 	};
 
-	req.session.orgMemberRequired = async (role, fields, silent = false) => {};
-
 	next();
 };
 

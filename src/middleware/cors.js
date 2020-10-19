@@ -2,10 +2,11 @@ import cors from 'cors';
 import { NODE_ENV } from '../constants';
 
 const allowedOrigins = new RegExp(
-	// This regex will match urls like
-	// <http|https>://localhost:<port>
-	// <http|https>://<optional: www|staging|api>.stuyactivities.org
-	/^(http(s?):\/\/localhost((:\d{1,5})?))|(http(s?):\/\/(www\.)?(staging\.)?(api\.)?stuyactivities\.org)|(https:\/\/(([a-zA-Z0-9-]){1,64}--)?stuyactivities\.netlify\.((com)|(app)))$/ // guardrails-disable-line
+	process.env.ALLOWED_ORIGINS ||
+		// This regex will match urls like
+		// <http|https>://localhost:<port>
+		// <http|https>://<optional: www|staging|api>.stuyactivities.org
+		/^(http(s?):\/\/localhost((:\d{1,5})?))|(http(s?):\/\/(www\.)?(staging\.)?(api\.)?stuyactivities\.org)|(https:\/\/(([a-zA-Z0-9-]){1,64}--)?stuyactivities\.netlify\.((com)|(app)))$/ // guardrails-disable-line
 );
 
 const corsOptions = {
