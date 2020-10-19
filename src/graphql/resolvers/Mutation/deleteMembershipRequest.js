@@ -28,6 +28,15 @@ export default async (
 		);
 	}
 
+	if (
+		request.adminApproval &&
+		Date.now() - request.createdAt < 1000 * 60 * 60 * 24
+	) {
+		throw new ForbiddenError(
+			'If you send an outgoing request, you can only delete it after one day.'
+		);
+	}
+
 	await request.destroy();
 
 	return true;

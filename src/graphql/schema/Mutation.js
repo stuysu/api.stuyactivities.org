@@ -80,6 +80,14 @@ export default gql`
 			orgUrl: String
 			message: String
 		): MembershipRequest
+		createOutgoingRequest(
+			orgId: Int
+			orgUrl: String
+			userId: Int!
+			message: String
+			admin: Boolean
+			role: String
+		): MembershipRequest
 		deleteMembershipRequest(requestId: Int!): Boolean
 		approveMembershipRequest(requestId: Int!): MembershipRequest
 		alterMembership(
