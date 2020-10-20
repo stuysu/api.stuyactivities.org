@@ -35,7 +35,7 @@
 		"express": "latest",
 		"express-session": "^1.17.1",
 		"faker": "^5.1.0",
-		"google-auth-library": "^6.1.1",
+		"google-auth-library": "^6.1.2",
 		"googleapis": "^61.0.0",
 		"graphql": "^15.3.0",
 		"graphql-iso-date": "^3.6.1",
