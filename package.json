@@ -18,7 +18,7 @@
 	"dependencies": {
 		"apollo-server-errors": "^2.4.2",
 		"apollo-server-express": "^2.18.2",
-		"axios": "^0.20.0",
+		"axios": "^0.21.0",
 		"bcrypt": "^5.0.0",
 		"body-parser": "latest",
 		"bottleneck": "^2.19.5",
