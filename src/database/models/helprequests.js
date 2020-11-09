@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 			email: DataTypes.STRING,
 			title: DataTypes.STRING,
 			description: DataTypes.TEXT,
-			captchaToken: DataTypes.STRING,
+			captchaToken: DataTypes.STRING(1024),
 			honeybadgerId: DataTypes.STRING,
 			path: DataTypes.STRING,
 			status: DataTypes.STRING,
