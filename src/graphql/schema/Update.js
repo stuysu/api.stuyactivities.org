@@ -19,5 +19,6 @@ export default gql`
 		submittingUser: User
 		links: [LinkPreview]
 		pictures: [UpdatePic]
+		questions: [UpdateQuestion]
 	}
 `;
