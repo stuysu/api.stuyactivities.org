@@ -73,14 +73,17 @@ const apolloSessionValidators = (req, res, next) => {
 
 	req.session.adminRoleRequired = async (role, fields, silent = false) => {
 		if (!adminRolesPresent) {
-			adminRolesPresent = await adminRoles.userIdLoader.load(
+			const adminRoles = await adminRoles.userIdLoader.load(
 				req.session.userId
 			);
+
+			adminRolesPresent = {};
+			adminRoles.forEach(adminRole => {
+				adminRolesPresent[adminRole.role] = adminRole;
+			});
 		}
 
-		const canPerformOperation = adminRolesPresent.some(
-			admin => admin.role === role
-		);
+		const canPerformOperation = Boolean(adminRolesPresent[role]);
 
 		if (!canPerformOperation) {
 			if (silent) {
