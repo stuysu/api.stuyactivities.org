@@ -93,5 +93,36 @@ export default async (root, args, context) => {
 	filterParams.include.push(charterInclude);
 	filterParams.include.push(tagsInclude);
 
-	return models.organizations.findAll(filterParams);
+	const results = await models.organizations.findAll(filterParams);
+
+	if (keyword) {
+		const lowerKeyword = keyword.toLowerCase();
+		results.sort((a, b) => {
+			if (a.name.toLowerCase().includes(lowerKeyword)) {
+				return -1;
+			}
+
+			if (b.name.toLowerCase().includes(lowerKeyword)) {
+				return 1;
+			}
+
+			if (
+				a.charter.mission &&
+				a.charter.mission.toLowerCase().includes(lowerKeyword)
+			) {
+				return -1;
+			}
+
+			if (
+				b.charter.mission &&
+				b.charter.mission.toLowerCase().includes(lowerKeyword)
+			) {
+				return 1;
+			}
+
+			return 0;
+		});
+	}
+
+	return results;
 };
