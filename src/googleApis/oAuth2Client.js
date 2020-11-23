@@ -69,7 +69,6 @@ const fakeApiCall = async () => {
 		console.log('Access token has been refreshed ' + new Date());
 
 		await backgroundAccessTokens.update(
-			null,
 			{
 				token: JSON.stringify(oAuth2Client.credentials)
 			},
