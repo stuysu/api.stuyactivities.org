@@ -1,6 +1,7 @@
 import { GOOGLE_APIS_CLIENT_ID, GOOGLE_APIS_CLIENT_SECRET } from '../constants';
 
 const { google } = require('googleapis');
+const { backgroundAccessTokens } = require('./../database');
 
 const oAuth2Client = new google.auth.OAuth2(
 	GOOGLE_APIS_CLIENT_ID,
@@ -10,22 +11,32 @@ const oAuth2Client = new google.auth.OAuth2(
 
 let token;
 
-try {
+const setupOauth = new Promise(async resolve => {
 	if (!process.env.CI) {
-		// Check if we have previously stored a token.
-		const savedToken = process.env.GOOGLE_APIS_TOKEN;
-		token = JSON.parse(savedToken);
+		const row = await backgroundAccessTokens.findOne({
+			where: {
+				service: 'google'
+			}
+		});
+
+		if (!row) {
+			throw new Error(
+				"You haven't yet authenticated with google. Do that first by running: npm run authenticate"
+			);
+		}
+
+		token = JSON.parse(row.token);
 		oAuth2Client.setCredentials(token);
 	}
-} catch (e) {
-	throw new Error(
-		"You haven't yet authenticated with google. Do that first by running: npm run authenticate"
-	);
-}
 
-let oAuthId;
+	resolve();
+});
+
+let oAuthId, accessToken;
 
 export const getOAuthId = async () => {
+	await setupOauth;
+
 	if (!oAuthId) {
 		if (!token || !token.id_token) {
 			return null;
@@ -41,10 +52,10 @@ export const getOAuthId = async () => {
 	return oAuthId;
 };
 
-let accessToken = oAuth2Client.credentials.access_token;
-
 // This function will just call the calendar api once per minute in order to keep our access token fresh
 const fakeApiCall = async () => {
+	await setupOauth;
+
 	const calendar = google.calendar({ version: 'v3', auth: oAuth2Client });
 	await calendar.events.list({
 		calendarId: 'primary',
@@ -56,6 +67,19 @@ const fakeApiCall = async () => {
 
 	if (accessToken !== oAuth2Client.credentials.access_token) {
 		console.log('Access token has been refreshed ' + new Date());
+
+		await backgroundAccessTokens.update(
+			null,
+			{
+				token: JSON.stringify(oAuth2Client.credentials)
+			},
+			{
+				where: {
+					service: 'google'
+				}
+			}
+		);
+
 		accessToken = oAuth2Client.credentials.access_token;
 	}
 };
