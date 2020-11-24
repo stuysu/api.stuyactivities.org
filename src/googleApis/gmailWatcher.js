@@ -103,7 +103,9 @@ const routine = async () => {
 
 		await GmailApi.users.messages.send({
 			userId: 'me',
-			raw,
+			resource: {
+				raw
+			},
 			threadId
 		});
 	}
