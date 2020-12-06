@@ -1,7 +1,7 @@
 import { ForbiddenError } from 'apollo-server-errors';
 
-export default async (root, { updateQuestionId }, {models, session}) => {
-	session.authenticationRequired(["deleteUpdateQuestion"]);
+export default async (root, { updateQuestionId }, { models, session }) => {
+	session.authenticationRequired(['deleteUpdateQuestion']);
 
 	const updateQuestion = await models.updateQuestions.findOne({
 		where: {
@@ -34,4 +34,4 @@ export default async (root, { updateQuestionId }, {models, session}) => {
 	await updateQuestion.destroy();
 
 	return true;
-}
+};
