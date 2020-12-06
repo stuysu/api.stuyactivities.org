@@ -45,5 +45,7 @@ export default gql`
 
 		upcomingUserMeetings(userId: Int!): [Meeting!]
 		userUpdates(userId: Int!): [Update]
+
+		meetings(start: DateTime!, end: DateTime!, limit: Int): [Meeting]
 	}
 `;
