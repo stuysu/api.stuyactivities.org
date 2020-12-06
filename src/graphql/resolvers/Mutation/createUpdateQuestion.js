@@ -25,6 +25,7 @@ export default async (
 	return await updateQuestions.create({
 		updateId: update.id,
 		userId: session.userId,
-		question
+		question,
+		private: false
 	});
 };
