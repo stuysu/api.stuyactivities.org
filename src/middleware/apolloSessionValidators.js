@@ -6,7 +6,7 @@ const apolloSessionValidators = (req, res, next) => {
 
 	req.session.getUser = async () => {
 		if (!user) {
-			user = await users.idLoader.load(req.session.id);
+			user = await users.idLoader.load(req.session.userId);
 		}
 		return user;
 	};
