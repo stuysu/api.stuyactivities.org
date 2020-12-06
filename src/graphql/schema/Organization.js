@@ -25,6 +25,6 @@ export default gql`
 		upcomingMeetings: [Meeting]
 
 		joinInstructions: JoinInstructions
-		googleCalendarId: String
+		googleCalendar: GoogleCalendar
 	}
 `;

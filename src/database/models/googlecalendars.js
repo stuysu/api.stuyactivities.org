@@ -16,6 +16,19 @@ module.exports = (sequelize, DataTypes) => {
 
 		static idLoader = findOneLoader(googleCalendars);
 		static orgIdLoader = findOneLoader(googleCalendars, 'organizationId');
+
+		getJoinUrl(email) {
+			const googleCalendarUrl = new URL(
+				'https://calendar.google.com/calendar/render'
+			);
+
+			googleCalendarUrl.searchParams.append('cid', this.gCalId);
+			if (email) {
+				googleCalendarUrl.searchParams.append('authuser', email);
+			}
+
+			return googleCalendarUrl.href;
+		}
 	}
 	googleCalendars.init(
 		{
