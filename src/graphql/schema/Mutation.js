@@ -168,6 +168,8 @@ export default gql`
 			private: Boolean!
 		): UpdateQuestion
 
+		deleteUpdateQuestion(updateQuestionId: Int!): Boolean
+
 		alterClubFairResponse(
 			orgId: Int!
 			isAttending: Boolean!
