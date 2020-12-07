@@ -18,7 +18,7 @@ export default async (parent, args, context) => {
 	const { strikeId, message } = args;
 
 	const strike = await strikes.strikeIdLoader.load(strikeId);
-	
+
 	if (!strike) {
 		throw new ApolloError("There's no strike with that id", 'ID_NOT_FOUND');
 	}
