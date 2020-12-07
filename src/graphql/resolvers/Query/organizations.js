@@ -3,7 +3,7 @@ const isUsingMysql =
 	new URL(process.env.SEQUELIZE_URL).protocol === 'mysql:';
 
 export default async (root, args, context) => {
-	const {
+	let {
 		keyword,
 		tags,
 		commitmentLevels,
