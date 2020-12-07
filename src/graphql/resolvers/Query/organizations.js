@@ -23,14 +23,6 @@ export default async (root, args, context) => {
 		include: []
 	};
 
-	if (limit) {
-		filterParams.limit = limit;
-	}
-
-	if (offset) {
-		filterParams.offset = offset;
-	}
-
 	if (!keyword && typeof randomOrderSeed === 'number' && isUsingMysql) {
 		filterParams.order = [models.sequelize.fn('RAND', randomOrderSeed)];
 	}
@@ -133,5 +125,5 @@ export default async (root, args, context) => {
 		});
 	}
 
-	return results;
+	return results.slice(offset, limit);
 };
