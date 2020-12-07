@@ -1,3 +1,7 @@
+const isUsingMysql =
+	process.env.SEQUELIZE_URL &&
+	new URL(process.env.SEQUELIZE_URL).protocol === 'mysql';
+
 export default async (root, args, context) => {
 	const {
 		keyword,
@@ -5,10 +9,11 @@ export default async (root, args, context) => {
 		commitmentLevels,
 		meetingDays,
 		limit,
-		offset
+		offset,
+		randomOrderSeed
 	} = args;
 
-	const { models } = context;
+	const { models, ipAddress } = context;
 	const { Op } = models.Sequelize;
 
 	const filterParams = {
@@ -24,6 +29,10 @@ export default async (root, args, context) => {
 
 	if (offset) {
 		filterParams.offset = offset;
+	}
+
+	if (!keyword && typeof randomOrderSeed === 'number' && isUsingMysql) {
+		filterParams.order = [models.sequelize.fn('RAND', randomOrderSeed)];
 	}
 
 	const charterInclude = {

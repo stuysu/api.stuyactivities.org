@@ -14,6 +14,7 @@ export default gql`
 			limit: Int
 			offset: Int
 			active: Boolean
+			randomOrderSeed: Int
 		): [Organization]!
 		organizationsWithPendingCharters: [Organization]
 		charterEdits(orgId: Int, status: String): [CharterEdit]
