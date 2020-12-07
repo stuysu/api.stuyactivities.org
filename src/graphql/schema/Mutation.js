@@ -74,7 +74,6 @@ export default gql`
 		): Strike
 
 		createStrikeComment(
-			orgId: Int!
 			strikeId: Int!
 			message: String!
 		): StrikeComment
