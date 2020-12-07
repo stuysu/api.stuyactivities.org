@@ -1,6 +1,6 @@
 const isUsingMysql =
 	process.env.SEQUELIZE_URL &&
-	new URL(process.env.SEQUELIZE_URL).protocol === 'mysql';
+	new URL(process.env.SEQUELIZE_URL).protocol === 'mysql:';
 
 export default async (root, args, context) => {
 	const {
@@ -13,7 +13,7 @@ export default async (root, args, context) => {
 		randomOrderSeed
 	} = args;
 
-	const { models, ipAddress } = context;
+	const { models } = context;
 	const { Op } = models.Sequelize;
 
 	const filterParams = {
