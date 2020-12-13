@@ -6,6 +6,7 @@
     "RUN mkdir -p /usr/src/app",
     "WORKDIR /usr/src/app",
     "COPY ./ /usr/src/app",
+    "ARG SEQUELIZE_URL",
     "ENV SEQUELIZE_URL=$SEQUELIZE_URL",
     "RUN npm install --production && npm cache clean --force && npm run build --if-present",
     "ENV NODE_ENV production",
