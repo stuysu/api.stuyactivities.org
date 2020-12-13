@@ -11,6 +11,7 @@
     "ENV NODE_ENV production",
     "RUN npm install --production && npm cache clean --force && npm run build --if-present",
     "ENV PORT 80",
-    "EXPOSE 80"
+    "EXPOSE 80",
+    "CMD [ \"npm\", \"start\" ]"
   ]
 }
