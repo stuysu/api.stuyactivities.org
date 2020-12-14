@@ -27,7 +27,9 @@ export default gql`
 		# Returns all tags if no parameters are provided or tags that match the given parameters
 		tags(keyword: String, orgId: Int, orgUrl: Int): [Tag]!
 
-		user(email: String, id: Int): User
+		user(email: String, id: Int): User @deprecated
+		userById(id: Int!): User
+		userByEmail(email: String!): User
 		users(keyword: String!, offset: Int, limit: Int): [User]!
 
 		helpRequests(
