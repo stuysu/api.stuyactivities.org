@@ -3,7 +3,10 @@ import { gql } from 'apollo-server-express';
 export default gql`
 	type Query {
 		authenticatedUser: User
-		charter(id: Int, orgUrl: String, orgId: Int): Charter
+		charter(id: Int, orgUrl: String, orgId: Int): Charter @deprecated
+		charterById(id: Int!): Charter
+		charterByOrgId(orgId: Int!): Charter
+		charterByOrgUrl(orgUrl: String!): Charter
 
 		organization(url: String, id: Int): Organization @deprecated
 		organizationById(id: Int!): Organization
