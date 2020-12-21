@@ -10,7 +10,7 @@ export default gql`
 
 		organization(url: String, id: Int): Organization @deprecated
 		organizationById(id: Int!): Organization
-		organzationByUrl(url: String!): Organization
+		organizationByUrl(url: String!): Organization
 		organizations(
 			keyword: String
 			tags: [Int!]
