@@ -3,9 +3,14 @@ import { gql } from 'apollo-server-express';
 export default gql`
 	type Query {
 		authenticatedUser: User
-		charter(id: Int, orgUrl: String, orgId: Int): Charter
+		charter(id: Int, orgUrl: String, orgId: Int): Charter @deprecated
+		charterById(id: Int!): Charter
+		charterByOrgId(orgId: Int!): Charter
+		charterByOrgUrl(orgUrl: String!): Charter
 
-		organization(url: String, id: Int): Organization
+		organization(url: String, id: Int): Organization @deprecated
+		organizationById(id: Int!): Organization
+		organizationByUrl(url: String!): Organization
 		organizations(
 			keyword: String
 			tags: [Int!]
@@ -25,7 +30,9 @@ export default gql`
 		# Returns all tags if no parameters are provided or tags that match the given parameters
 		tags(keyword: String, orgId: Int, orgUrl: Int): [Tag]!
 
-		user(email: String, id: Int): User
+		user(email: String, id: Int): User @deprecated
+		userById(id: Int!): User
+		userByEmail(email: String!): User
 		users(keyword: String!, offset: Int, limit: Int): [User]!
 
 		helpRequests(
