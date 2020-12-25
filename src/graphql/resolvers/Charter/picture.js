@@ -1,8 +1,3 @@
-export default charter => {
-	if (charter.picture) {
-		return charter.picture.replace(
-			'https://res.cloudinary.com/stuyactivities/',
-			'https://image-cdn.stuyactivities.org/'
-		);
-	}
+export default (charter, args, { models }) => {
+	return models.cloudinaryResources.idLoader.load(charter.picture);
 };
