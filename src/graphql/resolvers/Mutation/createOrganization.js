@@ -157,7 +157,14 @@ export default async (root, args, context) => {
 		});
 	}
 
-	let actualPicture = getAvatarUrl(name);
+	let actualPicture = await cloudinary.v2.uploader.upload(
+		getAvatarUrl(name),
+		{
+			public_id: `organizations/${url}/${cryptoRandomString({
+				length: 8
+			})}`
+		}
+	);
 
 	// Now insert into the database
 	const org = await organizations.create({
@@ -168,7 +175,7 @@ export default async (root, args, context) => {
 
 	const activeCharter = await charters.create({
 		organizationId: org.id,
-		picture: actualPicture
+		picture: actualPicture.public_id
 	});
 
 	const pendingCharter = await charterEdits.create({
@@ -252,21 +259,7 @@ export default async (root, args, context) => {
 
 		uploadPicStream(charter.picture, filePublicId)
 			.then(image => {
-				const options = {
-					quality: 90,
-					secure: true
-				};
-
-				if (image.width > image.height) {
-					options.width = 600;
-				} else {
-					options.height = 600;
-				}
-
-				pendingCharter.picture = cloudinary.url(
-					image.public_id,
-					options
-				);
+				pendingCharter.picture = image.public_id;
 				pendingCharter.save();
 			})
 			.catch(honeybadger.notify);

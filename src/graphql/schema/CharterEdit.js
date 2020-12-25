@@ -4,7 +4,7 @@ export default gql`
 	type CharterEdit {
 		id: Int
 		organization: Organization
-		picture: String
+		picture: CloudinaryResource
 		submittingUser: User
 		reviewer: User
 		status: String
