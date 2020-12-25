@@ -1,2 +1,4 @@
 export default (charter, args, { models }) =>
-	models.cloudinaryResources.idLoader.load(charter.picture);
+	charter.picture
+		? models.cloudinaryResources.idLoader.load(charter.picture)
+		: null;
