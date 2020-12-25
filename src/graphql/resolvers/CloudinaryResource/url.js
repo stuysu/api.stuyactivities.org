@@ -3,8 +3,7 @@ export default (picture, args) => {
 	return cloudinary
 		.url(picture.id, {
 			...args,
-			secure: true,
-			sign_url: Boolean(Object.keys(args).length)
+			secure: true
 		})
 		.replace(
 			'https://res.cloudinary.com/stuyactivities/',
