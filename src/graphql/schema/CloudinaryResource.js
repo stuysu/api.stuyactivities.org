@@ -37,6 +37,7 @@ export default gql`
 			radius: Int
 			gravity: CloudinaryGravityTypes
 		): String
+		thumbnail(width: Int!, height: Int!): String
 		height: Int
 		width: Int
 		resourceType: String
