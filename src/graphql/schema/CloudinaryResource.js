@@ -10,8 +10,20 @@ export default gql`
 		lpad
 		fill
 		Ifill
-		fill_pad
 		thumb
+	}
+
+	enum CloudinaryGravityTypes {
+		north_east
+		north
+		north_west
+		west
+		south_west
+		south
+		south_east
+		east
+		center
+		auto
 	}
 
 	type CloudinaryResource {
@@ -22,6 +34,8 @@ export default gql`
 			quality: Float
 			crop: CloudinaryImageCropTypes
 			background: String
+			radius: Int
+			gravity: CloudinaryGravityTypes
 		): String
 		height: Int
 		width: Int
