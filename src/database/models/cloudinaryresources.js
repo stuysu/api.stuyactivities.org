@@ -58,7 +58,10 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	cloudinaryResources.init(
 		{
-			id: DataTypes.STRING,
+			id: {
+				type: DataTypes.STRING,
+				primaryKey: true
+			},
 			assetId: DataTypes.STRING,
 			width: DataTypes.INTEGER,
 			height: DataTypes.INTEGER,
