@@ -157,14 +157,11 @@ export default async (root, args, context) => {
 		});
 	}
 
-	let actualPicture = await cloudinary.v2.uploader.upload(
-		getAvatarUrl(name),
-		{
-			public_id: `organizations/${url}/${cryptoRandomString({
-				length: 8
-			})}`
-		}
-	);
+	let actualPicture = await cloudinary.uploader.upload(getAvatarUrl(name), {
+		public_id: `organizations/${url}/${cryptoRandomString({
+			length: 8
+		})}`
+	});
 
 	// Now insert into the database
 	const org = await organizations.create({
