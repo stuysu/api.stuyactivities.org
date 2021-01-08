@@ -4,8 +4,11 @@ export default async (meeting, _, { session }) => {
 	}
 
 	if (meeting.privacy === 'private') {
-		if (!session.signedIn) {
-			return null;
+		const isClubPub = await session.adminRoleRequired('charters', [], true);
+		const isAuditor = await session.adminRoleRequired('audits', [], true);
+
+		if (isClubPub || isAuditor) {
+			return meeting.description;
 		}
 
 		const orgMemberships = await session.getMemberships();

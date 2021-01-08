@@ -4,7 +4,7 @@ export default gql`
 	type Charter {
 		id: Int!
 		organization: Organization
-		picture: String
+		picture: CloudinaryResource
 		mission: String
 		purpose: String
 		benefit: String

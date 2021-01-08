@@ -7,6 +7,13 @@ export default gql`
 		description: String
 		width: Int
 		height: Int
+		url(
+			width: Int
+			height: Int
+			quality: Float
+			crop: CloudinaryImageCropTypes
+			background: String
+		): String
 		mimetype: String
 		defaultUrl: String
 	}

@@ -4,7 +4,7 @@ import findOneLoader from '../dataloaders/findOneLoader';
 
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-	class strikecomments extends Model {
+	class strikeComments extends Model {
 		/**
 		 * Helper method for defining associations.
 		 * This method is not a part of Sequelize lifecycle.
@@ -12,15 +12,15 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			strikeComments.belongsTo(models.strikes);
+			strikeComments.belongsTo(models.users);
 		}
-		static orgIdLoader = findManyLoader(strikecomments, 'organizationId');
-		static strikeIdLoader = findManyLoader(strikecomments, 'strikeId');
-		static userIdLoader = findManyLoader(strikecomments, 'userId');
-		static idLoader = findOneLoader(strikecomments, 'id');
+		static strikeIdLoader = findManyLoader(strikeComments, 'strikeId');
+		static userIdLoader = findManyLoader(strikeComments, 'userId');
+		static idLoader = findOneLoader(strikeComments, 'id');
 	}
-	strikecomments.init(
+	strikeComments.init(
 		{
-			organizationId: DataTypes.INTEGER,
 			strikeId: DataTypes.INTEGER,
 			userId: DataTypes.INTEGER,
 			message: DataTypes.TEXT,
@@ -29,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			sequelize,
-			modelName: 'strikecomments'
+			modelName: 'strikeComments'
 		}
 	);
-	return strikecomments;
+	return strikeComments;
 };

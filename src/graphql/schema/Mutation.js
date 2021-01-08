@@ -73,11 +73,7 @@ export default gql`
 			reason: String!
 		): Strike
 
-		createStrikeComment(
-			orgId: Int!
-			strikeId: Int!
-			message: String!
-		): StrikeComment
+		createStrikeComment(strikeId: Int!, message: String!): StrikeComment
 
 		# --- Membership fields ---
 

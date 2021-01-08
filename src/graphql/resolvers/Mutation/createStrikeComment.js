@@ -10,26 +10,20 @@ export default async (parent, args, context) => {
 		session,
 		models: {
 			organizations,
-			strikecomments,
+			strikeComments,
 			strikes,
 			Sequelize: { Op }
 		}
 	} = context;
-	const { orgId, strikeId, message } = args;
+	const { strikeId, message } = args;
 
-	const org = await organizations.idLoader.load(orgId);
 	const strike = await strikes.strikeIdLoader.load(strikeId);
-
-	if (!org) {
-		throw new ApolloError(
-			"There's no organization with that id",
-			'ID_NOT_FOUND'
-		);
-	}
 
 	if (!strike) {
 		throw new ApolloError("There's no strike with that id", 'ID_NOT_FOUND');
 	}
+
+	const org = await organizations.idLoader.load(strike.organizationId);
 
 	session.authenticationRequired(['createStrikeComment']);
 
@@ -58,8 +52,7 @@ export default async (parent, args, context) => {
 	}
 
 	// Make the comment
-	return await strikecomments.create({
-		organizationId: orgId,
+	return await strikeComments.create({
 		strikeId: strikeId,
 		userId: session.userId,
 		message,

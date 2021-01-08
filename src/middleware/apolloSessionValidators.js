@@ -6,7 +6,7 @@ const apolloSessionValidators = (req, res, next) => {
 
 	req.session.getUser = async () => {
 		if (!user) {
-			user = await users.idLoader.load(req.session.id);
+			user = await users.idLoader.load(req.session.userId);
 		}
 		return user;
 	};
@@ -73,14 +73,17 @@ const apolloSessionValidators = (req, res, next) => {
 
 	req.session.adminRoleRequired = async (role, fields, silent = false) => {
 		if (!adminRolesPresent) {
-			adminRolesPresent = await adminRoles.userIdLoader.load(
+			const roles = await adminRoles.userIdLoader.load(
 				req.session.userId
 			);
+
+			adminRolesPresent = {};
+			roles.forEach(adminRole => {
+				adminRolesPresent[adminRole.role] = adminRole;
+			});
 		}
 
-		const canPerformOperation = adminRolesPresent.some(
-			admin => admin.role === role
-		);
+		const canPerformOperation = Boolean(adminRolesPresent[role]);
 
 		if (!canPerformOperation) {
 			if (silent) {

@@ -1,14 +1,11 @@
 'use strict';
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable('strikecomments', {
+		await queryInterface.createTable('strikeComments', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
-				type: Sequelize.INTEGER
-			},
-			organizationId: {
 				type: Sequelize.INTEGER
 			},
 			strikeId: {
@@ -37,6 +34,6 @@ module.exports = {
 		});
 	},
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable('strikecomments');
+		await queryInterface.dropTable('strikeComments');
 	}
 };

@@ -25,7 +25,11 @@ module.exports = (sequelize, DataTypes) => {
 			organizationId: DataTypes.INTEGER,
 			userId: DataTypes.INTEGER,
 			role: DataTypes.STRING,
-			adminPrivileges: DataTypes.BOOLEAN
+			adminPrivileges: DataTypes.BOOLEAN,
+			invitedToGCal: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: false
+			}
 		},
 		{
 			sequelize,

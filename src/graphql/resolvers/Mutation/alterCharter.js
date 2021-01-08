@@ -155,18 +155,8 @@ export default async (parent, args, context) => {
 		const publicId = `organizations/${org.url}/${randomName}`;
 
 		const pic = await uploadPicStream(charter.picture, publicId);
-		const options = {
-			quality: 90,
-			secure: true
-		};
 
-		if (pic.width > pic.height) {
-			options.width = 600;
-		} else {
-			options.height = 600;
-		}
-
-		charter.picture = cloudinary.url(pic.public_id, options);
+		charter.picture = pic.public_id;
 	}
 
 	alteredFields.forEach(field => {
