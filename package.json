@@ -60,7 +60,7 @@
 		"request": "^2.88.2",
 		"sequelize": "^6.3.5",
 		"sequelize-cli": "^6.2.0",
-		"sqlite3": "^5.0.0",
+		"sqlite3": "^5.0.1",
 		"url-join": "^4.0.1"
 	},
 	"devDependencies": {
