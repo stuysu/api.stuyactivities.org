@@ -37,7 +37,7 @@
 		"faker": "^5.2.0",
 		"google-auth-library": "^6.1.5",
 		"googleapis": "^67.0.0",
-		"graphql": "^15.4.0",
+		"graphql": "^15.5.0",
 		"graphql-iso-date": "^3.6.1",
 		"graphql-upload": "^11.0.0",
 		"graphql-validation-complexity": "^0.4.2",
