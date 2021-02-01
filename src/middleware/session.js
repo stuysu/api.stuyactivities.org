@@ -21,7 +21,7 @@ const sessionOptions = {
 		httpOnly: true,
 		maxAge: 7 * 86400 * 1000,
 		sameSite: 'none',
-		secure: true
+		//secure: true
 	},
 	rolling: true
 };
