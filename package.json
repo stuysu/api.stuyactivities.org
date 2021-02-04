@@ -60,10 +60,10 @@
 		"request": "^2.88.2",
 		"sequelize": "^6.5.0",
 		"sequelize-cli": "^6.2.0",
-		"sqlite3": "^5.0.1",
 		"url-join": "^4.0.1"
 	},
 	"devDependencies": {
+		"sqlite3": "^5.0.1",
 		"nodemon": "^2.0.7",
 		"prettier": "^2.2.1"
 	},
