@@ -20,8 +20,8 @@ const sessionOptions = {
 		path: '/',
 		httpOnly: true,
 		maxAge: 7 * 86400 * 1000,
-		sameSite: 'none',
-		secure: true
+		sameSite: 'none'
+		//secure: true
 	},
 	rolling: true
 };
