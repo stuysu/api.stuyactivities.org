@@ -162,6 +162,16 @@ export default gql`
 
 		deleteUpdate(updateId: Int!): Boolean
 
+		createUpdateQuestion(updateId: Int!, question: String!): UpdateQuestion
+
+		answerUpdateQuestion(
+			updateQuestionId: Int!
+			answer: String!
+			private: Boolean!
+		): UpdateQuestion
+
+		deleteUpdateQuestion(updateQuestionId: Int!): Boolean
+
 		alterClubFairResponse(
 			orgId: Int!
 			isAttending: Boolean!
