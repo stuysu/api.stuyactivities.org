@@ -22,7 +22,7 @@
 		"bcrypt": "^5.0.0",
 		"body-parser": "latest",
 		"bottleneck": "^2.19.5",
-		"chai": "^4.2.0",
+		"chai": "^4.3.0",
 		"cloudinary": "^1.24.0",
 		"connect-session-sequelize": "^7.1.0",
 		"cookie-parser": "^1.4.5",
