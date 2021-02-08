@@ -46,7 +46,7 @@
 		"mailparser": "^3.0.1",
 		"markdown-it": "^12.0.4",
 		"mocha": "^8.2.1",
-		"moment-timezone": "^0.5.32",
+		"moment-timezone": "^0.5.33",
 		"morgan": "^1.10.0",
 		"mysql2": "^2.2.5",
 		"node-html-parser": "^2.1.0",
