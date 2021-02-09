@@ -48,7 +48,7 @@ export default gql`
 
 		clubFairResponse(orgId: Int!): ClubFairResponse
 
-		exploreUpdates(limit: Int, offset: Int): [Update]
+		exploreUpdates(limit: Int=20, offset: Int): [Update]
 		exploreMeetings: [Meeting]
 
 		upcomingUserMeetings(userId: Int!): [Meeting!]
