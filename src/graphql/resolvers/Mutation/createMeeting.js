@@ -5,6 +5,7 @@ import {
 	createCalendarEvent,
 	initOrgCalendar
 } from '../../../googleApis/calendar';
+import { Op } from 'sequelize';
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 
@@ -101,7 +102,10 @@ export default async (
 		include: {
 			model: memberships,
 			where: {
-				organizationId: org.id
+				organizationId: org.id,
+				updateNotification: {
+					[Op.not]: false
+				}
 			},
 			required: true
 		}

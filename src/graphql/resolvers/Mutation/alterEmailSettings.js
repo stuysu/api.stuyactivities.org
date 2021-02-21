@@ -30,12 +30,6 @@ export default async (parent, args, context) => {
 		);
 	}
 
-	//update if user never set email
-	//	if (membership.meetingNotification === undefined || membership.meetingNotification === null) membership.meetingNotification = true;
-	//	if (membership.updateNotification === undefined || membership.updateNotification === null) membership.updateNotification = true;
-	//	if (membership.meetingReminderTime === undefined || membership.meetingReminderTime === null) membership.meetingReminderTime = -1;
-
-	console.log(updateNotification);
 	if (meetingNotification !== undefined)
 		membership.meetingNotification = meetingNotification;
 	if (updateNotification !== undefined)
