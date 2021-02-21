@@ -101,6 +101,13 @@ export default gql`
 		): Membership
 		deleteMembership(membershipId: Int!, notify: Boolean): Boolean
 
+		alterEmailSettings(
+			membershipId: Int!
+			meetingNotification: Boolean
+			updateNotification: Boolean
+			meetingReminderTime: Int
+		): Membership
+
 		# --- Meeting fields ---
 		createMeeting(
 			orgId: Int

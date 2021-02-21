@@ -29,7 +29,10 @@ module.exports = (sequelize, DataTypes) => {
 			invitedToGCal: {
 				type: DataTypes.BOOLEAN,
 				defaultValue: false
-			}
+			},
+			meetingNotification: DataTypes.BOOLEAN,
+			updateNotification: DataTypes.BOOLEAN,
+			meetingReminderTime: DataTypes.INTEGER
 		},
 		{
 			sequelize,
