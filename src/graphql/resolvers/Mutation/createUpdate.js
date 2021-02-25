@@ -3,6 +3,7 @@ import getLinkPreview from '../../../utils/getLinkPreview';
 import cryptoRandomString from 'crypto-random-string';
 import uploadPicStream from '../../../utils/uploadPicStream';
 import sendEmail from '../../../utils/sendEmail';
+import { Op } from 'sequelize';
 const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 const cloudinary = require('cloudinary').v2;
@@ -141,7 +142,10 @@ export default async (
 			include: {
 				model: models.memberships,
 				where: {
-					organizationId: orgId
+					organizationId: orgId,
+					updateNotification: {
+						[Op.not]: false
+					}
 				},
 				required: true
 			}
