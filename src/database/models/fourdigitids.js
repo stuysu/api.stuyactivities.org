@@ -19,19 +19,25 @@ module.exports = (sequelize, DataTypes) => {
 
 		static userIdCreateLoader = new DataLoader(
 			async userIds => {
-				const idUsedMap = Array(10000).fill(false);
+				const availableIds = new Set(
+					Array(10000 - 1000)
+						.fill(1000)
+						.map((a, index) => a + index)
+				);
+
 				const allFourDigits = await fourDigitIds.findAll();
 				const userIdMap = {};
 
 				for (let i = 0; i < allFourDigits; i++) {
 					const id = allFourDigits[i];
-					idUsedMap[id.value] = true;
 					userIdMap[id.userId] = id.value;
+					availableIds.delete(id.value);
 				}
 
 				const response = [];
 				const newRows = [];
-				let lowestUnusedId = 1000;
+
+				const availableIdsArray = [...availableIds];
 
 				for (let x = 0; x < userIds.length; x++) {
 					const userId = userIds[x];
@@ -39,24 +45,14 @@ module.exports = (sequelize, DataTypes) => {
 					if (existingVal) {
 						response.push(existingVal);
 					} else {
-						while (
-							lowestUnusedId < 9999 &&
-							idUsedMap[lowestUnusedId]
-						) {
-							lowestUnusedId++;
-						}
-						if (!idUsedMap[lowestUnusedId]) {
-							idUsedMap[lowestUnusedId] = true;
-							userIdMap[userId] = lowestUnusedId;
-							newRows.push({
-								userId,
-								value: lowestUnusedId
-							});
-							response.push(lowestUnusedId);
-						} else {
-							// There aren't any four digit ids left
-							response.push(null);
-						}
+						const unusedId = availableIdsArray.pop();
+						// If they don't have an id assign them something
+						userIdMap[userId] = unusedId;
+						newRows.push({
+							userId,
+							value: unusedId
+						});
+						response.push(unusedId);
 					}
 				}
 
