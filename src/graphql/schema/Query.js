@@ -21,6 +21,7 @@ export default gql`
 			active: Boolean
 			randomOrderSeed: Int
 		): [Organization]!
+
 		organizationsWithPendingCharters: [Organization]
 		charterEdits(orgId: Int, status: String): [CharterEdit]
 
@@ -55,6 +56,12 @@ export default gql`
 		userUpdates(userId: Int!): [Update]
 
 		meetings(start: DateTime!, end: DateTime!, limit: Int): [Meeting]
+		meeetingsByOrganizationId(
+			organizationId: Int!
+			start: DateTime
+			end: DateTime
+		): [Meeting!]!
+
 		meetingById(id: Int!): Meeting
 	}
 `;
