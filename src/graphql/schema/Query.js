@@ -56,7 +56,7 @@ export default gql`
 		userUpdates(userId: Int!): [Update]
 
 		meetings(start: DateTime!, end: DateTime!, limit: Int): [Meeting]
-		meeetingsByOrganizationId(
+		meetingsByOrganizationId(
 			organizationId: Int!
 			start: DateTime
 			end: DateTime
