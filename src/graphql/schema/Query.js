@@ -56,5 +56,7 @@ export default gql`
 
 		meetings(start: DateTime!, end: DateTime!, limit: Int): [Meeting]
 		meetingById(id: Int!): Meeting
+
+		date: DateTime!
 	}
 `;
