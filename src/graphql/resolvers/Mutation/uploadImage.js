@@ -11,7 +11,7 @@ export default async (_, { alt, file }, { session, models }) => {
 		throw new UserInputError('The uploaded file is not an image');
 	}
 
-	const user = await models.users.findOne({ id: session.userId });
+	const user = await session.getUser();
 
 	const randString = randomBytes(8).toString('hex');
 	const publicId = `userUploads/${user.id}-${user.email}/${randString}`;
