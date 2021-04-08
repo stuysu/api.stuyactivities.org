@@ -19,5 +19,13 @@ export default (
 		};
 	}
 
-	return meetings.findAll({ where });
+	return meetings.findAll({
+		where,
+		order: [
+			['start', 'desc'],
+			['end', 'desc'],
+			['createdAt', 'desc'],
+			['updatedAt', 'desc']
+		]
+	});
 };
