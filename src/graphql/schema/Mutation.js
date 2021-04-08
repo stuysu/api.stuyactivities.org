@@ -190,5 +190,7 @@ export default gql`
 			instructions: String
 			buttonEnabled: Boolean
 		): JoinInstructions
+
+		uploadImage(alt: String!, file: Upload!): CloudinaryResource!
 	}
 `;
