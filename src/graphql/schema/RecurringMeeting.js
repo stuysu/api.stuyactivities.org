@@ -6,8 +6,8 @@ export default gql`
 		organization: Organization
 		dayOfWeek: Int!
 		frequency: Int!
-		start: DateTime
-		end: DateTime
+		start: Time
+		end: Time
 		title: String
 		description: String
 		privacy: String

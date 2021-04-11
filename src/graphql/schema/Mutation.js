@@ -136,8 +136,8 @@ export default gql`
 			orgUrl: String
 			title: String!
 			description: String!
-			start: DateTime!
-			end: DateTime!
+			start: Time!
+			end: Time!
 			dayOfWeek: Int!
 			frequency: Int!
 			privacy: String! = "public"
@@ -146,8 +146,8 @@ export default gql`
 			recurringMeetingId: Int!
 			title: String
 			description: String
-			start: DateTime
-			end: DateTime
+			start: Time
+			end: Time
 			dayOfWeek: Int!
 			notifyMembers: Boolean
 			privacy: String

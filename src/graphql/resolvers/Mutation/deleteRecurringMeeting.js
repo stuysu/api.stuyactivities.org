@@ -1,31 +1,42 @@
 import { ApolloError } from 'apollo-server-errors';
 import { deleteCalendarEvent } from '../../../googleApis/calendar';
+import destroyRecurringMeetingChildren from '../../../utils/destroyRecurringMeetingChildren';
 
 export default async (
 	root,
-	{ meetingId },
-	{ session, models: { meetings, googleCalendarEvents, googleCalendars } }
+	{ recurringMeetingId },
+	{
+		session,
+		models: {
+			recurringMeetings,
+			meetings,
+			googleCalendarEvents,
+			googleCalendars
+		}
+	}
 ) => {
 	session.authenticationRequired(['createMeeting']);
 
-	const meeting = await meetings.idLoader.load(meetingId);
+	const recurringMeeting = await recurringMeetings.idLoader.load(
+		recurringMeetingId
+	);
 
 	if (!meeting) {
 		throw new ApolloError(
-			"There's no meeting with that id",
+			"There's no recurring meeting with that id",
 			'MEETING_NOT_FOUND'
 		);
 	}
 
-	await session.orgAdminRequired(meeting.organizationId);
+	await session.orgAdminRequired(recurringMeeting.organizationId);
 
 	/*const meetingCalEvent = await googleCalendarEvents.meetingIdLoader.load(
 		meeting.id
 	);*/
 	const meetingCalEvent = await googleCalendarEvents.findOne({
 		where: {
-			meetingId: meetingId,
-			recurringMeeting: false
+			meetingId: recurringMeetingId,
+			recurringMeeting: true
 		}
 	});
 
@@ -36,7 +47,9 @@ export default async (
 		await meetingCalEvent.destroy();
 	}
 
-	await meeting.destroy();
+	await destroyRecurringMeetingChildren({ recurringMeeting, meetings });
+
+	await recurringMeeting.destroy();
 
 	return true;
 };
