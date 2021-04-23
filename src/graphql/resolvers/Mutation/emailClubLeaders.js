@@ -3,9 +3,9 @@ import { getTransporter } from '../../../utils/sendEmail';
 export default async (
 	_,
 	{ subject, body, sendToFaculty },
-	{ adminRoleRequired, models: { users, memberships, organizations } }
+	{ session, models: { users, memberships, organizations } }
 ) => {
-	await adminRoleRequired('charters');
+	await session.adminRoleRequired('charters');
 
 	const transport = await getTransporter();
 
