@@ -192,5 +192,6 @@ export default gql`
 		): JoinInstructions
 
 		uploadImage(alt: String!, file: Upload!): CloudinaryResource!
+		emailClubLeaders(subject: String!, body: String!): Boolean
 	}
 `;
