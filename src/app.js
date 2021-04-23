@@ -14,6 +14,7 @@ import serverErrorHandler from './middleware/serverErrorHandler';
 import logger from './middleware/logger';
 import graphqlUploads from './middleware/graphqlUploads';
 import './googleApis/gmailWatcher';
+import './utils/createRecurringMeetings';
 
 const app = express();
 

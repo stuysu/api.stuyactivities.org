@@ -148,7 +148,7 @@ export default gql`
 			description: String
 			start: Time
 			end: Time
-			dayOfWeek: Int!
+			dayOfWeek: Int
 			notifyMembers: Boolean
 			privacy: String
 			frequency: Int

@@ -21,7 +21,7 @@ export default async (
 		recurringMeetingId
 	);
 
-	if (!meeting) {
+	if (!recurringMeeting) {
 		throw new ApolloError(
 			"There's no recurring meeting with that id",
 			'MEETING_NOT_FOUND'
@@ -40,7 +40,9 @@ export default async (
 		}
 	});
 
-	const gCal = await googleCalendars.orgIdLoader.load(meeting.organizationId);
+	const gCal = await googleCalendars.orgIdLoader.load(
+		recurringMeeting.organizationId
+	);
 
 	if (meetingCalEvent) {
 		await deleteCalendarEvent(gCal.gCalId, meetingCalEvent.gCalEventId);

@@ -28,6 +28,7 @@ export default async (
 	{
 		models: {
 			organizations,
+			recurringMeetings,
 			meetings,
 			users,
 			memberships,
@@ -114,6 +115,7 @@ export default async (
 		start,
 		end,
 		frequency,
+		dayOfWeek,
 		orgName: org.name,
 		orgUrl: org.url
 	});
@@ -130,5 +132,8 @@ export default async (
 		recurringMeeting: true
 	});
 
-	return meeting;
+	// refer to src/graphql/resolvers/Organization/recurringMeetings.js for an explanation
+	recurringMeeting.start = new Date(recurringMeeting.start);
+	recurringMeeting.end = new Date(recurringMeeting.end);
+	return recurringMeeting;
 };

@@ -53,7 +53,7 @@ export default async (
 		);
 	}
 
-	await session.orgAdminRequired(meeting.organizationId);
+	await session.orgAdminRequired(recurringMeeting.organizationId);
 
 	if (title) {
 		recurringMeeting.title = title;
@@ -103,6 +103,7 @@ export default async (
 		start: recurringMeeting.start,
 		end: recurringMeeting.end,
 		frequency: recurringMeeting.frequency,
+		dayOfWeek: recurringMeeting.dayOfWeek,
 		orgName: org.name,
 		orgUrl: org.url
 	});
@@ -148,5 +149,8 @@ export default async (
 		);
 	}
 
+	// refer to src/graphql/resolvers/Organization/recurringMeetings.js for an explanation
+	recurringMeeting.start = new Date(recurringMeeting.start);
+	recurringMeeting.end = new Date(recurringMeeting.end);
 	return recurringMeeting;
 };

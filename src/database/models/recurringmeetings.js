@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
 			lastCreated: DataTypes.DATE,
 			title: DataTypes.STRING,
 			description: DataTypes.STRING,
-			privacy: DataTypes.ENUM('public', 'private')
+			privacy: DataTypes.ENUM('public', 'private'),
+			frequency: DataTypes.INTEGER
 		},
 		{
 			sequelize,
