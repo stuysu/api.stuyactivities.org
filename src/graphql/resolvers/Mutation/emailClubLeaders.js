@@ -30,16 +30,20 @@ export default async (
 		}
 	});
 
-	const emails = clubLeaders.map(user =>
-		transport.sendMail({
-			from: 'StuyActivities <app@stuyactivities.org>', // sender address
-			to: user.email, // list of receivers
-			subject, // Subject line
-			html: body
-		})
-	);
+	async function sendEmails() {
+		for (let i = 0; i < clubLeaders.length; i++) {
+			const user = clubLeaders[i];
 
-	await Promise.all(emails);
+			await transport.sendMail({
+				to: user.email, // list of receivers
+				subject, // Subject line
+				html: body
+			});
+		}
+	}
+
+	// We wrapped it in an async function so as not to wait for it to complete
+	sendEmails();
 
 	return true;
 };
