@@ -15,7 +15,6 @@ Backend for [StuyActivities.org](https://stuyactivities.org)
 npm install
 ```
 
-
 5. That's it, you can start developing!
 
 -   If you want your app to automatically restart upon file changes, run it with the following command:
