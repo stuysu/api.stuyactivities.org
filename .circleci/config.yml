@@ -6,7 +6,7 @@ commands:
         parameters:
             port:
                 type: string
-                default: "3306"
+                default: '3306'
         steps:
             - run:
                   # Our primary container isn't MYSQL so run a sleep command until it's ready.
@@ -40,7 +40,7 @@ jobs:
                   steps:
                       - run: npm install
                       - check-port-listening:
-                            port: "3306"
+                            port: '3306'
                       - run: npm run build
                       - run: npm run test
                       - run: npm run coverage
