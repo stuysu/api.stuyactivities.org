@@ -59,6 +59,7 @@
 		"open-graph-scraper": "^4.8.2",
 		"regenerator-runtime": "^0.13.7",
 		"request": "^2.88.2",
+		"sanitize-html": "^2.3.3",
 		"sequelize": "^6.6.2",
 		"sequelize-cli": "^6.2.0",
 		"url-join": "^4.0.1"
