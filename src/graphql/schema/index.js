@@ -9,6 +9,7 @@ import GoogleCalendar from './GoogleCalendar';
 import HelpRequest from './HelpRequest';
 import HelpRequestMessage from './HelpRequestMessage';
 import JoinInstructions from './JoinInstructions';
+import KeyPair from './KeyPair';
 import LinkPreview from './LinkPreview';
 import Meeting from './Meeting';
 import Membership from './Membership';
@@ -39,6 +40,7 @@ export default [
 	HelpRequest,
 	HelpRequestMessage,
 	JoinInstructions,
+	KeyPair,
 	LinkPreview,
 	Meeting,
 	Membership,

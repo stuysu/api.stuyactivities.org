@@ -36,15 +36,6 @@ function generateKeyPairPromise(passphrase, modulusLength = 2048) {
 
 module.exports = (sequelize, DataTypes) => {
 	class keyPairs extends Model {
-		/**
-		 * Helper method for defining associations.
-		 * This method is not a part of Sequelize lifecycle.
-		 * The `models/index` file will call this method automatically.
-		 */
-		static associate(models) {
-			// define association here
-		}
-
 		// Keys should last a year at most
 		static maxAge = 1000 * 60 * 60 * 24 * 365;
 
