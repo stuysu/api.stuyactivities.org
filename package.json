@@ -39,6 +39,7 @@
 		"googleapis": "^73.0.0",
 		"graphql": "^15.5.0",
 		"graphql-iso-date": "^3.6.1",
+		"graphql-scalars": "^1.9.3",
 		"graphql-upload": "^12.0.0",
 		"graphql-validation-complexity": "^0.4.2",
 		"honeybadger": "^1.4.0",
