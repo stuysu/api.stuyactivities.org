@@ -85,8 +85,8 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	keyPairs.init(
 		{
-			privateKey: DataTypes.STRING,
-			publicKey: DataTypes.STRING,
+			privateKey: DataTypes.TEXT,
+			publicKey: DataTypes.TEXT,
 			passphrase: DataTypes.STRING,
 			expiration: DataTypes.DATE
 		},
