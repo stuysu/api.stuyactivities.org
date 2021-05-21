@@ -95,7 +95,7 @@ const loginWithGoogle = async ({ googleOAuthToken, setCookie }) => {
 		{ algorithm: 'RS256', expiresIn: '30d' }
 	);
 
-	setCookie('auth-jwt', token, { maxAge: 60 * 24 * 30 });
+	setCookie('auth-jwt', token, { maxAge: 1000 * 60 * 24 * 30 });
 
 	return token;
 };

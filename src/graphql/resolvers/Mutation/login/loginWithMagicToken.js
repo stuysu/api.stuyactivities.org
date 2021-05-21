@@ -37,7 +37,7 @@ export default async function loginWithMagicToken({ token, setCookie }) {
 		{ algorithm: 'RS256', expiresIn: '30d' }
 	);
 
-	setCookie('auth-jwt', jwt, { maxAge: 60 * 24 * 30 });
+	setCookie('auth-jwt', jwt, { maxAge: 1000 * 60 * 24 * 30 });
 
 	return jwt;
 }
