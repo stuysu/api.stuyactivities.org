@@ -6,7 +6,7 @@ export default async (update, args, { user, models, isOrgAdmin }) => {
 	questions = questions.filter(question => {
 		if (isAdmin) return true;
 		if (!question.answer) return false;
-		if (question.userId === session.userId) return true;
+		if (question.userId === user.id) return true;
 		if (question.private) return false;
 		return true;
 	});

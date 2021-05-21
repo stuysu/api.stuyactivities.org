@@ -6,8 +6,6 @@ import express from 'express';
 import proxyValidator from './middleware/proxyValidator';
 
 import cors from './middleware/cors';
-import session from './middleware/session';
-import apolloSessionValidators from './middleware/apolloSessionValidators';
 import parsers from './middleware/parsers';
 import apolloServer from './graphql';
 import serverErrorHandler from './middleware/serverErrorHandler';
@@ -25,10 +23,6 @@ app.use(logger);
 app.set('trust proxy', proxyValidator);
 
 app.use(cors);
-
-app.use(session);
-
-app.use(apolloSessionValidators);
 
 app.use(parsers);
 
