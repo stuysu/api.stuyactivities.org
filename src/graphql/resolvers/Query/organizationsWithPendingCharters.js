@@ -1,9 +1,5 @@
-export default async (parent, args, { models, session }) => {
-	session.authenticationRequired();
-
-	await session.adminRoleRequired('charters', [
-		'organizationsWithPendingCharters'
-	]);
+export default async (parent, args, { models, adminRoleRequired }) => {
+	adminRoleRequired('charters');
 
 	return models.organizations.findAll({
 		include: [

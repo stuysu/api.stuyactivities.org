@@ -64,6 +64,10 @@ export default gql`
 
 		meetingById(id: Int!): Meeting
 
+		validKeyPairs: [KeyPair!]!
+
+		signingKey: KeyPair!
+
 		date: DateTime!
 	}
 `;

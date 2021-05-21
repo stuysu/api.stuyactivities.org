@@ -1,9 +1,9 @@
+import { resolvers as graphqlScalarResolvers } from 'graphql-scalars';
 import AdminRole from './AdminRole';
 import Charter from './Charter';
 import CharterApprovalMessage from './CharterApprovalMessage';
 import CharterEdit from './CharterEdit';
 import CloudinaryResource from './CloudinaryResource';
-import DateTime from './DateTime';
 import GoogleCalendar from './GoogleCalendar';
 import JoinInstructions from './JoinInstructions';
 import Meeting from './Meeting';
@@ -22,12 +22,12 @@ import Upload from './Upload';
 import User from './User';
 
 const resolvers = {
+	...graphqlScalarResolvers,
 	AdminRole,
 	Charter,
 	CharterApprovalMessage,
 	CharterEdit,
 	CloudinaryResource,
-	DateTime,
 	GoogleCalendar,
 	JoinInstructions,
 	Meeting,

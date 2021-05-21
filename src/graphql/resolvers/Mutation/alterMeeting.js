@@ -24,10 +24,11 @@ export default async (
 			googleCalendars,
 			googleCalendarEvents
 		},
-		session
+		authenticationRequired,
+		orgAdminRequired
 	}
 ) => {
-	session.authenticationRequired(['createMeeting']);
+	authenticationRequired();
 
 	const meeting = await meetings.idLoader.load(meetingId);
 
@@ -38,7 +39,7 @@ export default async (
 		);
 	}
 
-	await session.orgAdminRequired(meeting.organizationId);
+	orgAdminRequired(meeting.organizationId);
 
 	if (title) {
 		meeting.title = title;
@@ -57,7 +58,7 @@ export default async (
 	if (start) {
 		if (start < now) {
 			throw new UserInputError(
-				'Start time is not valid or is in the past (if you\'re using safari, make sure your date is in mm/dd/yyyy format)'
+				"Start time is not valid or is in the past (if you're using safari, make sure your date is in mm/dd/yyyy format)"
 			);
 		}
 		meeting.start = start;
@@ -65,7 +66,9 @@ export default async (
 
 	if (end) {
 		if (end < meeting.start || end < now) {
-			throw new UserInputError('End time is not valid or is in the past (if you\'re using safari, make sure your date is in mm/dd/yyyy format)');
+			throw new UserInputError(
+				"End time is not valid or is in the past (if you're using safari, make sure your date is in mm/dd/yyyy format)"
+			);
 		}
 		meeting.end = end;
 	}

@@ -7,9 +7,14 @@ import {
 export default async (
 	root,
 	{ requestId, message },
-	{ session, models: { helpRequests, helpRequestMessages } }
+	{
+		authenticationRequired,
+		user,
+		hasAdminRole,
+		models: { helpRequests, helpRequestMessages }
+	}
 ) => {
-	session.authenticationRequired(['createHelpRequestMessage']);
+	authenticationRequired();
 
 	const request = await helpRequests.idLoader.load(requestId);
 
@@ -20,13 +25,9 @@ export default async (
 		);
 	}
 
-	const isAdmin = await session.adminRoleRequired(
-		'helpRequests',
-		['createHelpRequestMessage'],
-		true
-	);
+	const isAdmin = hasAdminRole('helpRequests');
 
-	if (request.userId !== session.userId && !isAdmin) {
+	if (request.userId !== user.id && !isAdmin) {
 		throw new ForbiddenError(
 			'You are not allowed to create a message on this request.'
 		);
@@ -46,7 +47,7 @@ export default async (
 
 	return await helpRequestMessages.create({
 		helpRequestId: request.id,
-		userId: session.userId,
+		userId: user.id,
 		role,
 		message
 	});

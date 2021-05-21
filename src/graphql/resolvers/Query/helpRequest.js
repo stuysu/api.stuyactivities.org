@@ -3,15 +3,10 @@ import { ApolloError, ForbiddenError } from 'apollo-server-errors';
 export default async (
 	root,
 	{ requestId },
-	{ models: { helpRequests }, session }
+	{ models: { helpRequests }, authenticationRequired, hasAdminRole, user }
 ) => {
-	session.authenticationRequired(['helpRequest']);
-	const isAdmin = await session.adminRoleRequired(
-		'helpRequest',
-		['helpRequests'],
-		true
-	);
-
+	authenticationRequired();
+	const isAdmin = hasAdminRole('helpRequests');
 	const request = await helpRequests.idLoader.load(requestId);
 
 	if (!request) {
@@ -21,7 +16,7 @@ export default async (
 		);
 	}
 
-	if (!isAdmin && request.userId !== session.userId) {
+	if (!isAdmin && request.userId !== user.id) {
 		throw new ForbiddenError(
 			'You are not allowed to view this help request'
 		);

@@ -3,9 +3,13 @@ import { ForbiddenError, UserInputError } from 'apollo-server-errors';
 export default async (
 	root,
 	{ orgId, orgUrl, message },
-	{ models: { membershipRequests, organizations, memberships }, session }
+	{
+		models: { membershipRequests, organizations, memberships },
+		authenticationRequired,
+		user
+	}
 ) => {
-	session.authenticationRequired(['createMembershipRequest']);
+	authenticationRequired();
 
 	if (message && message.length > 1000) {
 		throw new UserInputError(
@@ -35,7 +39,7 @@ export default async (
 	// Check to see if the user is already a member
 	const alreadyMember = await memberships.findOne({
 		where: {
-			userId: session.userId,
+			userId: user.id,
 			organizationId: org.id
 		}
 	});
@@ -48,7 +52,7 @@ export default async (
 
 	const alreadySubmitted = await membershipRequests.findOne({
 		where: {
-			userId: session.userId,
+			userId: user.id,
 			organizationId: org.id
 		}
 	});
@@ -61,7 +65,7 @@ export default async (
 
 	return await membershipRequests.create({
 		organizationId: org.id,
-		userId: session.userId,
+		userId: user.id,
 		role: 'Member',
 		adminPrivileges: false,
 		userMessage: message,

@@ -21,6 +21,7 @@ import organizationById from './organizationById';
 import organizationByUrl from './organizationByUrl';
 import organizations from './organizations';
 import organizationsWithPendingCharters from './organizationsWithPendingCharters';
+import signingKey from './signingKey';
 import tags from './tags';
 import upcomingUserMeetings from './upcomingUserMeetings';
 import user from './user';
@@ -28,6 +29,7 @@ import userByEmail from './userByEmail';
 import userById from './userById';
 import users from './users';
 import userUpdates from './userUpdates';
+import validKeyPairs from './validKeyPairs';
 
 export default {
 	authenticatedUser,
@@ -53,11 +55,13 @@ export default {
 	organizationByUrl,
 	organizations,
 	organizationsWithPendingCharters,
+	signingKey,
 	tags,
 	upcomingUserMeetings,
 	user,
 	userByEmail,
 	userById,
 	users,
-	userUpdates
+	userUpdates,
+	validKeyPairs
 };

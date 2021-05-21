@@ -1,14 +1,14 @@
-export default async (update, params, { models, session }) => {
-	session.authenticationRequired();
+export default async (
+	update,
+	params,
+	{ models, authenticationRequired, isOrgAdmin, hasAdminRole }
+) => {
+	authenticationRequired();
 
-	const isOrgAdmin = await session.orgAdminRequired(
-		update.organizationId,
-		[],
-		true
-	);
-	const isSUAdmin = await session.adminRoleRequired('updates', [], true);
+	const orgAdmin = isOrgAdmin(update.organizationId);
+	const isSUAdmin = hasAdminRole('updates');
 
-	if (!isOrgAdmin && !isSUAdmin) {
+	if (!orgAdmin && !isSUAdmin) {
 		return null;
 	}
 

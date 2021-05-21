@@ -2,13 +2,16 @@ import { createComplexityLimitRule } from 'graphql-validation-complexity';
 import {
 	ApolloError,
 	ApolloServer,
-	ValidationError
+	ValidationError,
+	ForbiddenError
 } from 'apollo-server-express';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import honeybadger from 'honeybadger';
+import getJWTPayload from '../utils/auth/getJWTPayload';
 
 const models = require('../database');
+const { users, adminRoles, memberships } = models;
 
 const ComplexityLimitRule = createComplexityLimitRule(75000, {
 	scalarCost: 1,
@@ -19,12 +22,90 @@ const ComplexityLimitRule = createComplexityLimitRule(75000, {
 const apolloServer = new ApolloServer({
 	typeDefs,
 	resolvers,
-	context: ({ req }) => {
+	context: async ({ req, res }) => {
+		let user, signedIn;
+
+		let jwt =
+			req.cookies['auth-jwt'] ||
+			req.headers['x-access-token'] ||
+			req.headers['authorization'];
+
+		if (jwt && jwt.startsWith('Bearer ')) {
+			jwt = jwt.replace('Bearer ', '');
+		}
+
+		if (jwt) {
+			const data = await getJWTPayload(jwt);
+
+			if (data) {
+				user = await users.findOne({
+					where: {
+						id: data.user.id
+					},
+					include: [adminRoles, memberships]
+				});
+			}
+
+			signedIn = Boolean(user);
+		}
+
+		function authenticationRequired() {
+			if (!signedIn) {
+				throw new ForbiddenError(
+					'You must be signed in to perform that query'
+				);
+			}
+		}
+
+		const adminRolesSet =
+			signedIn && new Set(user.adminRoles.map(a => a.role));
+
+		function hasAdminRole(role) {
+			return signedIn && adminRolesSet.has(role);
+		}
+
+		function isOrgAdmin(orgId) {
+			return (
+				signedIn &&
+				user.memberships.some(
+					m => m.organizationId === orgId && m.adminPrivileges
+				)
+			);
+		}
+
+		function adminRoleRequired(role) {
+			authenticationRequired();
+			if (!hasAdminRole(role)) {
+				throw new ForbiddenError(
+					"You don't have the necessary permissions to perform that query"
+				);
+			}
+		}
+
+		function orgAdminRequired(orgId) {
+			authenticationRequired();
+			if (!isOrgAdmin(orgId)) {
+				throw new ForbiddenError(
+					"You don't have the necessary permissions to perform that query"
+				);
+			}
+		}
+
+		// Doesn't work otherwise for some reason
+		const setCookie = (...a) => res.cookie(...a);
+
 		return {
-			session: req.session,
+			signedIn,
+			user,
+			authenticationRequired,
+			orgAdminRequired,
+			isOrgAdmin,
+			hasAdminRole,
+			adminRoleRequired,
 			models,
 			ipAddress:
-				req.headers['x-forwarded-for'] || req.connection.remoteAddress
+				req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+			setCookie
 		};
 	},
 	uploads: false,
@@ -39,7 +120,8 @@ const apolloServer = new ApolloServer({
 		const safeError =
 			err.originalError instanceof ApolloError ||
 			err instanceof ValidationError ||
-			err.originalError.message === 'Not allowed by CORS';
+			(err.originalError &&
+				err.originalError.message === 'Not allowed by CORS');
 
 		honeybadger.notify(err, {
 			context: {
@@ -55,7 +137,7 @@ const apolloServer = new ApolloServer({
 
 		// This is an unexpected error and might have secrets
 		if (!safeError || internalError) {
-			console.error(err.originalError);
+			console.log(JSON.stringify(err, null, 2));
 
 			// report this error to us but hide it from the client
 			// honeybadger.notify(err.originalError);

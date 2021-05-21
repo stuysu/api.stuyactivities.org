@@ -1,20 +1,22 @@
-export default async (meeting, _, { session }) => {
-	if (!session.signedIn) {
+export default async (
+	meeting,
+	_,
+	{ signedIn, user, hasAdminRole, isOrgAdmin }
+) => {
+	if (!signedIn) {
 		return null;
 	}
 
 	if (meeting.privacy === 'private') {
-		const isClubPub = await session.adminRoleRequired('charters', [], true);
-		const isAuditor = await session.adminRoleRequired('audits', [], true);
+		const isClubPub = hasAdminRole('charters');
+		const isAuditor = hasAdminRole('audits');
 
 		if (isClubPub || isAuditor) {
 			return meeting.description;
 		}
 
-		const orgMemberships = await session.getMemberships();
-
-		const isMember = orgMemberships.some(
-			membership => membership.organizationId === meeting.organizationId
+		const isMember = user.memberships.some(
+			m => m.organizationId === meeting.organizationId
 		);
 
 		if (!isMember) {

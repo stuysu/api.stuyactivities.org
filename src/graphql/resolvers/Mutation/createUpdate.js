@@ -22,10 +22,9 @@ export default async (
 		links,
 		pictures
 	},
-	{ session, models }
+	{ orgAdminRequired, models, user }
 ) => {
-	session.authenticationRequired();
-	await session.orgAdminRequired(orgId);
+	orgAdminRequired(orgId);
 
 	if (!allowedTypes.includes(type)) {
 		throw new UserInputError('That is not a valid update type', {
@@ -80,7 +79,7 @@ export default async (
 
 	const update = await models.updates.create({
 		organizationId: orgId,
-		submittingUserId: session.userId,
+		submittingUserId: user.id,
 		title,
 		content,
 		type,
