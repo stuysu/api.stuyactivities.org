@@ -3,9 +3,9 @@ import { ApolloError, ForbiddenError } from 'apollo-server-errors';
 export default async (
 	root,
 	{ requestId },
-	{ session, models: { helpRequests } }
+	{ authenticationRequired, user, models: { helpRequests }, hasAdminRole }
 ) => {
-	session.authenticationRequired(['closeHelpRequest']);
+	authenticationRequired();
 
 	const request = await helpRequests.idLoader.load(requestId);
 
@@ -16,13 +16,9 @@ export default async (
 		);
 	}
 
-	const isAdmin = await session.adminRoleRequired(
-		'helpRequests',
-		['closeHelpRequest'],
-		true
-	);
+	const isAdmin = hasAdminRole('helpRequests');
 
-	if (request.userId !== session.userId && !isAdmin) {
+	if (request.userId !== user.id && !isAdmin) {
 		throw new ForbiddenError('You are not allowed to close this request');
 	}
 

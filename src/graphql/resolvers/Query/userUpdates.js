@@ -1,7 +1,7 @@
-export default (root, { userId }, { models, session }) => {
-	session.authenticationRequired(['userUpdates']);
+export default (root, { userId }, { models, authenticationRequired, user }) => {
+	authenticationRequired();
 
-	if (session.userId !== userId) {
+	if (user.id !== userId) {
 		return null;
 	}
 

@@ -1,11 +1,5 @@
-import { ForbiddenError } from 'apollo-server-express';
-
-export default (user, args, context) => {
-	if (!context.session.signedIn) {
-		throw new ForbiddenError(
-			'You must be signed in to access the grade field.'
-		);
-	}
+export default (user, args, authenticationRequired) => {
+	authenticationRequired();
 
 	if (typeof user.gradYear !== 'number') {
 		return null;

@@ -1,5 +1,5 @@
-export default (user, args, context) => {
-	context.session.authenticationRequired(['email']);
+export default (user, args, { authenticationRequired }) => {
+	authenticationRequired();
 
 	return user.email;
 };

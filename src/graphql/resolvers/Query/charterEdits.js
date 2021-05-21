@@ -1,14 +1,16 @@
 import { ForbiddenError } from 'apollo-server-errors';
-import charterEdits from '../Organization/charterEdits';
 
-export default async (root, { orgId, status }, { models, session }) => {
-	const fields = ['charterEdits'];
-	session.authenticationRequired(fields);
+export default async (
+	root,
+	{ orgId, status },
+	{ models, authenticationRequired, isOrgAdmin, hasAdminRole }
+) => {
+	authenticationRequired();
 
-	const isOrgAdmin = await session.orgAdminRequired(orgId, fields, true);
-	const isAdmin = await session.adminRoleRequired('charters', fields, true);
+	const orgAdmin = isOrgAdmin(orgId);
+	const isAdmin = hasAdminRole('charters');
 
-	if (!isOrgAdmin && !isAdmin) {
+	if (!orgAdmin && !isAdmin) {
 		throw new ForbiddenError(
 			"You don't have permission to request charter edits for this organization."
 		);

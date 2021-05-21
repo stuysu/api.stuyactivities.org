@@ -3,8 +3,8 @@ import { ApolloError, ForbiddenError } from 'apollo-server-express';
 
 const { oAuthIds } = require('./../../../../database');
 
-export default async (token, session) => {
-	const userOAuths = await oAuthIds.userIdLoader.load(session.userId);
+export default async ({ token, user }) => {
+	const userOAuths = await oAuthIds.userIdLoader.load(user.id);
 
 	const alreadyLinkedToGoogle = userOAuths.find(
 		row => row.platform === 'google'
@@ -45,7 +45,7 @@ export default async (token, session) => {
 	}
 
 	return await oAuthIds.create({
-		userId: session.userId,
+		userId: user.id,
 		platform: 'google',
 		platformId: payload.sub,
 		platformEmail: payload.email

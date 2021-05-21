@@ -23,10 +23,10 @@ export default async (
 			googleCalendars,
 			googleCalendarEvents
 		},
-		session
+		orgAdminRequired
 	}
 ) => {
-	session.authenticationRequired(['createMeeting']);
+	orgAdminRequired(orgId);
 
 	if (!orgId && !orgUrl) {
 		throw new UserInputError(
@@ -50,8 +50,6 @@ export default async (
 			'Only approved organizations are allowed to schedule meetings'
 		);
 	}
-
-	await session.orgAdminRequired(org.id);
 
 	if (!title) {
 		throw new UserInputError('A title must be provided for the meeting', {

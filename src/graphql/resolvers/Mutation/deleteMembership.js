@@ -4,11 +4,13 @@ import sendEmail from '../../../utils/sendEmail';
 export default async (parent, args, context) => {
 	const { membershipId, notify } = args;
 	const {
-		session,
-		models: { memberships, membershipRequests, users, organizations }
+		models: { memberships, membershipRequests, organizations },
+		isOrgAdmin,
+		authenticationRequired,
+		user
 	} = context;
 
-	session.authenticationRequired(['deleteMembership']);
+	authenticationRequired();
 
 	const membership = await memberships.idLoader.load(membershipId);
 
@@ -19,19 +21,15 @@ export default async (parent, args, context) => {
 		);
 	}
 
-	const isOrgAdmin = await session.orgAdminRequired(
-		membership.organizationId,
-		['deleteMembership'],
-		true
-	);
+	const orgAdmin = isOrgAdmin(membership.organizationId);
 
-	if (!isOrgAdmin && membership.userId !== session.userId) {
+	if (!orgAdmin && membership.userId !== user.id) {
 		throw new ForbiddenError(
 			'Only org admins and users themselves can delete memberships'
 		);
 	}
 
-	if (membership.adminPrivileges && membership.userId === session.userId) {
+	if (membership.adminPrivileges && membership.userId === user.id) {
 		throw new ForbiddenError(
 			'Admins are not allowed to remove themselves from organizations. Ask another admin to remove you.'
 		);
@@ -47,12 +45,10 @@ export default async (parent, args, context) => {
 	});
 
 	// Store it in a variable before we destroy the object
-	const userId = membership.userId;
 	const orgId = membership.organizationId;
 	await membership.destroy();
 
 	if (notify) {
-		const user = await users.idLoader.load(userId);
 		const organization = await organizations.idLoader.load(orgId);
 
 		await sendEmail({

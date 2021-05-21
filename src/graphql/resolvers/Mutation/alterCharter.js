@@ -12,22 +12,25 @@ import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
 
 const cloudinary = require('cloudinary').v2;
 
-export default async (parent, args, context) => {
-	// first steps, make sure they have sufficient permissions to make changes to the charter
-	const {
-		session,
+export default async (
+	parent,
+	args,
+	{
 		models: {
 			memberships,
 			organizations,
 			charterEdits,
 			charterApprovalMessages,
 			Sequelize: { Op }
-		}
-	} = context;
-
+		},
+		authenticationRequired,
+		user,
+		orgAdminRequired
+	}
+) => {
 	let { charter, orgId, force } = args;
 
-	session.authenticationRequired(['alterCharter']);
+	authenticationRequired();
 
 	const org = await organizations.findOne({ where: { id: orgId } });
 	if (!org) {
@@ -36,7 +39,7 @@ export default async (parent, args, context) => {
 			'ID_NOT_FOUND'
 		);
 	}
-	await session.orgAdminRequired(org.id, ['alterCharter']);
+	orgAdminRequired(org.id);
 
 	// NEXT STEP CHECK WHICH FIELDS WERE CHANGED
 	const alteredFields = EDITABLE_CHARTER_FIELDS.filter(
@@ -113,7 +116,7 @@ export default async (parent, args, context) => {
 			// Reject the whole charter edit
 			if (conflictEditAlteredFields.length === conflictingFields.length) {
 				charterEdit.status = 'rejected';
-				charterEdit.reviewerId = session.userId;
+				charterEdit.reviewerId = user.id;
 				await charterEdit.save();
 			} else {
 				// Separate the conflicting fields into their own charter edit
@@ -121,7 +124,7 @@ export default async (parent, args, context) => {
 					organizationId: charterEdit.organizationId,
 					createdAt: charterEdit.createdAt,
 					submittingUserId: charterEdit.submittingUserId,
-					reviewerId: session.userId,
+					reviewerId: user.id,
 					status: 'rejected'
 				};
 
@@ -136,7 +139,7 @@ export default async (parent, args, context) => {
 		}
 
 		await charterApprovalMessages.create({
-			userId: session.userId,
+			userId: user.id,
 			organizationId: org.id,
 			message: 'User rejected pending changes and proposed new ones.',
 			auto: true
@@ -146,7 +149,7 @@ export default async (parent, args, context) => {
 	// Now that the fields in the charter have been validated and the conflicts have been resolved, we can now submit the new proposal changes
 	const newEdits = {
 		organizationId: org.id,
-		submittingUserId: session.userId,
+		submittingUserId: user.id,
 		status: 'pending'
 	};
 

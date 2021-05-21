@@ -5,9 +5,9 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 export default async (
 	_,
 	{ subject, body, sendToFaculty },
-	{ session, models: { users, memberships, organizations } }
+	{ adminRoleRequired, models: { users, memberships, organizations }, user }
 ) => {
-	await session.adminRoleRequired('charters');
+	adminRoleRequired('charters');
 
 	const transport = await getTransporter();
 

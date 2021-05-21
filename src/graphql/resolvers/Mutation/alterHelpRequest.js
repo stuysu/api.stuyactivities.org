@@ -3,9 +3,9 @@ import { ApolloError } from 'apollo-server-errors';
 export default async (
 	root,
 	{ requestId, title, description, status, honeybadgerId, path },
-	{ session, models: { helpRequests } }
+	{ authenticationRequired, adminRoleRequired, models: { helpRequests } }
 ) => {
-	session.authenticationRequired(['alterHelpRequest']);
+	authenticationRequired();
 
 	const request = await helpRequests.idLoader.load(requestId);
 
@@ -16,7 +16,7 @@ export default async (
 		);
 	}
 
-	await session.adminRoleRequired('helpRequests', ['alterHelpRequest']);
+	adminRoleRequired('helpRequests');
 
 	if (title) {
 		request.title = title;

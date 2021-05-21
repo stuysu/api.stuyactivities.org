@@ -55,10 +55,25 @@ const apolloServer = new ApolloServer({
 			}
 		}
 
+		const adminRoles =
+			signedIn && new Set(user.adminRoles.map(a => a.role));
+
+		function hasAdminRole(role) {
+			return signedIn && adminRoles.has(role);
+		}
+
+		function isOrgAdmin(orgId) {
+			return (
+				signedIn &&
+				user.memberships.some(
+					m => m.organizationId === orgId && m.adminPrivileges
+				)
+			);
+		}
+
 		function adminRequired(role) {
 			authenticationRequired();
-			const hasPermission = user.adminRoles.some(a => a.role === role);
-			if (!hasPermission) {
+			if (!hasAdminRole(role)) {
 				throw new ForbiddenError(
 					"You don't have the necessary permissions to perform that query"
 				);
@@ -66,10 +81,8 @@ const apolloServer = new ApolloServer({
 		}
 
 		function orgAdminRequired(orgId) {
-			const hasPermission = user.memberships.some(
-				m => m.organizationId === orgId && m.adminPrivileges
-			);
-			if (!hasPermission) {
+			authenticationRequired();
+			if (!isOrgAdmin(orgId)) {
 				throw new ForbiddenError(
 					"You don't have the necessary permissions to perform that query"
 				);
@@ -80,6 +93,8 @@ const apolloServer = new ApolloServer({
 			signedIn,
 			authenticationRequired,
 			orgAdminRequired,
+			isOrgAdmin,
+			hasAdminRole,
 			adminRequired,
 			models,
 			ipAddress:

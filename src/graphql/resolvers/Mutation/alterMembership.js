@@ -4,11 +4,13 @@ import sendEmail from '../../../utils/sendEmail';
 export default async (parent, args, context) => {
 	const { adminPrivileges, role, membershipId, notify } = args;
 	const {
-		session,
-		models: { memberships, users, organizations }
+		models: { memberships, users, organizations },
+		authenticationRequired,
+		orgAdminRequired,
+		user
 	} = context;
 
-	session.authenticationRequired(['alterMembership']);
+	authenticationRequired();
 
 	const membership = await memberships.idLoader.load(membershipId);
 
@@ -19,12 +21,10 @@ export default async (parent, args, context) => {
 		);
 	}
 
-	await session.orgAdminRequired(membership.organizationId, [
-		'alterMembership'
-	]);
+	orgAdminRequired(membership.organizationId, ['alterMembership']);
 
 	if (typeof adminPrivileges !== 'undefined') {
-		if (membership.userId === session.userId && !adminPrivileges) {
+		if (membership.userId === user.id && !adminPrivileges) {
 			throw new ForbiddenError(
 				'You are not allowed to remove yourself as an admin.'
 			);
@@ -40,7 +40,6 @@ export default async (parent, args, context) => {
 	await membership.save();
 
 	if (notify) {
-		const user = await users.idLoader.load(membership.userId);
 		const organization = await organizations.idLoader.load(
 			membership.organizationId
 		);

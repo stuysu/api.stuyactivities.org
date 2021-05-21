@@ -24,10 +24,11 @@ export default async (
 			googleCalendars,
 			googleCalendarEvents
 		},
-		session
+		authenticationRequired,
+		orgAdminRequired
 	}
 ) => {
-	session.authenticationRequired(['createMeeting']);
+	authenticationRequired();
 
 	const meeting = await meetings.idLoader.load(meetingId);
 
@@ -38,7 +39,7 @@ export default async (
 		);
 	}
 
-	await session.orgAdminRequired(meeting.organizationId);
+	orgAdminRequired(meeting.organizationId);
 
 	if (title) {
 		meeting.title = title;

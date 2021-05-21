@@ -1,5 +1,5 @@
-export default (root, { userId }, { models, session }) => {
-	session.authenticationRequired(['upcomingUserMeetings']);
+export default (root, { userId }, { models, authenticationrequired }) => {
+	authenticationrequired();
 
 	const now = new Date();
 

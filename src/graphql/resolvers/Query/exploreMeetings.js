@@ -1,5 +1,5 @@
-export default (query, args, { session, models }) => {
-	session.authenticationRequired(['exploreMeetings']);
+export default (query, args, { authenticationRequired, models }) => {
+	authenticationRequired();
 	return models.meetings.findAll({
 		where: {
 			privacy: 'public',

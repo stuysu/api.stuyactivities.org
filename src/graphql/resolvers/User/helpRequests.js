@@ -1,19 +1,24 @@
 import { ForbiddenError } from 'apollo-server-errors';
 
-export default async (user, args, { session, models: { helpRequests } }) => {
-	session.authenticationRequired(['helpRequests']);
+export default async (
+	user,
+	args,
+	{
+		user: authenticatedUser,
+		authenticationRequired,
+		hasAdminRole,
+		models: { helpRequests }
+	}
+) => {
+	authenticationRequired();
 
-	const isAdmin = await session.adminRoleRequired(
-		'helpRequests',
-		['helpRequests'],
-		true
-	);
+	const isAdmin = hasAdminRole('helpRequests');
 
-	if (request.userId !== session.userId && !isAdmin) {
+	if (user.id !== authenticatedUser.id && !isAdmin) {
 		throw new ForbiddenError(
-			'You are not allowed to access the helpRequests field of other users.'
+			'You are not allowed to view help requests belonging to other users'
 		);
 	}
 
-	return await helpRequests.userIdLoader.load(session.userId);
+	return await helpRequests.userIdLoader.load(user.id);
 };
