@@ -2,13 +2,16 @@ import { createComplexityLimitRule } from 'graphql-validation-complexity';
 import {
 	ApolloError,
 	ApolloServer,
-	ValidationError
+	ValidationError,
+	ForbiddenError
 } from 'apollo-server-express';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import honeybadger from 'honeybadger';
+import getJWTPayload from '../utils/auth/getJWTPayload';
 
 const models = require('../database');
+const { users, adminRoles, memberships } = models;
 
 const ComplexityLimitRule = createComplexityLimitRule(75000, {
 	scalarCost: 1,
@@ -19,9 +22,65 @@ const ComplexityLimitRule = createComplexityLimitRule(75000, {
 const apolloServer = new ApolloServer({
 	typeDefs,
 	resolvers,
-	context: ({ req, res }) => {
+	context: async ({ req, res }) => {
+		let user, signedIn;
+
+		let jwt =
+			req.cookies['auth-jwt'] ||
+			req.headers['x-access-token'] ||
+			req.headers['authorization'];
+
+		if (jwt && jwt.startsWith('Bearer ')) {
+			jwt = jwt.replace('Bearer ', '');
+		}
+
+		if (jwt) {
+			const data = await getJWTPayload(jwt);
+
+			if (data) {
+				user = await users.findOne({
+					id: data.user.id,
+					include: [adminRoles, memberships]
+				});
+			}
+
+			signedIn = Boolean(user);
+		}
+
+		function authenticationRequired() {
+			if (!signedIn) {
+				throw new ForbiddenError(
+					'You must be signed in to perform that query'
+				);
+			}
+		}
+
+		function adminRequired(role) {
+			authenticationRequired();
+			const hasPermission = user.adminRoles.some(a => a.role === role);
+			if (!hasPermission) {
+				throw new ForbiddenError(
+					"You don't have the necessary permissions to perform that query"
+				);
+			}
+		}
+
+		function orgAdminRequired(orgId) {
+			const hasPermission = user.memberships.some(
+				m => m.organizationId === orgId && m.adminPrivileges
+			);
+			if (!hasPermission) {
+				throw new ForbiddenError(
+					"You don't have the necessary permissions to perform that query"
+				);
+			}
+		}
+
 		return {
-			session: req.session,
+			signedIn,
+			authenticationRequired,
+			orgAdminRequired,
+			adminRequired,
 			models,
 			ipAddress:
 				req.headers['x-forwarded-for'] || req.connection.remoteAddress,
