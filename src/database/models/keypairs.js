@@ -62,8 +62,11 @@ module.exports = (sequelize, DataTypes) => {
 
 		static async getNewKeyPair() {
 			const expiration = new Date(Date.now() + this.maxAge);
-			const { publicKey, privateKey, passphrase } =
-				await generateKeyPairPromise();
+			const {
+				publicKey,
+				privateKey,
+				passphrase
+			} = await generateKeyPairPromise();
 
 			return await keyPairs.create({
 				publicKey,
