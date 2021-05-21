@@ -1,8 +1,9 @@
 import { ApolloError } from 'apollo-server-express';
+import { sign } from 'jsonwebtoken';
 
-const { users, loginTokens } = require('../../../../database');
+const { users, loginTokens, keyPairs } = require('../../../../database');
 
-export default async function loginWithMagicToken(token, session) {
+export default async function loginWithMagicToken({ token, setCookie }) {
 	const row = await loginTokens.tokenLoader.load(token);
 
 	if (!row || !row.isValid()) {
@@ -15,8 +16,28 @@ export default async function loginWithMagicToken(token, session) {
 	row.used = true;
 	await row.save();
 
-	session.signedIn = true;
-	session.userId = row.userId;
+	const user = await users.findOne({
+		id: row.userId
+	});
 
-	return await users.idLoader.load(row.userId);
+	const { privateKey, passphrase } = await keyPairs.getSigningKey();
+
+	const { id, firstName, lastName, email } = user;
+
+	const jwt = await sign(
+		{
+			user: {
+				id,
+				firstName,
+				lastName,
+				email
+			}
+		},
+		{ key: privateKey, passphrase },
+		{ algorithm: 'RS256', expiresIn: '30d' }
+	);
+
+	setCookie('auth-jwt', jwt, { maxAge: 60 * 24 * 30 });
+
+	return jwt;
 }

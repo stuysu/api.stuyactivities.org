@@ -7,5 +7,6 @@ export default gql`
 	type KeyPair {
 		publicKey: String!
 		expiration: DateTime!
+		createdAt: DateTime!
 	}
 `;

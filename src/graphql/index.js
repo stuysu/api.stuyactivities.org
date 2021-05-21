@@ -19,12 +19,13 @@ const ComplexityLimitRule = createComplexityLimitRule(75000, {
 const apolloServer = new ApolloServer({
 	typeDefs,
 	resolvers,
-	context: ({ req }) => {
+	context: ({ req, res }) => {
 		return {
 			session: req.session,
 			models,
 			ipAddress:
-				req.headers['x-forwarded-for'] || req.connection.remoteAddress
+				req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+			setCookie: res.cookie
 		};
 	},
 	uploads: false,

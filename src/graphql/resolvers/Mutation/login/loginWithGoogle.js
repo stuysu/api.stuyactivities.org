@@ -1,9 +1,10 @@
 import { ApolloError } from 'apollo-server-express';
 import resolveGoogleIdToken from '../../../../utils/resolveGoogleIdToken';
+import { sign } from 'jsonwebtoken';
 
-const { users, oAuthIds } = require('../../../../database');
+const { users, oAuthIds, keyPairs } = require('../../../../database');
 
-const loginWithGoogle = async (googleOAuthToken, session) => {
+const loginWithGoogle = async ({ googleOAuthToken, setCookie }) => {
 	const payload = await resolveGoogleIdToken(googleOAuthToken);
 
 	if (!payload) {
@@ -21,26 +22,36 @@ const loginWithGoogle = async (googleOAuthToken, session) => {
 	}
 
 	// Check to see if this google account was linked to any user in the database
-	const oAuthRow = await oAuthIds.findOne({
-		where: { platform: 'google', platformId: payload.sub }
-	});
-
-	// The google id is linked to a valid user, update the session and return the user object
-	if (oAuthRow) {
-		session.signedIn = true;
-		session.userId = oAuthRow.userId;
-		return await users.findOne({ where: { id: oAuthRow.userId } });
-	}
-
-	// It might be someone's first time using the google login
-	// Check to see if an account exists with their email
-	const user = await users.findOne({
+	const oAuthId = await oAuthIds.findOne({
 		where: {
-			email: payload.email,
-			active: true
+			platformId: payload.sub,
+			platform: 'google'
 		},
-		order: [['gradYear', 'desc']]
+		include: users
 	});
+
+	let user = oAuthId ? oAuthId.user : null;
+
+	if (!user) {
+		user = await users.findOne({
+			where: {
+				email: payload.email
+			},
+			order: [['gradYear', 'desc']]
+		});
+
+		if (user) {
+			user.picture = payload.picture;
+			await user.save();
+
+			await oAuthIds.create({
+				userId: user.id,
+				platform: 'google',
+				platformId: payload.sub,
+				platformEmail: payload.email
+			});
+		}
+	}
 
 	// The user is not in the database. Might be possible that the database is incomplete
 	// Check if their email belongs to Stuy or even the DOE
@@ -67,24 +78,26 @@ const loginWithGoogle = async (googleOAuthToken, session) => {
 		);
 	}
 
-	// ----- If we're here that means the user is in the database
-	// but this oAuth platform isn't registered for them
-	// we're gonna register it for them here right now
-	session.signedIn = true;
-	session.userId = user.id;
+	const { privateKey, passphrase } = await keyPairs.getSigningKey();
 
-	// Update the user's picture since this is the first time they're using oAuth
-	user.picture = payload.picture;
-	await user.save();
+	const { id, firstName, lastName, email } = user;
 
-	await oAuthIds.create({
-		userId: user.id,
-		platform: 'google',
-		platformId: payload.sub,
-		platformEmail: payload.email
-	});
+	const token = await sign(
+		{
+			user: {
+				id,
+				firstName,
+				lastName,
+				email
+			}
+		},
+		{ key: privateKey, passphrase },
+		{ algorithm: 'RS256', expiresIn: '30d' }
+	);
 
-	return user;
+	setCookie('auth-jwt', token, { maxAge: 60 * 24 * 30 });
+
+	return token;
 };
 
 export default loginWithGoogle;
