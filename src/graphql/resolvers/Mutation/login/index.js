@@ -2,7 +2,7 @@ import { ApolloError, UserInputError } from 'apollo-server-express';
 import loginWithGoogle from './loginWithGoogle';
 import loginWithMagicToken from './loginWithMagicToken';
 
-export default (root, params, { session, setCookie, signedIn }) => {
+export default (root, params, { setCookie, signedIn }) => {
 	if (signedIn) {
 		throw new ApolloError(
 			'You are already signed in.',
@@ -27,7 +27,6 @@ export default (root, params, { session, setCookie, signedIn }) => {
 		// Move it to its own helper module
 		return loginWithGoogle({
 			googleOAuthToken: googleToken,
-			session,
 			setCookie
 		});
 	}
