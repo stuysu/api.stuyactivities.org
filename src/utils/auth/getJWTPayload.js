@@ -8,9 +8,9 @@ export default async function getJWTPayload(jwt) {
 	// Typically this will only run through one iteration, but closer to the expiration (about 30 days) we'll have to check two keys
 	for (let i = 0; i < keys.length; i++) {
 		try {
-			const { user } = await verify(jwt, keys[i].publicKey);
+			const data = await verify(jwt, keys[i].publicKey);
 
-			return user;
+			return data;
 		} catch (e) {}
 	}
 

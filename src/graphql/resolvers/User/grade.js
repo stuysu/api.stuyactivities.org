@@ -1,4 +1,4 @@
-export default (user, args, authenticationRequired) => {
+export default (user, args, { authenticationRequired }) => {
 	authenticationRequired();
 
 	if (typeof user.gradYear !== 'number') {

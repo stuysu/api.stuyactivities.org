@@ -13,6 +13,7 @@ import logger from './middleware/logger';
 import graphqlUploads from './middleware/graphqlUploads';
 import './googleApis/gmailWatcher';
 import syncUsers from './stuyboe/syncUsers';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(logger);
 
 app.set('trust proxy', proxyValidator);
 
+app.use(cookieParser());
 app.use(cors);
 
 app.use(parsers);

@@ -39,7 +39,9 @@ const apolloServer = new ApolloServer({
 
 			if (data) {
 				user = await users.findOne({
-					id: data.user.id,
+					where: {
+						id: data.user.id
+					},
 					include: [adminRoles, memberships]
 				});
 			}
@@ -55,11 +57,11 @@ const apolloServer = new ApolloServer({
 			}
 		}
 
-		const adminRoles =
+		const adminRolesSet =
 			signedIn && new Set(user.adminRoles.map(a => a.role));
 
 		function hasAdminRole(role) {
-			return signedIn && adminRoles.has(role);
+			return signedIn && adminRolesSet.has(role);
 		}
 
 		function isOrgAdmin(orgId) {
@@ -71,7 +73,7 @@ const apolloServer = new ApolloServer({
 			);
 		}
 
-		function adminRequired(role) {
+		function adminRoleRequired(role) {
 			authenticationRequired();
 			if (!hasAdminRole(role)) {
 				throw new ForbiddenError(
@@ -89,17 +91,21 @@ const apolloServer = new ApolloServer({
 			}
 		}
 
+		// Doesn't work otherwise for some reason
+		const setCookie = (...a) => res.cookie(...a);
+
 		return {
 			signedIn,
+			user,
 			authenticationRequired,
 			orgAdminRequired,
 			isOrgAdmin,
 			hasAdminRole,
-			adminRequired,
+			adminRoleRequired,
 			models,
 			ipAddress:
 				req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-			setCookie: res.cookie
+			setCookie
 		};
 	},
 	uploads: false,
@@ -114,7 +120,8 @@ const apolloServer = new ApolloServer({
 		const safeError =
 			err.originalError instanceof ApolloError ||
 			err instanceof ValidationError ||
-			err.originalError.message === 'Not allowed by CORS';
+			(err.originalError &&
+				err.originalError.message === 'Not allowed by CORS');
 
 		honeybadger.notify(err, {
 			context: {
@@ -130,7 +137,7 @@ const apolloServer = new ApolloServer({
 
 		// This is an unexpected error and might have secrets
 		if (!safeError || internalError) {
-			console.error(err.originalError);
+			console.log(JSON.stringify(err, null, 2));
 
 			// report this error to us but hide it from the client
 			// honeybadger.notify(err.originalError);

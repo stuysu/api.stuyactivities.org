@@ -1,5 +1,5 @@
-export default (root, { userId }, { models, authenticationrequired }) => {
-	authenticationrequired();
+export default (root, { userId }, { models, authenticationRequired }) => {
+	authenticationRequired();
 
 	const now = new Date();
 
