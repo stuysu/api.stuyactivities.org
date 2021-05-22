@@ -16,8 +16,9 @@
 		<p>Hi {{ invitee.firstName }},</p>
 		<br />
 		<p>
-		You have been requested to become a member of {{ org.name }} with the role "{{ role }}"{% if membership.adminPrivileges
-			%} and administrator privileges{% endif %}. Please
+			You have been requested to become a member of {{ org.name }} with
+			the role "{{ role }}"{% if membership.adminPrivileges %} and
+			administrator privileges{% endif %}. Please
 			<a href="{{ joinUrl }}">click here</a> to confirm your membership.
 			role.
 		</p>

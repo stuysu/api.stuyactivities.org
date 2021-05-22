@@ -6,14 +6,14 @@ import express from 'express';
 import proxyValidator from './middleware/proxyValidator';
 
 import cors from './middleware/cors';
-import session from './middleware/session';
-import apolloSessionValidators from './middleware/apolloSessionValidators';
 import parsers from './middleware/parsers';
 import apolloServer from './graphql';
 import serverErrorHandler from './middleware/serverErrorHandler';
 import logger from './middleware/logger';
 import graphqlUploads from './middleware/graphqlUploads';
 import './googleApis/gmailWatcher';
+import syncUsers from './stuyboe/syncUsers';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -23,13 +23,12 @@ app.use(logger);
 
 app.set('trust proxy', proxyValidator);
 
+app.use(cookieParser());
 app.use(cors);
 
-app.use(session);
-
-app.use(apolloSessionValidators);
-
 app.use(parsers);
+
+app.get('/stuyboe/syncUsers', syncUsers);
 
 app.use(graphqlUploads);
 

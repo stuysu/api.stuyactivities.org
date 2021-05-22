@@ -1,13 +1,16 @@
 import { ForbiddenError } from 'apollo-server-errors';
 
-export default async (parent, { orgId }, { models, session }) => {
-	const fields = ['membershipRequests'];
-	session.authenticationRequired(fields);
+export default async (
+	parent,
+	{ orgId },
+	{ models, authenticationRequired, isOrgAdmin, hasAdminRole }
+) => {
+	authenticationRequired();
 
-	const isOrgAdmin = await session.orgAdminRequired(orgId, fields, true);
-	const isAdmin = await session.adminRoleRequired('charters', fields, true);
+	const orgAdmin = isOrgAdmin(orgId);
+	const isAdmin = hasAdminRole('charters');
 
-	if (!isOrgAdmin && !isAdmin) {
+	if (!orgAdmin && !isAdmin) {
 		throw new ForbiddenError(
 			"You don't have permission to view membership requests for this organization."
 		);

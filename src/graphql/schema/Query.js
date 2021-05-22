@@ -21,6 +21,7 @@ export default gql`
 			active: Boolean
 			randomOrderSeed: Int
 		): [Organization]!
+
 		organizationsWithPendingCharters: [Organization]
 		charterEdits(orgId: Int, status: String): [CharterEdit]
 
@@ -48,13 +49,25 @@ export default gql`
 
 		clubFairResponse(orgId: Int!): ClubFairResponse
 
-		exploreUpdates: [Update]
+		exploreUpdates(limit: Int = 20, offset: Int): [Update]
 		exploreMeetings: [Meeting]
 
 		upcomingUserMeetings(userId: Int!): [Meeting!]
 		userUpdates(userId: Int!): [Update]
 
 		meetings(start: DateTime!, end: DateTime!, limit: Int): [Meeting]
+		meetingsByOrganizationId(
+			organizationId: Int!
+			start: DateTime
+			end: DateTime
+		): [Meeting!]!
+
 		meetingById(id: Int!): Meeting
+
+		validKeyPairs: [KeyPair!]!
+
+		signingKey: KeyPair!
+
+		date: DateTime!
 	}
 `;

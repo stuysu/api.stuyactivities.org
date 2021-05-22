@@ -5,6 +5,7 @@ import {
 	createCalendarEvent,
 	initOrgCalendar
 } from '../../../googleApis/calendar';
+import { Op } from 'sequelize';
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 
@@ -22,10 +23,10 @@ export default async (
 			googleCalendars,
 			googleCalendarEvents
 		},
-		session
+		orgAdminRequired
 	}
 ) => {
-	session.authenticationRequired(['createMeeting']);
+	orgAdminRequired(orgId);
 
 	if (!orgId && !orgUrl) {
 		throw new UserInputError(
@@ -49,8 +50,6 @@ export default async (
 			'Only approved organizations are allowed to schedule meetings'
 		);
 	}
-
-	await session.orgAdminRequired(org.id);
 
 	if (!title) {
 		throw new UserInputError('A title must be provided for the meeting', {
@@ -101,7 +100,10 @@ export default async (
 		include: {
 			model: memberships,
 			where: {
-				organizationId: org.id
+				organizationId: org.id,
+				updateNotification: {
+					[Op.not]: false
+				}
 			},
 			required: true
 		}

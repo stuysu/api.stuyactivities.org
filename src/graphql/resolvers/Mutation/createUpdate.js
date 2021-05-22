@@ -3,6 +3,7 @@ import getLinkPreview from '../../../utils/getLinkPreview';
 import cryptoRandomString from 'crypto-random-string';
 import uploadPicStream from '../../../utils/uploadPicStream';
 import sendEmail from '../../../utils/sendEmail';
+import { Op } from 'sequelize';
 const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 const cloudinary = require('cloudinary').v2;
@@ -21,10 +22,9 @@ export default async (
 		links,
 		pictures
 	},
-	{ session, models }
+	{ orgAdminRequired, models, user }
 ) => {
-	session.authenticationRequired();
-	await session.orgAdminRequired(orgId);
+	orgAdminRequired(orgId);
 
 	if (!allowedTypes.includes(type)) {
 		throw new UserInputError('That is not a valid update type', {
@@ -79,7 +79,7 @@ export default async (
 
 	const update = await models.updates.create({
 		organizationId: orgId,
-		submittingUserId: session.userId,
+		submittingUserId: user.id,
 		title,
 		content,
 		type,
@@ -141,7 +141,10 @@ export default async (
 			include: {
 				model: models.memberships,
 				where: {
-					organizationId: orgId
+					organizationId: orgId,
+					updateNotification: {
+						[Op.not]: false
+					}
 				},
 				required: true
 			}

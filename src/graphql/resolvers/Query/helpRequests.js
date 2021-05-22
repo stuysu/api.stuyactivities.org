@@ -1,14 +1,10 @@
 export default async (
 	root,
 	{ userId, honeybadgerId, status, path, ipAddress },
-	{ models: { helpRequests }, session }
+	{ models: { helpRequests }, authenticationRequired, hasAdminRole, user }
 ) => {
-	session.authenticationRequired(['helpRequests']);
-	const isAdmin = await session.adminRoleRequired(
-		'helpRequests',
-		['helpRequests'],
-		true
-	);
+	authenticationRequired();
+	const isAdmin = hasAdminRole('helpRequests');
 
 	const where = {};
 
@@ -17,7 +13,7 @@ export default async (
 			where.userId = userId;
 		}
 	} else {
-		where.userId = session.userId;
+		where.userId = user.id;
 	}
 
 	if (honeybadgerId) {

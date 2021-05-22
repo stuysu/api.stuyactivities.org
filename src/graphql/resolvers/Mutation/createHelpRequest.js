@@ -2,13 +2,14 @@ import { ForbiddenError, UserInputError } from 'apollo-server-errors';
 import * as EmailValidator from 'email-validator';
 import axios from 'axios';
 import { CAPTCHA_SECRET } from '../../../constants';
+import { getTransporter } from '../../../utils/sendEmail';
 
 const CAPTCHA_VALIDATION_URL = `https://www.google.com/recaptcha/api/siteverify`;
 
 export default async (
 	root,
 	{ email, title, description, captchaToken, honeybadgerId, path },
-	{ models: { helpRequests, Sequelize }, session, ipAddress }
+	{ models: { helpRequests, Sequelize }, user, signedIn, ipAddress }
 ) => {
 	if (!captchaToken) {
 		throw new UserInputError(
@@ -24,13 +25,13 @@ export default async (
 		throw new UserInputError('The description field cannot be left empty.');
 	}
 
-	if (!session.signedIn && !email) {
+	if (!signedIn && !email) {
 		throw new ForbiddenError(
 			'If you are not signed in, you need to provide a valid email address'
 		);
 	}
 
-	if (!session.signedIn && !EmailValidator.validate(email)) {
+	if (!signedIn && !EmailValidator.validate(email)) {
 		throw new ForbiddenError('That email address is not valid.');
 	}
 
@@ -81,9 +82,19 @@ export default async (
 		);
 	}
 
+	const transporter = await getTransporter();
+
+	await transporter.sendMail({
+		to: 'it@stuyactivities.org',
+		replyTo: user.email,
+		cc: user.email,
+		subject: 'Help Request: ' + title,
+		html: `<p>Reply directly above this line:</p><hr/><p><b>From: </b>${user.firstName} ${user.lastName} (${user.email})</p> <p><b>Path: </b>https://stuyactivities.org/${path}</p><p><b>Description</b></p><p>${description}</p>`
+	});
+
 	// Now we can actually go about creating the request
 	return await helpRequests.create({
-		userId: session.signedIn ? session.userId : null,
+		userId: signedIn ? user.id : null,
 		email,
 		title,
 		description,

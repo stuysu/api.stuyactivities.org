@@ -52,7 +52,15 @@ export const getTransporter = async () => {
 	return transporter;
 };
 
-const sendEmail = async ({ to, subject, template, variables, cc, bcc }) => {
+const sendEmail = async ({
+	to,
+	subject,
+	template,
+	variables,
+	cc,
+	bcc,
+	replyTo
+}) => {
 	await transporterSetup;
 
 	const html = emailRenderer.render(template, variables);
@@ -63,7 +71,8 @@ const sendEmail = async ({ to, subject, template, variables, cc, bcc }) => {
 		bcc,
 		subject,
 		html,
-		text
+		text,
+		replyTo
 	});
 };
 

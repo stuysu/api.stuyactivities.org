@@ -1,11 +1,16 @@
-export default (root, args, { session, models }) => {
-	session.authenticationRequired(['exploreUpdates']);
-
+export default (
+	root,
+	{ limit, offset },
+	{ authenticationRequired, models }
+) => {
+	authenticationRequired();
 	return models.updates.findAll({
 		where: {
 			type: 'public',
 			approval: 'approved'
 		},
-		order: [['createdAt', 'desc']]
+		order: [['createdAt', 'desc']],
+		limit,
+		offset
 	});
 };

@@ -9,5 +9,8 @@ export default gql`
 		adminPrivileges: Boolean
 		updatedAt: DateTime
 		createdAt: DateTime
+		meetingNotification: Boolean
+		updateNotification: Boolean
+		meetingReminderTime: Int
 	}
 `;

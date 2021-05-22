@@ -13,10 +13,12 @@ export default async (
 			organizations,
 			users
 		},
-		session
+		authenticationRequired,
+		orgAdminRequired,
+		user
 	}
 ) => {
-	session.authenticationRequired(['acceptMembershipRequest']);
+	authenticationRequired();
 
 	const request = await membershipRequests.idLoader.load(requestId);
 
@@ -29,7 +31,7 @@ export default async (
 
 	// That means this is an invite and the user hasn't yet approved
 	if (request.adminApproval) {
-		if (session.userId !== request.userId) {
+		if (user.id !== request.userId) {
 			throw new ForbiddenError(
 				'Only the user the request belongs to may accept it.'
 			);
@@ -38,7 +40,7 @@ export default async (
 		request.userApproval = true;
 	} else {
 		// this is an admin approving it for the user
-		await session.orgAdminRequired(request.organizationId);
+		orgAdminRequired(request.organizationId);
 		request.adminApproval = true;
 	}
 

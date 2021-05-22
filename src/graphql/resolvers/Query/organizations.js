@@ -125,12 +125,12 @@ export default async (root, args, context) => {
 		});
 	}
 
-	if(! offset){
+	if (!offset) {
 		offset = 0;
 	}
-	
-	if(limit){
-		limit = limit + offset;	
+
+	if (limit) {
+		limit = limit + offset;
 	}
 
 	return results.slice(offset, limit);
