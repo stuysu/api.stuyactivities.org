@@ -2,7 +2,7 @@ import { ForbiddenError, UserInputError } from 'apollo-server-errors';
 import * as EmailValidator from 'email-validator';
 import axios from 'axios';
 import { CAPTCHA_SECRET } from '../../../constants';
-import sendEmail from '../../../utils/sendEmail';
+import { getTransporter } from '../../../utils/sendEmail';
 
 const CAPTCHA_VALIDATION_URL = `https://www.google.com/recaptcha/api/siteverify`;
 
@@ -82,7 +82,9 @@ export default async (
 		);
 	}
 
-	await sendEmail({
+	const transporter = await getTransporter();
+
+	await transporter.sendMail({
 		to: 'it@stuyactivities.org',
 		replyTo: user.email,
 		cc: user.email,
