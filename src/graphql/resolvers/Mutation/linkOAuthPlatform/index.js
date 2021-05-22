@@ -2,8 +2,12 @@ import { ForbiddenError } from 'apollo-server-express';
 import linkGoogle from './linkGoogle';
 
 const allowedPlatforms = ['google'];
-export default (parent, { token, platform }, { models, session }) => {
-	session.authenticationRequired();
+export default (
+	parent,
+	{ token, platform },
+	{ authenticationRequired, user }
+) => {
+	authenticationRequired();
 
 	if (!allowedPlatforms.includes(platform)) {
 		throw new ForbiddenError(
@@ -12,6 +16,6 @@ export default (parent, { token, platform }, { models, session }) => {
 	}
 
 	if (platform === 'google') {
-		return linkGoogle(token, session);
+		return linkGoogle({ token, user });
 	}
 };

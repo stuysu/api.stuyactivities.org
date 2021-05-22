@@ -7,14 +7,11 @@ import {
 export default async (parent, args, context) => {
 	// first steps, make sure they have sufficient permissions to make changes to the charter
 	const {
-		session,
-		models: {
-			memberships,
-			organizations,
-			charterEdits,
-			charterApprovalMessages,
-			Sequelize: { Op }
-		}
+		models: { organizations, charterApprovalMessages },
+		authenticationRequired,
+		hasAdminRole,
+		isOrgAdmin,
+		user
 	} = context;
 	const { orgId, message } = args;
 
@@ -27,19 +24,11 @@ export default async (parent, args, context) => {
 		);
 	}
 
-	session.authenticationRequired(['createCharterApprovalMessage']);
+	authenticationRequired();
 
-	const isAdmin = await session.adminRoleRequired(
-		'charters',
-		['createCharterApprovalMessage'],
-		true
-	);
+	const isAdmin = hasAdminRole('charters');
 
-	const hasOrgAdmin = await session.orgAdminRequired(
-		orgId,
-		['createCharterApprovalMessage'],
-		true
-	);
+	const hasOrgAdmin = isOrgAdmin(orgId);
 
 	if (!isAdmin && !hasOrgAdmin) {
 		throw new ForbiddenError(
@@ -56,7 +45,7 @@ export default async (parent, args, context) => {
 	// Make the comment
 	return await charterApprovalMessages.create({
 		organizationId: orgId,
-		userId: session.userId,
+		userId: user.id,
 		message,
 		auto: false,
 		seen: false

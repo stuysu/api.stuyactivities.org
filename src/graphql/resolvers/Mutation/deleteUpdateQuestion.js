@@ -1,33 +1,33 @@
 import { ForbiddenError } from 'apollo-server-errors';
 
-export default async (root, { updateQuestionId }, { models, session }) => {
-	session.authenticationRequired(['deleteUpdateQuestion']);
+export default async (
+	root,
+	{ updateQuestionId },
+	{ models, authenticationRequired, isOrgAdmin, user }
+) => {
+	authenticationRequired();
 
 	const updateQuestion = await models.updateQuestions.findOne({
 		where: {
 			id: updateQuestionId
 		},
 		include: {
-			model: models.updates,
-			include: {
-				model: models.organizations,
-				include: {
-					model: models.memberships,
-					where: {
-						userId: session.userId,
-						adminPrivileges: true
-					},
-					required: true
-				},
-				required: true
-			},
-			required: true
+			model: models.updates
 		}
 	});
 
 	if (!updateQuestion) {
 		throw new ForbiddenError(
 			"That update question either doesn't exist or you don't have the permission to delete it."
+		);
+	}
+
+	if (
+		updateQuestion.userId !== user.id ||
+		!isOrgAdmin(updateQuestion.update.organizationId)
+	) {
+		throw new ForbiddenError(
+			"You don't have permission to delete that question"
 		);
 	}
 

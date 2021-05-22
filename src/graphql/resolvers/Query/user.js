@@ -1,7 +1,7 @@
-const { users, oAuthIds, adminRoles } = require('../../../database');
+const { users, adminRoles } = require('../../../database');
 import { UserInputError } from 'apollo-server-express';
 
-export default async (root, { email, id }, context) => {
+export default async (root, { email, id }) => {
 	if (!id && !email) {
 		throw new UserInputError(
 			'You must pass an id or an email to query a user.',

@@ -3,9 +3,12 @@ import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
 import { initOrgCalendar } from '../../../googleApis/calendar';
 import sendEmail from '../../../utils/sendEmail';
 
-export default async (root, { fields, charterEditId }, { models, session }) => {
-	session.authenticationRequired('rejectCharterFields');
-	await session.adminRoleRequired('charters', ['rejectCharterFields']);
+export default async (
+	root,
+	{ fields, charterEditId },
+	{ models, adminRoleRequired, user }
+) => {
+	adminRoleRequired('charters');
 
 	const charterEdit = await models.charterEdits.idLoader.load(charterEditId);
 
@@ -35,7 +38,7 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 	if (alteredFields.length === fields.length) {
 		// approve the current charter edit
 		charterEdit.status = 'approved';
-		charterEdit.reviewerId = session.userId;
+		charterEdit.reviewerId = user.id;
 		await charterEdit.save();
 		approvedEdit = charterEdit;
 	} else {
@@ -44,7 +47,7 @@ export default async (root, { fields, charterEditId }, { models, session }) => {
 			organizationId: charterEdit.organizationId,
 			createdAt: charterEdit.createdAt,
 			submittingUserId: charterEdit.submittingUserId,
-			reviewerId: session.userId,
+			reviewerId: user.id,
 			status: 'approved'
 		};
 

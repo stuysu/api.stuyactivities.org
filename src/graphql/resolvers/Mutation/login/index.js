@@ -2,15 +2,8 @@ import { ApolloError, UserInputError } from 'apollo-server-express';
 import loginWithGoogle from './loginWithGoogle';
 import loginWithMagicToken from './loginWithMagicToken';
 
-const { users } = require('../../../../database');
-
-export default (root, params, context) => {
-	const {
-		models: { users },
-		session
-	} = context;
-
-	if (session.signedIn) {
+export default (root, params, { setCookie, signedIn }) => {
+	if (signedIn) {
 		throw new ApolloError(
 			'You are already signed in.',
 			'ALREADY_SIGNED_IN'
@@ -32,10 +25,13 @@ export default (root, params, context) => {
 	if (googleToken) {
 		// The code for authenticating with google is just far too long
 		// Move it to its own helper module
-		return loginWithGoogle(googleToken, session);
+		return loginWithGoogle({
+			googleOAuthToken: googleToken,
+			setCookie
+		});
 	}
 
 	if (loginToken) {
-		return loginWithMagicToken(loginToken, session);
+		return loginWithMagicToken({ token: loginToken, setCookie });
 	}
 };

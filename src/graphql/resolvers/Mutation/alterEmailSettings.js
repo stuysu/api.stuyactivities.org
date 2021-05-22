@@ -1,19 +1,16 @@
 import { ApolloError, ForbiddenError } from 'apollo-server-express';
-import sendEmail from '../../../utils/sendEmail';
 
-export default async (parent, args, context) => {
-	const {
+export default async (
+	parent,
+	{
 		membershipId,
 		meetingNotification,
 		updateNotification,
 		meetingReminderTime
-	} = args;
-	const {
-		session,
-		models: { memberships }
-	} = context;
-
-	session.authenticationRequired(['alterEmailSettings']);
+	},
+	{ models: { memberships }, authenticationRequired, user }
+) => {
+	authenticationRequired();
 
 	const membership = await memberships.idLoader.load(membershipId);
 
@@ -24,7 +21,7 @@ export default async (parent, args, context) => {
 		);
 	}
 
-	if (membership.userId !== session.userId) {
+	if (membership.userId !== user.id) {
 		throw new ForbiddenError(
 			'You are not allowed to alter the email settings of a membership that is not your own!'
 		);

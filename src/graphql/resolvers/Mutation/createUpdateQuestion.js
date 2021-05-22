@@ -3,9 +3,9 @@ import { UserInputError, ApolloError } from 'apollo-server-errors';
 export default async (
 	root,
 	{ updateId, question },
-	{ models: { updateQuestions, updates }, session }
+	{ models: { updateQuestions, updates }, user, authenticationRequired }
 ) => {
-	session.authenticationRequired(['createUpdateQuestion']);
+	authenticationRequired();
 
 	if (!question || !updateId) {
 		throw new UserInputError(
@@ -24,7 +24,7 @@ export default async (
 
 	return await updateQuestions.create({
 		updateId: update.id,
-		userId: session.userId,
+		userId: user.id,
 		question,
 		private: false
 	});

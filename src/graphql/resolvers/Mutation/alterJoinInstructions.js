@@ -7,8 +7,8 @@ import {
 export default async (parent, args, context) => {
 	// first steps, make sure they have sufficient permissions to make changes to the charter
 	const {
-		session,
-		models: { organizations, joinInstructions }
+		models: { organizations, joinInstructions },
+		orgAdminRequired
 	} = context;
 	const { orgId, instructions, buttonEnabled } = args;
 
@@ -21,7 +21,7 @@ export default async (parent, args, context) => {
 		);
 	}
 
-	await session.orgAdminRequired(orgId);
+	orgAdminRequired(orgId);
 
 	const currJoinInstructions = await joinInstructions.orgIdLoader.load(orgId);
 	if (currJoinInstructions) {

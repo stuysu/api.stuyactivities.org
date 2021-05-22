@@ -2,16 +2,18 @@ import uploadPicStream from '../../../utils/uploadPicStream';
 import { UserInputError } from 'apollo-server-express';
 import { randomBytes } from 'crypto';
 
-export default async (_, { alt, file }, { session, models }) => {
-	session.authenticationRequired(['uploadImage']);
+export default async (
+	_,
+	{ alt, file },
+	{ authenticationRequired, user, models }
+) => {
+	authenticationRequired();
 
 	const pic = await file;
 
 	if (!pic.mimetype.startsWith('image/')) {
 		throw new UserInputError('The uploaded file is not an image');
 	}
-
-	const user = await session.getUser();
 
 	const randString = randomBytes(8).toString('hex');
 	const publicId = `userUploads/${user.id}-${user.email}/${randString}`;

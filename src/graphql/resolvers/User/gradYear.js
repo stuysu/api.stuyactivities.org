@@ -1,5 +1,4 @@
-export default (user, args, context) => {
-	context.session.authenticationRequired(['gradYear']);
-
+export default (user, args, { authenticationRequired }) => {
+	authenticationRequired();
 	return user.gradYear;
 };

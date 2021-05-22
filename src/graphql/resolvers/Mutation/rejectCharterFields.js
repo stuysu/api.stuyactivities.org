@@ -1,4 +1,3 @@
-import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
 import { ApolloError, UserInputError } from 'apollo-server-express';
 import sendEmail from '../../../utils/sendEmail';
 
@@ -7,11 +6,11 @@ export default async (
 	{ fields, charterEditId },
 	{
 		models: { charterEdits, charterApprovalMessages, memberships, users },
-		session
+		adminRoleRequired,
+		user
 	}
 ) => {
-	session.authenticationRequired('rejectCharterFields');
-	await session.adminRoleRequired('charters', ['rejectCharterFields']);
+	adminRoleRequired('charters');
 
 	const charterEdit = await charterEdits.idLoader.load(charterEditId);
 
@@ -38,7 +37,7 @@ export default async (
 
 	await charterApprovalMessages.create({
 		organizationId: charterEdit.organizationId,
-		userId: session.userId,
+		userId: user.id,
 		message: `Rejected the following fields: ${fields.join(', ')}`,
 		auto: true,
 		seen: false
@@ -48,7 +47,7 @@ export default async (
 
 	if (fields.length === alteredFields.length) {
 		charterEdit.status = 'rejected';
-		charterEdit.reviewerId = session.userId;
+		charterEdit.reviewerId = user.id;
 		await charterEdit.save();
 
 		rejectedEdit = charterEdit;
@@ -58,7 +57,7 @@ export default async (
 			organizationId: charterEdit.organizationId,
 			createdAt: charterEdit.createdAt,
 			submittingUserId: charterEdit.submittingUserId,
-			reviewerId: session.userId,
+			reviewerId: user.id,
 			status: 'rejected'
 		};
 

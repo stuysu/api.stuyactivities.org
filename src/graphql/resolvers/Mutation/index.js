@@ -8,6 +8,7 @@ import alterJoinInstructions from './alterJoinInstructions';
 import alterMeeting from './alterMeeting';
 import alterMembership from './alterMembership';
 import answerUpdateQuestion from './answerUpdateQuestion';
+import approveMembershipRequest from './approveMembershipRequest';
 import approveCharterFields from './approveCharterFields';
 import closeHelpRequest from './closeHelpRequest';
 import createCharterApprovalMessage from './createCharterApprovalMessage';
@@ -43,6 +44,7 @@ export default {
 	alterMeeting,
 	alterMembership,
 	answerUpdateQuestion,
+	approveMembershipRequest,
 	approveCharterFields,
 	closeHelpRequest,
 	createCharterApprovalMessage,
