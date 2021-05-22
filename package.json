@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"apollo-server-errors": "^2.5.0",
-		"apollo-server-express": "^2.24.0",
+		"apollo-server-express": "^2.24.1",
 		"axios": "^0.21.1",
 		"bcrypt": "^5.0.1",
 		"body-parser": "latest",
@@ -44,7 +44,7 @@
 		"jsonwebtoken": "^8.5.1",
 		"mailparser": "^3.2.0",
 		"markdown-it": "^12.0.6",
-		"mocha": "^8.3.2",
+		"mocha": "^8.4.0",
 		"moment-timezone": "^0.5.33",
 		"morgan": "^1.10.0",
 		"mysql2": "^2.2.5",
