@@ -49,7 +49,6 @@ export default [
 	Organization,
 	Query,
 	Strike,
-	StrikeComment,
 	Tag,
 	Update,
 	UpdateApprovalMessage,
