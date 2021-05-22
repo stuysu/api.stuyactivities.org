@@ -89,7 +89,7 @@ export default async (
 		replyTo: user.email,
 		cc: user.email,
 		subject: 'Help Request: ' + title,
-		body: `<p>${user.firstName} ${user.lastName} (${user.email}):</p> <br/><p>Path: https://stuyactivities.org/${path}</p><br/><p>${description}</p>`
+		html: `<p>${user.firstName} ${user.lastName} (${user.email}):</p> <br/><p>Path: https://stuyactivities.org/${path}</p><br/><p>${description}</p>`
 	});
 
 	// Now we can actually go about creating the request
