@@ -13,6 +13,7 @@ import Mutation from './Mutation';
 import Organization from './Organization';
 import Query from './Query';
 import Strike from './Strike';
+import StrikeComment from './StrikeComment';
 import Update from './Update';
 import UpdateApprovalMessage from './UpdateApprovalMessage';
 import UpdatePic from './UpdatePic';
@@ -36,6 +37,7 @@ const resolvers = {
 	Organization,
 	Query,
 	Strike,
+	StrikeComment,
 	Update,
 	UpdateApprovalMessage,
 	UpdatePic,
