@@ -23,7 +23,7 @@
 		"body-parser": "latest",
 		"bottleneck": "^2.19.5",
 		"chai": "^4.3.4",
-		"cloudinary": "^1.25.1",
+		"cloudinary": "^1.26.0",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
 		"coveralls": "^3.1.0",
