@@ -12,7 +12,9 @@ module.exports = {
 		 * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
 		 */
 
-		const md = require('markdown-it')();
+		const md = require('markdown-it')({
+			linkify: true
+		});
 
 		const updates = await models.updates.findAll({
 			include: models.updatePics
