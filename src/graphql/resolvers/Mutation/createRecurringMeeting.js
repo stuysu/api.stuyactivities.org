@@ -135,7 +135,7 @@ export default async (
 	// TODO maybe in the future we don't want this and will want to split up the
 	// method in utils/createRecurringMeeetings.js
 	// for now I think it's okay
-	createRecurringMeetings()
+	createRecurringMeetings();
 
 	// refer to src/graphql/resolvers/Organization/recurringMeetings.js for an explanation
 	recurringMeeting.start = new Date(recurringMeeting.start);
