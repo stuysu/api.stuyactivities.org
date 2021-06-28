@@ -1,7 +1,6 @@
 export default async (org, args, context) => {
-	const recurringMeetings = await context.models.recurringMeetings.orgIdLoader.load(
-		org.id
-	);
+	const recurringMeetings =
+		await context.models.recurringMeetings.orgIdLoader.load(org.id);
 	//graphql-iso-date refuses to take milliseconds for its Time datatype,
 	//but sequelize stores TIME data in milliseconds.
 	//fun :)
