@@ -27,6 +27,7 @@ import UpdatePic from './UpdatePic';
 import UpdateQuestion from './UpdateQuestion';
 import Upload from './Upload';
 import User from './User';
+import RecurringMeeting from './RecurringMeeting';
 
 export default [
 	...graphqlScalarDefs,
@@ -57,5 +58,6 @@ export default [
 	UpdatePic,
 	UpdateQuestion,
 	Upload,
-	User
+	User,
+	RecurringMeeting
 ];

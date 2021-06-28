@@ -6,17 +6,15 @@ export default async (
 	root,
 	{ recurringMeetingId },
 	{
-		session,
 		models: {
 			recurringMeetings,
 			meetings,
 			googleCalendarEvents,
 			googleCalendars
-		}
+		},
+		orgAdminRequired
 	}
 ) => {
-	session.authenticationRequired(['createMeeting']);
-
 	const recurringMeeting = await recurringMeetings.idLoader.load(
 		recurringMeetingId
 	);
@@ -28,7 +26,7 @@ export default async (
 		);
 	}
 
-	await session.orgAdminRequired(recurringMeeting.organizationId);
+	orgAdminRequired(recurringMeeting.organizationId);
 
 	/*const meetingCalEvent = await googleCalendarEvents.meetingIdLoader.load(
 		meeting.id

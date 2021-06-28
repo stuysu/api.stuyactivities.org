@@ -37,11 +37,9 @@ export default async (
 			googleCalendars,
 			googleCalendarEvents
 		},
-		session
+		orgAdminRequired
 	}
 ) => {
-	session.authenticationRequired(['createMeeting']);
-
 	const recurringMeeting = await recurringMeetings.idLoader.load(
 		recurringMeetingId
 	);
@@ -53,7 +51,7 @@ export default async (
 		);
 	}
 
-	await session.orgAdminRequired(recurringMeeting.organizationId);
+	orgAdminRequired(recurringMeeting.organizationId);
 
 	if (title) {
 		recurringMeeting.title = title;
