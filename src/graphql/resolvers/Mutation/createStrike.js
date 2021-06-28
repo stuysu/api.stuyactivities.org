@@ -6,12 +6,12 @@ import { PUBLIC_URL } from '../../../constants';
 
 export default async (parent, args, context) => {
 	const {
-		session,
-		models: { strikes, users, organizations, memberships }
+		models: { strikes, users, organizations, memberships },
+		adminRoleRequired,
+		user
 	} = context;
 
-	session.authenticationRequired(['createStrike']);
-	await session.adminRoleRequired('strikes', ['createStrike']);
+	adminRoleRequired('strikes');
 
 	let { orgId, orgUrl, weight, reason } = args;
 
@@ -34,7 +34,7 @@ export default async (parent, args, context) => {
 
 	const strike = await strikes.create({
 		organizationId: org.id,
-		reviewerId: context.session.userId,
+		reviewerId: user.id,
 		weight,
 		reason
 	});

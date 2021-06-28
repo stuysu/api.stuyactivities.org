@@ -3,9 +3,9 @@ import { ApolloError, ForbiddenError } from 'apollo-server-errors';
 export default async (
 	root,
 	{ requestId },
-	{ session, models: { membershipRequests } }
+	{ authenticationRequired, isOrgAdmin, models: { membershipRequests }, user }
 ) => {
-	session.authenticationRequired(['deleteMembershipRequest']);
+	authenticationRequired();
 
 	const request = await membershipRequests.idLoader.load(requestId);
 
@@ -16,13 +16,9 @@ export default async (
 		);
 	}
 
-	const isAdmin = await session.orgAdminRequired(
-		request.organizationId,
-		['deleteMembershipRequest'],
-		true
-	);
+	const isAdmin = isOrgAdmin(request.organizationId);
 
-	if (request.userId !== session.userId && !isAdmin) {
+	if (request.userId !== user.id && !isAdmin) {
 		throw new ForbiddenError(
 			'Only the person who created a request or an admin of the associated club are allowed to delete it.'
 		);

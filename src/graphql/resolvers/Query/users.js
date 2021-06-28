@@ -1,10 +1,9 @@
 export default async (
 	parent,
 	{ keyword, limit, offset },
-	{ models, session }
+	{ models, authenticationRequired }
 ) => {
-	session.authenticationRequired(['users']);
-
+	authenticationRequired();
 	const {
 		users,
 		Sequelize: { Op }

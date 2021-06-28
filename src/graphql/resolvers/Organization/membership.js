@@ -1,10 +1,8 @@
-export default async (org, args, { models, session }) => {
-	if (!session.signedIn) {
+export default async (org, args, { user, signedIn }) => {
+	if (!signedIn) {
 		return null;
 	}
 
-	const memberships = await models.memberships.userIdLoader.load(
-		session.userId
-	);
+	const memberships = user.memberships;
 	return memberships.find(mem => mem.organizationId === org.id);
 };

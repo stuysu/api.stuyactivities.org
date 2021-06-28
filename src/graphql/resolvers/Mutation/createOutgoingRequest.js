@@ -8,10 +8,12 @@ export default async (
 	{ orgId, orgUrl, userId, message, admin, role },
 	{
 		models: { membershipRequests, organizations, memberships, users },
-		session
+		user,
+		authenticationRequired,
+		orgAdminRequired
 	}
 ) => {
-	session.authenticationRequired(['createMembershipRequest']);
+	authenticationRequired();
 
 	if (message && message.length > 1000) {
 		throw new UserInputError(
@@ -44,7 +46,7 @@ export default async (
 		org = await organizations.urlLoader.load(orgUrl);
 	}
 	// make sure requester is admin
-	await session.orgAdminRequired(org.id);
+	orgAdminRequired(org.id);
 
 	// Check to see if the user is already a member
 	const alreadyMember = await memberships.findOne({
@@ -75,7 +77,7 @@ export default async (
 
 	const joinUrl = urlJoin(PUBLIC_URL, org.url, 'join');
 	const invitee = await users.findOne({ where: { id: userId } });
-	const inviter = await users.findOne({ where: { id: session.userId } });
+	const inviter = await users.findOne({ where: { id: user.id } });
 	const adminMessage =
 		message ||
 		`${inviter.firstName} ${inviter.lastName} is asking you to join as a leader of the organization ${org.name} on StuyActivities.`;

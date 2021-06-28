@@ -4,10 +4,11 @@ import { deleteCalendarEvent } from '../../../googleApis/calendar';
 export default async (
 	root,
 	{ meetingId },
-	{ session, models: { meetings, googleCalendarEvents, googleCalendars } }
+	{
+		orgAdminRequired,
+		models: { meetings, googleCalendarEvents, googleCalendars }
+	}
 ) => {
-	session.authenticationRequired(['createMeeting']);
-
 	const meeting = await meetings.idLoader.load(meetingId);
 
 	if (!meeting) {
@@ -17,7 +18,7 @@ export default async (
 		);
 	}
 
-	await session.orgAdminRequired(meeting.organizationId);
+	orgAdminRequired(meeting.organizationId);
 
 	/*const meetingCalEvent = await googleCalendarEvents.meetingIdLoader.load(
 		meeting.id

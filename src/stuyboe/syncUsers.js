@@ -1,4 +1,4 @@
-import { verify, sign } from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 import { getTransporter } from '../utils/sendEmail';
 
 const axios = require('axios').default;

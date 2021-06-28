@@ -1,38 +1,49 @@
-import fs from 'fs';
-import path from 'path';
+import { resolvers as graphqlScalarResolvers } from 'graphql-scalars';
+import AdminRole from './AdminRole';
+import Charter from './Charter';
+import CharterApprovalMessage from './CharterApprovalMessage';
+import CharterEdit from './CharterEdit';
+import CloudinaryResource from './CloudinaryResource';
+import GoogleCalendar from './GoogleCalendar';
+import JoinInstructions from './JoinInstructions';
+import Meeting from './Meeting';
+import Membership from './Membership';
+import MembershipRequest from './MembershipRequest';
+import Mutation from './Mutation';
+import Organization from './Organization';
+import Query from './Query';
+import Strike from './Strike';
+import StrikeComment from './StrikeComment';
+import Update from './Update';
+import UpdateApprovalMessage from './UpdateApprovalMessage';
+import UpdatePic from './UpdatePic';
+import UpdateQuestion from './UpdateQuestion';
+import Upload from './Upload';
+import User from './User';
 
-const resolvers = {};
-
-fs.readdirSync(__dirname, { withFileTypes: true })
-	.filter(dir => dir.isDirectory())
-	.map(dir => dir.name)
-	.forEach(type => {
-		const dirPath = path.resolve(__dirname, type);
-
-		const propResolvers = {};
-		const propResolverFiles = fs.readdirSync(dirPath, {
-			withFileTypes: true
-		});
-
-		// If there is a default export, use that instead
-		const defaultExport = propResolverFiles.some(
-			file => file.name === 'index.js'
-		);
-
-		if (defaultExport) {
-			const module = require(dirPath);
-			resolvers[type] = module.default || module;
-		} else {
-			propResolverFiles.forEach(file => {
-				const resolverPath = path.resolve(__dirname, type, file.name);
-
-				const propName = path.parse(resolverPath).name;
-
-				const module = require(resolverPath);
-				propResolvers[propName] = module.default || module;
-			});
-			resolvers[type] = propResolvers;
-		}
-	});
+const resolvers = {
+	...graphqlScalarResolvers,
+	AdminRole,
+	Charter,
+	CharterApprovalMessage,
+	CharterEdit,
+	CloudinaryResource,
+	GoogleCalendar,
+	JoinInstructions,
+	Meeting,
+	Membership,
+	MembershipRequest,
+	Mutation,
+	Organization,
+	Query,
+	Strike,
+	StrikeComment,
+	Update,
+	UpdateApprovalMessage,
+	UpdatePic,
+	UpdateQuestion,
+	Upload,
+	User
+};
 
 export default resolvers;

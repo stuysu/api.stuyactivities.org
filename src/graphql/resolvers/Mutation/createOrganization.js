@@ -29,7 +29,7 @@ const URL_BLACKLIST = [
 
 export default async (root, args, context) => {
 	const {
-		session,
+		authenticationRequired,
 		models: {
 			organizations,
 			charterEdits,
@@ -40,17 +40,16 @@ export default async (root, args, context) => {
 			memberships,
 			membershipRequests,
 			Sequelize: { Op }
-		}
+		},
+		user
 	} = context;
 
-	session.authenticationRequired(['createOrganization']);
+	authenticationRequired();
 
 	let { name, url, charter, leaders, tags } = args;
 
 	name = name.trim();
 	url = url.trim();
-
-	const currentUser = await users.findOne({ where: { id: session.userId } });
 
 	// MAKE SURE THE USER HAS NOT ALREADY SUBMITTED 2 PENDING CHARTERS
 	const now = new Date();
@@ -69,7 +68,7 @@ export default async (root, args, context) => {
 			{
 				model: charterEdits,
 				where: {
-					submittingUserId: currentUser.id,
+					submittingUserId: user.id,
 					status: 'pending'
 				}
 			}
@@ -188,13 +187,13 @@ export default async (root, args, context) => {
 		extra: charter.extra,
 		picture: null,
 		status: 'pending',
-		submittingUserId: currentUser.id,
+		submittingUserId: user.id,
 		organizationId: org.id
 	});
 
 	await memberships.create({
 		organizationId: org.id,
-		userId: currentUser.id,
+		userId: user.id,
 		role: 'Creator',
 		adminPrivileges: true
 	});
@@ -224,7 +223,7 @@ export default async (root, args, context) => {
 	const joinUrl = urlJoin(PUBLIC_URL, url, 'join');
 	for (let i = 0; i < leaderUsers.length; i++) {
 		const leader = leaderUsers[i];
-		const adminMessage = `${currentUser.firstName} ${currentUser.lastName} is asking you to join as a leader of the organization ${org.name} on StuyActivities.`;
+		const adminMessage = `${user.firstName} ${user.lastName} is asking you to join as a leader of the organization ${org.name} on StuyActivities.`;
 
 		await membershipRequests.create({
 			organizationId: org.id,
@@ -243,7 +242,7 @@ export default async (root, args, context) => {
 			template: 'orgLeaderInvite.html',
 			variables: {
 				invitee: leader,
-				inviter: currentUser,
+				inviter: user,
 				org,
 				joinUrl
 			}

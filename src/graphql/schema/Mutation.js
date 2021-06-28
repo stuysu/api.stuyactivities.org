@@ -33,10 +33,10 @@ export default gql`
 	type Mutation {
 		# --- Auth fields ---
 
-		login(loginToken: String, googleToken: String): User!
-		requestLoginToken(email: String!): Boolean
+		login(loginToken: String, googleToken: String): JWT!
+		requestLoginToken(email: String!): Void
 		linkOAuthPlatform(platform: String!, token: String!): OAuthIdentity
-		logout: Boolean
+		logout: Void
 
 		# --- Chartering fields ---
 
@@ -48,6 +48,7 @@ export default gql`
 			# String of emails
 			leaders: [LeaderParams!]!
 		): Organization
+
 		alterCharter(
 			orgId: Int!
 			# In case the new changes conflict with changes that were already proposed
@@ -217,5 +218,6 @@ export default gql`
 		): JoinInstructions
 
 		uploadImage(alt: String!, file: Upload!): CloudinaryResource!
+		emailClubLeaders(subject: String!, body: String!): Boolean
 	}
 `;

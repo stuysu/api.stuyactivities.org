@@ -4,18 +4,18 @@ import {
 	UserInputError
 } from 'apollo-server-express';
 
-export default async (parent, args, context) => {
-	// first steps, make sure they have sufficient permissions to make changes to the charter
-	const {
-		session,
-		models: {
-			organizations,
-			strikeComments,
-			strikes,
-			Sequelize: { Op }
-		}
-	} = context;
-	const { strikeId, message } = args;
+export default async (
+	parent,
+	{ strikeId, message },
+	{
+		models: { organizations, strikeComments, strikes },
+		authenticationRequired,
+		user,
+		hasAdminRole,
+		isOrgAdmin
+	}
+) => {
+	authenticationRequired();
 
 	const strike = await strikes.strikeIdLoader.load(strikeId);
 
@@ -25,19 +25,9 @@ export default async (parent, args, context) => {
 
 	const org = await organizations.idLoader.load(strike.organizationId);
 
-	session.authenticationRequired(['createStrikeComment']);
+	const isAdmin = hasAdminRole('strikes');
 
-	const isAdmin = await session.adminRoleRequired(
-		'strikes',
-		['createStrikeComment'],
-		true
-	);
-
-	const hasOrgAdmin = await session.orgAdminRequired(
-		orgId,
-		['createStrikeComment'],
-		true
-	);
+	const hasOrgAdmin = isOrgAdmin(org.id);
 
 	if (!isAdmin && !hasOrgAdmin) {
 		throw new ForbiddenError(
@@ -54,7 +44,7 @@ export default async (parent, args, context) => {
 	// Make the comment
 	return await strikeComments.create({
 		strikeId: strikeId,
-		userId: session.userId,
+		userId: user.id,
 		message,
 		auto: false,
 		seen: false

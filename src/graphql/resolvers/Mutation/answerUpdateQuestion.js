@@ -4,7 +4,7 @@ import sendEmail from '../../../utils/sendEmail';
 export default async (
 	root,
 	params,
-	{ models: { updates, users, updateQuestions }, session }
+	{ models: { updates, users, updateQuestions }, orgAdminRequired }
 ) => {
 	const updateQuestion = await updateQuestions.idLoader.load(
 		params.updateQuestionId
@@ -17,7 +17,7 @@ export default async (
 	}
 
 	const update = await updates.idLoader.load(updateQuestion.updateId);
-	await session.orgAdminRequired(update.organizationId);
+	orgAdminRequired(update.organizationId);
 
 	updateQuestion.answer = params.answer;
 	updateQuestion.private = params.private;

@@ -1,15 +1,12 @@
-export default async (update, args, { session, models }) => {
+export default async (update, args, { user, models, isOrgAdmin }) => {
 	let questions = await models.updateQuestions.updateIdLoader.load(update.id);
 
-	const membership = (await session.getMemberships()).find(
-		membership => membership.organizationId === update.organizationId
-	);
-	const isAdmin = membership && membership.adminPrivileges;
+	const isAdmin = isOrgAdmin(update.organizationId);
 
 	questions = questions.filter(question => {
 		if (isAdmin) return true;
 		if (!question.answer) return false;
-		if (question.userId === session.userId) return true;
+		if (question.userId === user.id) return true;
 		if (question.private) return false;
 		return true;
 	});
