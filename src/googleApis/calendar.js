@@ -151,11 +151,11 @@ export function createCalendarEvent(
 			resource: {
 				end: {
 					dateTime: end,
-					timeZone: "America/New_York"
+					timeZone: 'America/New_York'
 				},
 				start: {
 					dateTime: start,
-					timeZone: "America/New_York"
+					timeZone: 'America/New_York'
 				},
 				summary: name,
 				reminders: {
