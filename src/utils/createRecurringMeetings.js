@@ -112,6 +112,8 @@ const routine = async () => {
 	setTimeout(routine, interval);
 };
 
+export default routine;
+
 if (!process.env.CI) {
 	routine();
 }

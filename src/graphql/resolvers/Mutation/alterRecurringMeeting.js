@@ -11,6 +11,7 @@ import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 import recurringMeetingGEventInfo from '../../../utils/recurringMeetingGEventInfo';
 import destroyRecurringMeetingChildren from '../../../utils/destroyRecurringMeetingChildren';
+import createRecurringMeetings from '../../../utils/createRecurringMeetings';
 
 const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
@@ -88,9 +89,11 @@ export default async (
 		recurringMeeting.dayOfWeek = dayOfWeek;
 	}
 
-	await recurringMeeting.save();
+	await destroyRecurringMeetingChildren({ recurringMeeting: recurringMeeting._previousDataValues, meetings });
 
-	await destroyRecurringMeetingChildren({ recurringMeeting, meetings });
+	recurringMeeting.lastCreated = null;
+
+	await recurringMeeting.save();
 
 	const org = await organizations.idLoader.load(
 		recurringMeeting.organizationId
@@ -146,6 +149,12 @@ export default async (
 			gEventInfo
 		);
 	}
+
+	// will trigger everyone else for now but that's okay
+	// TODO maybe in the future we don't want this and will want to split up the
+	// method in utils/createRecurringMeeetings.js
+	// for now I think it's okay
+	createRecurringMeetings()
 
 	// refer to src/graphql/resolvers/Organization/recurringMeetings.js for an explanation
 	recurringMeeting.start = new Date(recurringMeeting.start);

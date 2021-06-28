@@ -9,6 +9,7 @@ import { Op } from 'sequelize';
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
 import recurringMeetingGEventInfo from '../../../utils/recurringMeetingGEventInfo';
+import createRecurringMeetings from '../../../utils/createRecurringMeetings';
 
 const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
@@ -129,6 +130,12 @@ export default async (
 		gCalEventId: googleEvent.id,
 		recurringMeeting: true
 	});
+
+	// will trigger everyone else for now but that's okay
+	// TODO maybe in the future we don't want this and will want to split up the
+	// method in utils/createRecurringMeeetings.js
+	// for now I think it's okay
+	createRecurringMeetings()
 
 	// refer to src/graphql/resolvers/Organization/recurringMeetings.js for an explanation
 	recurringMeeting.start = new Date(recurringMeeting.start);
