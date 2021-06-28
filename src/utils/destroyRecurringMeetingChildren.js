@@ -18,7 +18,8 @@ export default async ({ meetings, recurringMeeting }) => {
 			meeting.start.getHours() === rcStart.getHours() &&
 			meeting.start.getMinutes() === rcStart.getMinutes() &&
 			meeting.end.getHours() === rcEnd.getHours() &&
-			meeting.end.getMinutes() === rcEnd.getMinutes()
+			meeting.end.getMinutes() === rcEnd.getMinutes() &&
+			meeting.start.getDay() === rcStart.getDay()
 		) {
 			await meeting.destroy();
 		}
