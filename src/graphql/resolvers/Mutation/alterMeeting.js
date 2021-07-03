@@ -9,6 +9,7 @@ import {
 } from '../../../googleApis/calendar';
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
+import sanitizeHtml from '../../../utils/sanitizeHtml';
 
 const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
@@ -46,7 +47,7 @@ export default async (
 	}
 
 	if (description) {
-		meeting.description = description;
+		meeting.description = sanitizeHtml(description);
 	}
 
 	if (privacy && ['public', 'private'].includes(privacy)) {
@@ -83,7 +84,7 @@ export default async (
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
-	const renderedDescription = markdownIt.render(meeting.description);
+	const safeDescription = meeting.description;
 
 	const org = await organizations.idLoader.load(meeting.organizationId);
 
@@ -111,7 +112,7 @@ export default async (
 					meeting,
 					formattedStart,
 					formattedEnd,
-					renderedDescription
+					renderedDescription: safeDescription
 				}
 			});
 		}
@@ -119,7 +120,7 @@ export default async (
 
 	const gEventInfo = {
 		name: title,
-		description: renderedDescription,
+		description: safeDescription,
 		start: meeting.start.toISOString(),
 		end: meeting.end.toISOString(),
 		source: {
