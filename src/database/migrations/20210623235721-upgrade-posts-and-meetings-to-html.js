@@ -38,7 +38,7 @@ module.exports = {
 		allUpdatePics.forEach(pic => {
 			let pics = updateIdPicMap[pic.updateId];
 
-			if(! pics){
+			if (!pics) {
 				pics = [];
 				updateIdPicMap[pic.updateId] = pics;
 			}
@@ -73,7 +73,7 @@ module.exports = {
 				}
 
 				// normalize it
-				content = sanitizeHtml(content)
+				content = sanitizeHtml(content);
 
 				await queryInterface.sequelize.query(
 					'UPDATE updates SET content=$1 WHERE id=$2',
@@ -94,7 +94,9 @@ module.exports = {
 					return;
 				}
 
-				meeting.description = sanitizeHtml(md.render(meeting.description.replace(/\n/g, '\n\n')));
+				meeting.description = sanitizeHtml(
+					md.render(meeting.description.replace(/\n/g, '\n\n'))
+				);
 
 				return meeting.save();
 			})
