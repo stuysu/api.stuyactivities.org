@@ -16,22 +16,46 @@ module.exports = {
 			linkify: true
 		});
 
-		const updates = await models.updates.findAll({
-			include: models.updatePics
+		const updates = await queryInterface.sequelize.query(
+			'SELECT * FROM updates',
+			{
+				type: queryInterface.sequelize.QueryTypes.SELECT
+			}
+		);
+
+		// Since we can't use eager loading in raw queries, let's make a map
+		const allUpdatePics = await queryInterface.sequelize.query(
+			'SELECT * FROM updatePics',
+			{
+				type: queryInterface.sequelize.QueryTypes.SELECT
+			}
+		);
+
+		const updateIdPicMap = {};
+
+		allUpdatePics.forEach(pic => {
+			let pics = updateIdPicMap[pic.updateId];
+
+			if(! pics){
+				pics = [];
+				updateIdPicMap[pic.updateId] = pics;
+			}
+
+			pics.push(pic);
 		});
 
 		// Update all of the existing updates from markdown to html
 		await Promise.all(
-			updates.map(update => {
+			updates.map(async update => {
 				if (!update.content) {
 					return;
 				}
 
-				update.content = md.render(update.content);
+				let content = md.render(update.content);
 
-				const pics = update.updatePics;
-				if (pics.length) {
-					update.content += '<br/>';
+				const pics = updateIdPicMap[update.id];
+				if (pics && pics.length) {
+					content += '<br/>';
 
 					for (let i = 0; i < pics.length; i++) {
 						const pic = pics[i];
@@ -42,11 +66,17 @@ module.exports = {
 						const alt = pic.description
 							? encode(pic.description)
 							: '';
-						update.content += `<p style='text-align: center'><img src="${source}" alt="${alt}" class="platform-image" /></p>`;
+						content += `<p style='text-align: center'><img src="${source}" alt="${alt}" class="platform-image" /></p>`;
 					}
 				}
 
-				return update.save();
+				await queryInterface.sequelize.query(
+					'UPDATE updates SET content=$1 WHERE id=$2',
+					{
+						type: queryInterface.sequelize.QueryTypes.UPDATE,
+						bind: [content, update.id]
+					}
+				);
 			})
 		);
 
