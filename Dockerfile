@@ -1,4 +1,4 @@
-FROM library/node:16.4.1
+FROM library/node:16.3.0-alpine
 RUN apk update && apk upgrade && apk add --no-cache git
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
