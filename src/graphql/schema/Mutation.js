@@ -165,7 +165,7 @@ export default gql`
 			notifyFaculty: Boolean
 			localPinned: Boolean
 		): Update!
-		
+
 		alterUpdate(
 			id: Int!
 			type: updateTypes!
