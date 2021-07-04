@@ -25,11 +25,6 @@ export default gql`
 		role: String!
 	}
 
-	input UpdatePicUpload {
-		file: Upload!
-		description: String!
-	}
-	
 	enum updateTypes {
 		private
 		public

@@ -18,7 +18,6 @@ export default gql`
 		approvalMessages: [UpdateApprovalMessage]
 		submittingUser: User
 		links: [LinkPreview]
-		pictures: [UpdatePic]
 		questions: [UpdateQuestion]
 	}
 `;

@@ -16,7 +16,6 @@ import Strike from './Strike';
 import StrikeComment from './StrikeComment';
 import Update from './Update';
 import UpdateApprovalMessage from './UpdateApprovalMessage';
-import UpdatePic from './UpdatePic';
 import UpdateQuestion from './UpdateQuestion';
 import Upload from './Upload';
 import User from './User';
@@ -40,7 +39,6 @@ const resolvers = {
 	StrikeComment,
 	Update,
 	UpdateApprovalMessage,
-	UpdatePic,
 	UpdateQuestion,
 	Upload,
 	User

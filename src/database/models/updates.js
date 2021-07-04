@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
 			updates.belongsTo(models.organizations);
 			updates.belongsTo(models.users, { foreignKey: 'submittingUserId' });
 			updates.hasMany(models.updateLinks);
-			updates.hasMany(models.updatePics);
 			updates.hasMany(models.updateApprovalMessages);
 		}
 
