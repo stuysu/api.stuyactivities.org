@@ -1,4 +1,6 @@
 'use strict';
+import sanitizeHtml from '../../utils/sanitizeHtml';
+
 const models = require('./../models');
 const cloudinary = require('cloudinary').v2;
 const { encode } = require('html-entities');
@@ -51,7 +53,7 @@ module.exports = {
 					return;
 				}
 
-				let content = md.render(update.content);
+				let content = md.render(update.content.replace(/\n/g, '\n\n'));
 
 				const pics = updateIdPicMap[update.id];
 				if (pics && pics.length) {
@@ -69,6 +71,9 @@ module.exports = {
 						content += `<p style='text-align: center'><img src="${source}" alt="${alt}" class="platform-image" /></p>`;
 					}
 				}
+
+				// normalize it
+				content = sanitizeHtml(content)
 
 				await queryInterface.sequelize.query(
 					'UPDATE updates SET content=$1 WHERE id=$2',
@@ -89,7 +94,7 @@ module.exports = {
 					return;
 				}
 
-				meeting.description = md.render(meeting.description);
+				meeting.description = sanitizeHtml(md.render(meeting.description.replace(/\n/g, '\n\n')));
 
 				return meeting.save();
 			})
