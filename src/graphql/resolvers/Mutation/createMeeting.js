@@ -8,8 +8,7 @@ import {
 import { Op } from 'sequelize';
 import urlJoin from 'url-join';
 import { PUBLIC_URL } from '../../../constants';
-
-const markdownIt = require('markdown-it')({ html: false, linkify: true });
+import sanitizeHtml from '../../../utils/sanitizeHtml';
 
 export default async (
 	root,
@@ -80,10 +79,12 @@ export default async (
 		});
 	}
 
+	const safeDescription = sanitizeHtml(description);
+
 	const meeting = await meetings.create({
 		organizationId: org.id,
 		title,
-		description,
+		description: safeDescription,
 		start,
 		privacy,
 		end
@@ -117,8 +118,6 @@ export default async (
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
-	const renderedDescription = markdownIt.render(description);
-
 	for (let i = 0; i < members.length; i++) {
 		const member = members[i];
 
@@ -132,7 +131,7 @@ export default async (
 				meeting,
 				formattedStart,
 				formattedEnd,
-				renderedDescription
+				renderedDescription: safeDescription
 			}
 		});
 	}
@@ -146,7 +145,7 @@ export default async (
 
 	const googleEvent = await createCalendarEvent(googleCalendar.gCalId, {
 		name: title,
-		description: renderedDescription,
+		description: safeDescription,
 		start: start.toISOString(),
 		end: end.toISOString(),
 		source: {

@@ -23,7 +23,6 @@ import StrikeComment from './StrikeComment';
 import Tag from './Tag';
 import Update from './Update';
 import UpdateApprovalMessage from './UpdateApprovalMessage';
-import UpdatePic from './UpdatePic';
 import UpdateQuestion from './UpdateQuestion';
 import Upload from './Upload';
 import User from './User';
@@ -54,7 +53,6 @@ export default [
 	Tag,
 	Update,
 	UpdateApprovalMessage,
-	UpdatePic,
 	UpdateQuestion,
 	Upload,
 	User

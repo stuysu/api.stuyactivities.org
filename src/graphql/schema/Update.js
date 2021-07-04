@@ -17,8 +17,6 @@ export default gql`
 		organization: Organization
 		approvalMessages: [UpdateApprovalMessage]
 		submittingUser: User
-		links: [LinkPreview]
-		pictures: [UpdatePic]
 		questions: [UpdateQuestion]
 	}
 `;

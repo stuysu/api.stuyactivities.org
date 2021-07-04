@@ -25,9 +25,9 @@ export default gql`
 		role: String!
 	}
 
-	input UpdatePicUpload {
-		file: Upload!
-		description: String!
+	enum updateTypes {
+		private
+		public
 	}
 
 	type Mutation {
@@ -158,15 +158,23 @@ export default gql`
 		# Updates
 		createUpdate(
 			orgId: Int!
-			type: String!
-			title: String!
-			content: String!
+			type: updateTypes!
+			title: NonEmptyString!
+			content: NonEmptyString!
 			notifyMembers: Boolean
 			notifyFaculty: Boolean
 			localPinned: Boolean
-			links: [String!]
-			pictures: [UpdatePicUpload!]
-		): Update
+		): Update!
+
+		alterUpdate(
+			id: Int!
+			type: updateTypes!
+			title: NonEmptyString!
+			content: NonEmptyString!
+			notifyMembers: Boolean!
+			notifyFaculty: Boolean!
+			localPinned: Boolean!
+		): Update!
 
 		deleteUpdate(updateId: Int!): Boolean
 
