@@ -25,8 +25,6 @@ export default async (
 		orgAdminRequired
 	}
 ) => {
-	orgAdminRequired(orgId);
-
 	if (!orgId && !orgUrl) {
 		throw new UserInputError(
 			'You need to provide an organization id or organization url in order to create a meeting',
@@ -43,6 +41,8 @@ export default async (
 	} else if (orgUrl) {
 		org = await organizations.urlLoader.load(orgUrl);
 	}
+
+	orgAdminRequired(org.id);
 
 	if (!org.active) {
 		throw new ForbiddenError(
