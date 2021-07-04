@@ -83,7 +83,7 @@
 		"recursive": true
 	},
 	"engines": {
-		"node": ">=14.7.0"
+		"node": ">=16.4.1"
 	},
 	"engineStrict": true
 }
