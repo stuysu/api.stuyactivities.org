@@ -1,5 +1,4 @@
-import linkOAuthPlatform from './linkOAuthPlatform';
-import login from './login';
+import addRoomToMeeting from './addRoomToMeeting';
 import alterCharter from './alterCharter';
 import alterClubFairResponse from './alterClubFairResponse';
 import alterEmailSettings from './alterEmailSettings';
@@ -7,9 +6,10 @@ import alterHelpRequest from './alterHelpRequest';
 import alterJoinInstructions from './alterJoinInstructions';
 import alterMeeting from './alterMeeting';
 import alterMembership from './alterMembership';
+import alterRecurringMeeting from './alterRecurringMeeting';
 import answerUpdateQuestion from './answerUpdateQuestion';
-import approveMembershipRequest from './approveMembershipRequest';
 import approveCharterFields from './approveCharterFields';
+import approveMembershipRequest from './approveMembershipRequest';
 import closeHelpRequest from './closeHelpRequest';
 import createCharterApprovalMessage from './createCharterApprovalMessage';
 import createHelpRequest from './createHelpRequest';
@@ -18,22 +18,24 @@ import createMeeting from './createMeeting';
 import createMembershipRequest from './createMembershipRequest';
 import createOrganization from './createOrganization';
 import createOutgoingRequest from './createOutgoingRequest';
+import createRecurringMeeting from './createRecurringMeeting';
 import createStrike from './createStrike';
 import createUpdate from './createUpdate';
 import createUpdateQuestion from './createUpdateQuestion';
 import deleteMeeting from './deleteMeeting';
 import deleteMembership from './deleteMembership';
 import deleteMembershipRequest from './deleteMembershipRequest';
+import deleteRecurringMeeting from './deleteRecurringMeeting';
 import deleteUpdate from './deleteUpdate';
 import deleteUpdateQuestion from './deleteUpdateQuestion';
 import emailClubLeaders from './emailClubLeaders';
+import linkOAuthPlatform from './linkOAuthPlatform';
+import login from './login';
 import logout from './logout';
 import rejectCharterFields from './rejectCharterFields';
+import removeRoomFromMeeting from './removeRoomFromMeeting';
 import requestLoginToken from './requestLoginToken';
 import uploadImage from './uploadImage';
-import createRecurringMeeting from './createRecurringMeeting';
-import alterRecurringMeeting from './alterRecurringMeeting';
-import deleteRecurringMeeting from './deleteRecurringMeeting';
 
 export default {
 	linkOAuthPlatform,
@@ -71,5 +73,7 @@ export default {
 	uploadImage,
 	createRecurringMeeting,
 	alterRecurringMeeting,
-	deleteRecurringMeeting
+	deleteRecurringMeeting,
+	addRoomToMeeting,
+	removeRoomFromMeeting
 };

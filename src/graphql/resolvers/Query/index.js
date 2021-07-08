@@ -1,3 +1,4 @@
+import availableRooms from './availableRooms';
 import authenticatedUser from './authenticatedUser';
 import charter from './charter';
 import charterById from './charterById';
@@ -33,6 +34,7 @@ import validKeyPairs from './validKeyPairs';
 
 export default {
 	authenticatedUser,
+	availableRooms,
 	charter,
 	charterById,
 	charterByOrgId,

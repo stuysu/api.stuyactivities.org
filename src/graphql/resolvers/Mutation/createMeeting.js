@@ -1,18 +1,28 @@
-import { ForbiddenError, UserInputError } from 'apollo-server-express';
-import moment from 'moment-timezone';
-import sendEmail from '../../../utils/sendEmail';
+import { PUBLIC_URL } from '../../../constants';
 import {
 	createCalendarEvent,
 	initOrgCalendar
 } from '../../../googleApis/calendar';
+import sanitizeHtml from '../../../utils/sanitizeHtml';
+import sendEmail from '../../../utils/sendEmail';
+import { ForbiddenError, UserInputError } from 'apollo-server-express';
+import moment from 'moment-timezone';
 import { Op } from 'sequelize';
 import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../../../constants';
-import sanitizeHtml from '../../../utils/sanitizeHtml';
 
 export default async (
 	root,
-	{ orgId, orgUrl, title, description, privacy, start, end, notifyFaculty },
+	{
+		orgId,
+		orgUrl,
+		title,
+		description,
+		privacy,
+		start,
+		end,
+		notifyFaculty,
+		roomId
+	},
 	{
 		models: {
 			organizations,
@@ -20,7 +30,8 @@ export default async (
 			users,
 			memberships,
 			googleCalendars,
-			googleCalendarEvents
+			googleCalendarEvents,
+			meetingRooms
 		},
 		orgAdminRequired
 	}
@@ -79,6 +90,39 @@ export default async (
 		});
 	}
 
+	// If they tried to reserve a room, check if it's available
+	if (typeof roomId === 'number') {
+		const overlappingMeetings = await meetingRooms.findAll({
+			where: {
+				roomId
+			},
+			include: {
+				model: meetings,
+				where: {
+					[Op.or]: [
+						{
+							start: {
+								[Op.between]: [start, end]
+							}
+						},
+						{
+							end: {
+								[Op.between]: [start, end]
+							}
+						}
+					]
+				},
+				required: true
+			}
+		});
+
+		if (overlappingMeetings.length) {
+			throw new UserInputError(
+				'That room is not available during the time of your meeting'
+			);
+		}
+	}
+
 	const safeDescription = sanitizeHtml(description);
 
 	const meeting = await meetings.create({
@@ -89,6 +133,13 @@ export default async (
 		privacy,
 		end
 	});
+
+	if (roomId) {
+		await meetingRooms.create({
+			meetingId: meeting.id,
+			roomId
+		});
+	}
 
 	const where = {};
 
