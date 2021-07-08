@@ -19,7 +19,6 @@ import createMembershipRequest from './createMembershipRequest';
 import createOrganization from './createOrganization';
 import createOutgoingRequest from './createOutgoingRequest';
 import createStrike from './createStrike';
-import createStrikeComment from './createStrikeComment';
 import createUpdate from './createUpdate';
 import createUpdateQuestion from './createUpdateQuestion';
 import deleteMeeting from './deleteMeeting';
@@ -55,7 +54,6 @@ export default {
 	createOrganization,
 	createOutgoingRequest,
 	createStrike,
-	createStrikeComment,
 	createUpdate,
 	createUpdateQuestion,
 	deleteMeeting,

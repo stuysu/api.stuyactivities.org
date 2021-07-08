@@ -53,10 +53,12 @@ const routine = async () => {
 		const email = await getEmail(id);
 		await markEmailAsRead(id);
 
-		const isLoginEmail = email.subject.toLowerCase().includes('login');
+		if (email) {
+			const isLoginEmail = email.subject.toLowerCase().includes('login');
 
-		if (!isLoginEmail) {
-			continue;
+			if (!isLoginEmail) {
+				continue;
+			}
 		}
 
 		const sender = email.from.value[0].address;

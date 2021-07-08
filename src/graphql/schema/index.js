@@ -19,7 +19,6 @@ import OAuthIdentity from './OAuthIdentity';
 import Organization from './Organization';
 import Query from './Query';
 import Strike from './Strike';
-import StrikeComment from './StrikeComment';
 import Tag from './Tag';
 import Update from './Update';
 import UpdateApprovalMessage from './UpdateApprovalMessage';
@@ -49,7 +48,6 @@ export default [
 	Organization,
 	Query,
 	Strike,
-	StrikeComment,
 	Tag,
 	Update,
 	UpdateApprovalMessage,
