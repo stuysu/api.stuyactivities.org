@@ -5,7 +5,13 @@ export default async (
 	root,
 	{ orgId, orgUrl, message },
 	{
-		models: { membershipRequests, organizations, memberships, users, Sequelize: { Op } },
+		models: {
+			membershipRequests,
+			organizations,
+			memberships,
+			users,
+			Sequelize: { Op }
+		},
 		authenticationRequired,
 		user
 	}
@@ -68,7 +74,7 @@ export default async (
 					[Op.not]: false
 				}
 			},
-			required: true,
+			required: true
 		}
 	});
 
@@ -82,7 +88,7 @@ export default async (
 			variables: {
 				leader,
 				user,
-				org,
+				org
 			}
 		});
 	}
