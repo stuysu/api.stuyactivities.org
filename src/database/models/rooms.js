@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 	rooms.init(
 		{
 			name: DataTypes.STRING,
-			floor: DataTypes.STRING,
+			floor: DataTypes.INTEGER,
 			approvalRequired: DataTypes.BOOLEAN
 		},
 		{

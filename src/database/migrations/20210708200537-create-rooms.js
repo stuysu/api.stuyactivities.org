@@ -12,7 +12,7 @@ module.exports = {
 				type: Sequelize.STRING
 			},
 			floor: {
-				type: Sequelize.STRING
+				type: Sequelize.INTEGER
 			},
 			approvalRequired: {
 				type: Sequelize.BOOLEAN
