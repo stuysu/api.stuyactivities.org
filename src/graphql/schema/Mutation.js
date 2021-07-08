@@ -130,6 +130,9 @@ export default gql`
 		): Meeting
 		deleteMeeting(meetingId: Int!): Boolean
 
+		addRoomToMeeting(meetingId: Int!, roomId: Int!): Meeting!
+		removeRoomFromMeeting(meetingId: Int!, roomId: Int!): Meeting!
+
 		# --- RecurringMeeting fields ---
 		createRecurringMeeting(
 			orgId: Int
