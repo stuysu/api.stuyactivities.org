@@ -65,6 +65,8 @@ export default gql`
 		meetingById(id: Int!): Meeting
 
 		validKeyPairs: [KeyPair!]!
+		
+		availableRooms(start: DateTime!, end: DateTime!): [Room!]!
 
 		signingKey: KeyPair!
 

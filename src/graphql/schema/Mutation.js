@@ -117,6 +117,7 @@ export default gql`
 			end: DateTime!
 			privacy: String! = "public"
 			notifyFaculty: Boolean
+			roomId: Int
 		): Meeting
 		alterMeeting(
 			meetingId: Int!

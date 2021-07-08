@@ -4,5 +4,6 @@ export default gql`
 		id: Int!
 		name: NonEmptyString!
 		floor: NonNegativeInt!
+		approvalRequired: Boolean!
 	}
 `;
