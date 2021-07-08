@@ -31,6 +31,9 @@ import logout from './logout';
 import rejectCharterFields from './rejectCharterFields';
 import requestLoginToken from './requestLoginToken';
 import uploadImage from './uploadImage';
+import createRecurringMeeting from './createRecurringMeeting';
+import alterRecurringMeeting from './alterRecurringMeeting';
+import deleteRecurringMeeting from './deleteRecurringMeeting';
 
 export default {
 	linkOAuthPlatform,
@@ -65,5 +68,8 @@ export default {
 	logout,
 	rejectCharterFields,
 	requestLoginToken,
-	uploadImage
+	uploadImage,
+	createRecurringMeeting,
+	alterRecurringMeeting,
+	deleteRecurringMeeting
 };

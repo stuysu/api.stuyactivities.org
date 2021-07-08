@@ -23,6 +23,7 @@ export default gql`
 		charterEdits: [CharterEdit]!
 		meetings: [Meeting]
 		upcomingMeetings: [Meeting]
+		recurringMeetings: [RecurringMeeting]
 
 		joinInstructions: JoinInstructions
 		googleCalendar: GoogleCalendar

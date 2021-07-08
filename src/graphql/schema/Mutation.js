@@ -129,6 +129,31 @@ export default gql`
 		): Meeting
 		deleteMeeting(meetingId: Int!): Boolean
 
+		# --- RecurringMeeting fields ---
+		createRecurringMeeting(
+			orgId: Int
+			orgUrl: String
+			title: String!
+			description: String!
+			start: Time!
+			end: Time!
+			dayOfWeek: Int!
+			frequency: Int!
+			privacy: String! = "public"
+		): RecurringMeeting
+		alterRecurringMeeting(
+			recurringMeetingId: Int!
+			title: String
+			description: String
+			start: Time
+			end: Time
+			dayOfWeek: Int
+			notifyMembers: Boolean
+			privacy: String
+			frequency: Int
+		): RecurringMeeting
+		deleteRecurringMeeting(recurringMeetingId: Int!): Boolean
+
 		# --- Help Requests ---
 		createHelpRequest(
 			email: String

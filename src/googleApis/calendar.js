@@ -139,7 +139,8 @@ export function createCalendarEvent(
 		end,
 		location,
 		source: { title, url },
-		sendUpdates = 'all'
+		sendUpdates = 'all',
+		recurrence = []
 	}
 ) {
 	return getData(
@@ -149,10 +150,12 @@ export function createCalendarEvent(
 			sendUpdates,
 			resource: {
 				end: {
-					dateTime: end
+					dateTime: end,
+					timeZone: 'America/New_York'
 				},
 				start: {
-					dateTime: start
+					dateTime: start,
+					timeZone: 'America/New_York'
 				},
 				summary: name,
 				reminders: {
@@ -169,7 +172,8 @@ export function createCalendarEvent(
 						email: calendarId,
 						resource: true
 					}
-				]
+				],
+				recurrence
 			}
 		})
 	);

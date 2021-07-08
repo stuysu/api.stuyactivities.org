@@ -20,9 +20,15 @@ export default async (
 
 	orgAdminRequired(meeting.organizationId);
 
-	const meetingCalEvent = await googleCalendarEvents.meetingIdLoader.load(
+	/*const meetingCalEvent = await googleCalendarEvents.meetingIdLoader.load(
 		meeting.id
-	);
+	);*/
+	const meetingCalEvent = await googleCalendarEvents.findOne({
+		where: {
+			meetingId: meetingId,
+			recurringMeeting: false
+		}
+	});
 
 	const gCal = await googleCalendars.orgIdLoader.load(meeting.organizationId);
 

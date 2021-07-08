@@ -150,7 +150,8 @@ export default async (
 		await googleCalendarEvents.create({
 			googleCalendarId: googleCalendar.id,
 			meetingId: meeting.id,
-			gCalEventId: gCalEvent.id
+			gCalEventId: gCalEvent.id,
+			recurringMeeting: true
 		});
 	} else {
 		const googleCalendar = await googleCalendars.idLoader.load(

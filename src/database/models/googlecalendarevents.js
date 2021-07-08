@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			googleCalendarId: DataTypes.INTEGER,
 			meetingId: DataTypes.INTEGER,
-			gCalEventId: DataTypes.STRING
+			gCalEventId: DataTypes.STRING,
+			recurringMeeting: DataTypes.BOOLEAN
 		},
 		{
 			sequelize,

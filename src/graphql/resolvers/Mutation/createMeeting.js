@@ -157,7 +157,8 @@ export default async (
 	await googleCalendarEvents.create({
 		googleCalendarId: googleCalendar.id,
 		meetingId: meeting.id,
-		gCalEventId: googleEvent.id
+		gCalEventId: googleEvent.id,
+		recurringMeeting: false
 	});
 
 	return meeting;

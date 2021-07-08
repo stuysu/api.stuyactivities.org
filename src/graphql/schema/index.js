@@ -25,6 +25,7 @@ import UpdateApprovalMessage from './UpdateApprovalMessage';
 import UpdateQuestion from './UpdateQuestion';
 import Upload from './Upload';
 import User from './User';
+import RecurringMeeting from './RecurringMeeting';
 
 export default [
 	...graphqlScalarDefs,
@@ -53,5 +54,6 @@ export default [
 	UpdateApprovalMessage,
 	UpdateQuestion,
 	Upload,
-	User
+	User,
+	RecurringMeeting
 ];

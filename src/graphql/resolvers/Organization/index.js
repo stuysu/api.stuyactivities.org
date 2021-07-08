@@ -12,6 +12,7 @@ import strikes from './strikes';
 import tags from './tags';
 import upcomingMeetings from './upcomingMeetings';
 import updates from './updates';
+import recurringMeetings from './recurringMeetings';
 
 export default {
 	charter,
@@ -27,5 +28,6 @@ export default {
 	strikes,
 	tags,
 	upcomingMeetings,
-	updates
+	updates,
+	recurringMeetings
 };
