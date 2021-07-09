@@ -1,10 +1,17 @@
 import { ForbiddenError, UserInputError } from 'apollo-server-errors';
+import sendEmail from '../../../utils/sendEmail';
 
 export default async (
 	root,
 	{ orgId, orgUrl, message },
 	{
-		models: { membershipRequests, organizations, memberships },
+		models: {
+			membershipRequests,
+			organizations,
+			memberships,
+			users,
+			Sequelize: { Op }
+		},
 		authenticationRequired,
 		user
 	}
@@ -56,6 +63,35 @@ export default async (
 			organizationId: org.id
 		}
 	});
+
+	const leaders = await users.findAll({
+		include: {
+			model: memberships,
+			where: {
+				organizationId: org.id,
+				adminPrivileges: true,
+				updateNotification: {
+					[Op.not]: false
+				}
+			},
+			required: true
+		}
+	});
+
+	for (let i = 0; i < leaders.length; i++) {
+		const leader = leaders[i];
+
+		sendEmail({
+			to: leader.email,
+			subject: `Someone has requested to join ${org.name} | StuyActivities`,
+			template: 'membershipRequest.html',
+			variables: {
+				leader,
+				user,
+				org
+			}
+		});
+	}
 
 	if (alreadySubmitted) {
 		throw new ForbiddenError(
