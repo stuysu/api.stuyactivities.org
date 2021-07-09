@@ -66,6 +66,8 @@ export default gql`
 
 		validKeyPairs: [KeyPair!]!
 
+		availableRooms(start: DateTime!, end: DateTime!): [Room!]!
+
 		signingKey: KeyPair!
 
 		date: DateTime!

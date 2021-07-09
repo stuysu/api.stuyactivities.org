@@ -26,6 +26,7 @@ import UpdateQuestion from './UpdateQuestion';
 import Upload from './Upload';
 import User from './User';
 import RecurringMeeting from './RecurringMeeting';
+import Room from './Room';
 
 export default [
 	...graphqlScalarDefs,
@@ -48,6 +49,7 @@ export default [
 	OAuthIdentity,
 	Organization,
 	Query,
+	Room,
 	Strike,
 	Tag,
 	Update,

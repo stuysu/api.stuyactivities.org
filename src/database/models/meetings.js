@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			meetings.belongsTo(models.organizations);
+			meetings.belongsToMany(models.rooms, {
+				through: models.meetingRooms
+			});
 		}
 
 		static orgIdUpcomingLoader = findManyLoader(

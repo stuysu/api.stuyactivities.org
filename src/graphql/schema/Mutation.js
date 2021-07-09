@@ -117,6 +117,7 @@ export default gql`
 			end: DateTime!
 			privacy: String! = "public"
 			notifyFaculty: Boolean
+			roomId: Int
 		): Meeting
 		alterMeeting(
 			meetingId: Int!
@@ -128,6 +129,9 @@ export default gql`
 			privacy: String
 		): Meeting
 		deleteMeeting(meetingId: Int!): Boolean
+
+		addRoomToMeeting(meetingId: Int!, roomId: Int!): Meeting!
+		removeRoomFromMeeting(meetingId: Int!, roomId: Int!): Meeting!
 
 		# --- RecurringMeeting fields ---
 		createRecurringMeeting(

@@ -9,5 +9,6 @@ export default gql`
 		end: DateTime
 		privacy: String
 		organization: Organization
+		rooms: [Room!]!
 	}
 `;
