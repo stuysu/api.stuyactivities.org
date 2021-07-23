@@ -56,7 +56,7 @@
 		"nunjucks": "^3.2.3",
 		"nyc": "^15.1.0",
 		"open-graph-scraper": "^4.8.2",
-		"regenerator-runtime": "^0.13.7",
+		"regenerator-runtime": "^0.13.9",
 		"request": "^2.88.2",
 		"sanitize-html": "^2.3.3",
 		"sequelize": "^6.6.5",
