@@ -158,6 +158,13 @@ export default gql`
 		): RecurringMeeting
 		deleteRecurringMeeting(recurringMeetingId: Int!): Boolean
 
+		# --- Groups ---
+		createGroup(
+			orgId: Int!
+			name: String!
+		): Group
+		deleteGroup(GroupId: Int!):Boolean
+
 		# --- Help Requests ---
 		createHelpRequest(
 			email: String
@@ -168,6 +175,7 @@ export default gql`
 			path: String
 		): HelpRequest
 		closeHelpRequest(requestId: Int!): Boolean
+
 		# alterHelpRequest meant only for admin use
 		alterHelpRequest(
 			requestId: Int!
