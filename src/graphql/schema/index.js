@@ -6,6 +6,8 @@ import CharterEdit from './CharterEdit';
 import CloudinaryResource from './CloudinaryResource';
 import ClubFairResponse from './ClubFairResponse';
 import GoogleCalendar from './GoogleCalendar';
+import Group from './Group';
+import GroupMembership from './GroupMembership';
 import HelpRequest from './HelpRequest';
 import HelpRequestMessage from './HelpRequestMessage';
 import JoinInstructions from './JoinInstructions';
@@ -37,6 +39,8 @@ export default [
 	CloudinaryResource,
 	ClubFairResponse,
 	GoogleCalendar,
+	Group,
+	GroupMembership,
 	HelpRequest,
 	HelpRequestMessage,
 	JoinInstructions,
