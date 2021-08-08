@@ -14,6 +14,6 @@ export default async (
 
 	return await groups.create({
 		organizationId: orgId,
-		name,
+		name
 	});
-}
+};
