@@ -159,11 +159,8 @@ export default gql`
 		deleteRecurringMeeting(recurringMeetingId: Int!): Boolean
 
 		# --- Groups ---
-		createGroup(
-			orgId: Int!
-			name: String!
-		): Group
-		deleteGroup(GroupId: Int!):Boolean
+		createGroup(orgId: Int!, name: String!): Group
+		deleteGroup(GroupId: Int!): Boolean
 
 		# --- Help Requests ---
 		createHelpRequest(
