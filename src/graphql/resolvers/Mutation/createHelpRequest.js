@@ -3,6 +3,7 @@ import * as EmailValidator from 'email-validator';
 import axios from 'axios';
 import { CAPTCHA_SECRET } from '../../../constants';
 import { getTransporter } from '../../../utils/sendEmail';
+import { URL } from 'url';
 
 const CAPTCHA_VALIDATION_URL = `https://www.google.com/recaptcha/api/siteverify`;
 
@@ -84,12 +85,12 @@ export default async (
 
 	const transporter = await getTransporter();
 
+	const fullPath = new URL(path, 'https://stuyactivities.org').href;
 	await transporter.sendMail({
-		to: 'it@stuyactivities.org',
 		replyTo: user.email,
-		cc: user.email,
+		cc: ['it@stuyactivities.org', user.email],
 		subject: 'Help Request: ' + title,
-		html: `<p>Reply directly above this line:</p><hr/><p><b>From: </b>${user.firstName} ${user.lastName} (${user.email})</p> <p><b>Path: </b>https://stuyactivities.org/${path}</p><p><b>Description</b></p><p>${description}</p>`
+		html: `<p>Reply directly above this line:</p><hr/><p><b>From: </b>${user.firstName} ${user.lastName} (${user.email})</p> <p><b>Path: </b>${fullPath}</p><p><b>Description</b></p><p>${description}</p>`
 	});
 
 	// Now we can actually go about creating the request
