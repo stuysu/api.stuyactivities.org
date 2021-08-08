@@ -3,5 +3,5 @@ import group from './group';
 
 export default {
 	user,
-	group,
+	group
 };
