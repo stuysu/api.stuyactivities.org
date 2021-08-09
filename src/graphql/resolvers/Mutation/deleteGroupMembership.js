@@ -3,7 +3,6 @@ export default async (
 	{ groupMembershipId },
 	{ orgAdminRequired, models: { groupMemberships }, user }
 ) => {
-
 	const groupMembership = await groupMemberships.idLoader.load(
 		groupMembershipId
 	);
@@ -15,9 +14,7 @@ export default async (
 		);
 	}
 
-	const group = await groups.idLoader.load(
-		groupMembership.groupId
-	);
+	const group = await groups.idLoader.load(groupMembership.groupId);
 
 	if (!group) {
 		throw new ApolloError(
@@ -29,4 +26,4 @@ export default async (
 	orgAdminRequired(group.organizationId);
 
 	return await groupMembership.destroy();
-}
+};

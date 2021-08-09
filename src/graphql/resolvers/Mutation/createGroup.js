@@ -5,7 +5,6 @@ export default async (
 	{ orgId, name },
 	{ orgAdminRequired, models: { groups }, user }
 ) => {
-
 	orgAdminRequired(orgId);
 
 	if (!orgId || !name) {
@@ -18,14 +17,12 @@ export default async (
 	const alreadyExists = await groups.findOne({
 		where: {
 			orgId,
-			name,
+			name
 		}
 	});
 
 	if (alreadyExists) {
-		throw new ForbiddenError(
-			'A group with this name already exists.'
-		);
+		throw new ForbiddenError('A group with this name already exists.');
 	}
 
 	return await groups.create({
