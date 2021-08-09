@@ -5,5 +5,6 @@ export default gql`
 		id: Int!
 		name: String
 		organization: Organization
+		memberships: [GroupMembership!]
 	}
 `;

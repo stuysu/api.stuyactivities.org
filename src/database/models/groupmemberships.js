@@ -12,12 +12,10 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			groupMemberships.belongsTo(models.organizations);
-			groupMemberships.belongsTo(models.users);
+			groupMemberships.belongsTo(models.groups);
 		}
 		static idLoader = findOneLoader(groupMemberships, 'id');
-		static userIdLoader = findManyLoader(groupMemberships, 'userId');
-		static orgIdLoader = findManyLoader(groupMemberships, 'organizationId');
+		static groupIdLoader = findManyLoader(groupMemberships, 'groupId');
 	}
 	groupMemberships.init(
 		{
