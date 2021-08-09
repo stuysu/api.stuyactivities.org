@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 
 			users.hasMany(models.membershipRequests);
 			users.hasMany(models.memberships);
+			users.hasMany(models.groupMemberships);
 			users.hasOne(models.fourDigitIds);
 		}
 

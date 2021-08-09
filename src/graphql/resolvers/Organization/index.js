@@ -12,6 +12,7 @@ import strikes from './strikes';
 import tags from './tags';
 import upcomingMeetings from './upcomingMeetings';
 import updates from './updates';
+import groups from './groups';
 import recurringMeetings from './recurringMeetings';
 
 export default {
@@ -29,5 +30,6 @@ export default {
 	tags,
 	upcomingMeetings,
 	updates,
+	groups,
 	recurringMeetings
 };

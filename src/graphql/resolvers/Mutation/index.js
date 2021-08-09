@@ -12,6 +12,8 @@ import approveCharterFields from './approveCharterFields';
 import approveMembershipRequest from './approveMembershipRequest';
 import closeHelpRequest from './closeHelpRequest';
 import createCharterApprovalMessage from './createCharterApprovalMessage';
+import createGroup from './createGroup';
+import createGroupMembership from './createGroupMembership';
 import createHelpRequest from './createHelpRequest';
 import createHelpRequestMessage from './createHelpRequestMessage';
 import createMeeting from './createMeeting';
@@ -54,6 +56,8 @@ export default {
 	createCharterApprovalMessage,
 	createHelpRequest,
 	createHelpRequestMessage,
+	createGroup,
+	createGroupMembership,
 	createMeeting,
 	createMembershipRequest,
 	createOrganization,

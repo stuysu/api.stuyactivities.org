@@ -5,6 +5,8 @@ import CharterApprovalMessage from './CharterApprovalMessage';
 import CharterEdit from './CharterEdit';
 import CloudinaryResource from './CloudinaryResource';
 import GoogleCalendar from './GoogleCalendar';
+import Group from './Group';
+import GroupMembership from './GroupMembership';
 import JoinInstructions from './JoinInstructions';
 import Meeting from './Meeting';
 import Membership from './Membership';
@@ -27,6 +29,8 @@ const resolvers = {
 	CharterEdit,
 	CloudinaryResource,
 	GoogleCalendar,
+	Group,
+	GroupMembership,
 	JoinInstructions,
 	Meeting,
 	Membership,
