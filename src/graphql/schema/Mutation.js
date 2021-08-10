@@ -160,9 +160,9 @@ export default gql`
 
 		# --- Groups ---
 		createGroup(orgId: Int!, name: String!): Group
-		deleteGroup(GroupId: Int!): Boolean
+		deleteGroup(groupId: Int!): Boolean
 		createGroupMembership(groupId: Int!, userId: Int!): GroupMembership
-		deleteGroupMembership(GroupMembershipId: Int!): Boolean
+		deleteGroupMembership(groupMembershipId: Int!): Boolean
 
 		# --- Help Requests ---
 		createHelpRequest(
