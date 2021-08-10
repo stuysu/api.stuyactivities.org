@@ -1,3 +1,3 @@
 export default (groupMembership, args, { models }) => {
-	return models.group.idLoader.load(groupMembership.groupId);
+	return models.groups.idLoader.load(groupMembership.groupId);
 };
