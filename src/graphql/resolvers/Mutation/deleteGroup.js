@@ -11,5 +11,6 @@ export default async (
 
 	orgAdminRequired(group.organizationId);
 
-	return await group.destroy();
+	await group.destroy();
+	return true;
 };
