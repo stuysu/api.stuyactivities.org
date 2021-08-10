@@ -1,7 +1,7 @@
 export default async (
 	root,
 	{ groupMembershipId },
-	{ orgAdminRequired, models: { groupMemberships }, user }
+	{ orgAdminRequired, models: { groupMemberships, groups }, user }
 ) => {
 	const groupMembership = await groupMemberships.idLoader.load(
 		groupMembershipId
@@ -25,5 +25,6 @@ export default async (
 
 	orgAdminRequired(group.organizationId);
 
-	return await groupMembership.destroy();
+	await groupMembership.destroy();
+	return true;
 };
