@@ -16,7 +16,7 @@ export default async (
 
 	const alreadyExists = await groups.findOne({
 		where: {
-			orgId,
+			organizationId: orgId,
 			name
 		}
 	});
