@@ -24,8 +24,8 @@ import createRecurringMeeting from './createRecurringMeeting';
 import createStrike from './createStrike';
 import createUpdate from './createUpdate';
 import createUpdateQuestion from './createUpdateQuestion';
-import deleteGroup from "./deleteGroup"
-import deleteGroupMembership from "./deleteGroupMembership"
+import deleteGroup from './deleteGroup';
+import deleteGroupMembership from './deleteGroupMembership';
 import deleteMeeting from './deleteMeeting';
 import deleteMembership from './deleteMembership';
 import deleteMembershipRequest from './deleteMembershipRequest';
