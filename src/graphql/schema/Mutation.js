@@ -19,7 +19,7 @@ export default gql`
 		extra: String
 		picture: Upload
 		socials: String
-		clubpubParticipant: String
+		clubpubParticipant: Boolean
 	}
 
 	input LeaderParams {
