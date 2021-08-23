@@ -51,6 +51,7 @@ export default async (root, args, context) => {
 	name = name.trim();
 	url = url.trim();
 
+	// {{{ Validation
 	// MAKE SURE THE USER HAS NOT ALREADY SUBMITTED 2 PENDING CHARTERS
 	const now = new Date();
 	const oneWeek = 1000 * 60 * 60 * 24 * 7;
@@ -156,6 +157,28 @@ export default async (root, args, context) => {
 		});
 	}
 
+	// Remove any duplicates from leaders
+	const leaderRoles = {};
+
+	leaders = [
+		...new Set(
+			leaders.map(leader => {
+				leaderRoles[leader.userId] = leader.role;
+				return leader.userId;
+			})
+		)
+	];
+
+	// get leader users (also used later to send invitation emails)
+	const leaderUsers = await users.findAll({ where: { id: leaders } });
+
+	if (!leaderUsers.some(user => user.isFaculty)) {
+		throw new UserInputError('You must add a faculty advisor to create a club!', {
+			invalidArgs: ['leaders']
+		});
+	}
+	// }}}
+
 	let actualPicture = await cloudinary.uploader.upload(getAvatarUrl(name), {
 		public_id: `organizations/${url}/${cryptoRandomString({
 			length: 8
@@ -206,20 +229,7 @@ export default async (root, args, context) => {
 		});
 	}
 
-	// Remove any duplicates from leaders
-	const leaderRoles = {};
-
-	leaders = [
-		...new Set(
-			leaders.map(leader => {
-				leaderRoles[leader.userId] = leader.role;
-				return leader.userId;
-			})
-		)
-	];
-
-	// Add the other admins and send them an email
-	const leaderUsers = await users.findAll({ where: { id: leaders } });
+	// Add the other admins and send them an email (leader user-getting code was moved to validation section)
 	const joinUrl = urlJoin(PUBLIC_URL, url, 'join');
 	for (let i = 0; i < leaderUsers.length; i++) {
 		const leader = leaderUsers[i];
