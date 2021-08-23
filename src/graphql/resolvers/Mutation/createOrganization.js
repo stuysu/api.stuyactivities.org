@@ -204,6 +204,7 @@ export default async (root, args, context) => {
 		uniqueness: charter.uniqueness,
 		appointmentProcedures: charter.appointmentProcedures,
 		meetingSchedule: charter.meetingSchedule,
+		socials: charter.socials,
 		meetingDays: JSON.stringify(charter.meetingDays),
 		commitmentLevel: charter.commitmentLevel,
 		keywords: JSON.stringify(charter.keywords),

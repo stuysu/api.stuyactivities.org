@@ -21,5 +21,6 @@ export default gql`
 		extra: String
 		alteredFields: [String]
 		keywords: [String]
+		socials: String
 	}
 `;

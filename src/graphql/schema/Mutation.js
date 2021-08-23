@@ -18,6 +18,8 @@ export default gql`
 		keywords: [String!]
 		extra: String
 		picture: Upload
+		socials: String
+		clubpubParticipant: String
 	}
 
 	input LeaderParams {
