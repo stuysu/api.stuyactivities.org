@@ -8,6 +8,7 @@ export default gql`
 		mission: String
 		purpose: String
 		benefit: String
+		socials: String
 
 		appointmentProcedures: String
 		uniqueness: String
@@ -19,5 +20,6 @@ export default gql`
 		keywords: [String]
 		extra: String
 		updatedAt: DateTime
+		clubpubParticipant: Boolean
 	}
 `;
