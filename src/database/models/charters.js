@@ -30,7 +30,9 @@ module.exports = (sequelize, DataTypes) => {
 			meetingDays: DataTypes.STRING,
 			commitmentLevel: DataTypes.ENUM('low', 'medium', 'high'),
 			keywords: DataTypes.STRING,
-			extra: DataTypes.TEXT
+			extra: DataTypes.TEXT,
+			socials: DataTypes.STRING,
+			clubpubParticipant: DataTypes.BOOLEAN
 		},
 		{
 			sequelize,

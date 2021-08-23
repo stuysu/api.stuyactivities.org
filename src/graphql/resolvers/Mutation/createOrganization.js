@@ -194,7 +194,8 @@ export default async (root, args, context) => {
 
 	const activeCharter = await charters.create({
 		organizationId: org.id,
-		picture: actualPicture.public_id
+		picture: actualPicture.public_id,
+		clubpubParticipant: charter.clubpubParticipant || false
 	});
 
 	const pendingCharter = await charterEdits.create({

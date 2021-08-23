@@ -13,7 +13,8 @@ export const EDITABLE_CHARTER_FIELDS = [
 	'meetingDays',
 	'commitmentLevel',
 	'extra',
-	'keywords'
+	'keywords',
+	'socials'
 ];
 
 export const PUBLIC_URL =
