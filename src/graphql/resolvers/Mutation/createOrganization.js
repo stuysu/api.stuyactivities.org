@@ -173,9 +173,12 @@ export default async (root, args, context) => {
 	const leaderUsers = await users.findAll({ where: { id: leaders } });
 
 	if (!leaderUsers.some(user => user.isFaculty)) {
-		throw new UserInputError('You must add a faculty advisor to create a club!', {
-			invalidArgs: ['leaders']
-		});
+		throw new UserInputError(
+			'You must add a faculty advisor to create a club!',
+			{
+				invalidArgs: ['leaders']
+			}
+		);
 	}
 	// }}}
 
