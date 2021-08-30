@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			meetings.belongsTo(models.organizations);
-			meetings.belongsTo(models.groups, { foreignKey: "groupId" });
+			meetings.belongsTo(models.groups);
 			meetings.belongsToMany(models.rooms, {
 				through: models.meetingRooms
 			});
@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 			description: DataTypes.TEXT,
 			start: DataTypes.DATE,
 			privacy: DataTypes.ENUM('public', 'private'),
+			groupId: DataTypes.INTEGER,
 			end: DataTypes.DATE
 		},
 		{
