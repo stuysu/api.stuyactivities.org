@@ -120,6 +120,7 @@ export default gql`
 			privacy: String! = "public"
 			notifyFaculty: Boolean
 			roomId: Int
+			groupId: Int
 		): Meeting
 		alterMeeting(
 			meetingId: Int!

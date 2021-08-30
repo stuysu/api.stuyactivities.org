@@ -1,23 +1,40 @@
-export default (root, { userId }, { models, authenticationRequired }) => {
+export default async (
+	root,
+	{ userId },
+	{
+		models: {
+			meetings,
+			groups,
+			groupMemberships,
+			Sequelize: { Op }
+		},
+		authenticationRequired
+	}
+) => {
 	authenticationRequired();
 
 	const now = new Date();
 
-	return models.meetings.findAll({
+	return meetings.findAll({
 		where: {
 			end: {
-				[models.Sequelize.Op.gte]: now
+				[Op.gte]: now
+			},
+			[Op.or]: {
+				groupId: 0,
+				'$group.name$': { [Op.like]: '%' }
 			}
 		},
 		include: {
-			model: models.organizations,
-			required: true,
+			as: 'group',
+			model: groups,
+			required: false,
 			include: {
-				model: models.memberships,
-				required: true,
+				model: groupMemberships,
 				where: {
 					userId
-				}
+				},
+				required: true
 			}
 		},
 		order: [['start', 'asc']]
