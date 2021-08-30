@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 			groups.belongsTo(models.organizations);
 			groups.hasMany(models.groupMemberships);
+			groups.hasMany(models.meetings);
 		}
 		static idLoader = findOneLoader(groups, 'id');
 		static orgIdLoader = findManyLoader(groups, 'organizationId');

@@ -21,7 +21,8 @@ export default async (
 		start,
 		end,
 		notifyFaculty,
-		roomId
+		roomId,
+		groupId
 	},
 	{
 		models: {
@@ -131,7 +132,8 @@ export default async (
 		description: safeDescription,
 		start,
 		privacy,
-		end
+		end,
+		groupId: groupId || 0
 	});
 
 	if (roomId) {
@@ -141,24 +143,41 @@ export default async (
 		});
 	}
 
-	const where = {};
+	let where = {};
+	let include = {
+		model: memberships,
+		where: {
+			organizationId: org.id,
+			updateNotification: {
+				[Op.not]: false
+			}
+		},
+		required: true
+	};
 
 	if (!notifyFaculty) {
 		where.isFaculty = false;
 	}
 
-	const members = await users.findAll({
+	if (groupId) {
+		include = [
+			include,
+			{
+				model: memberships,
+				where: {
+					organizationId: org.id,
+					updateNotification: {
+						[Op.not]: false
+					}
+				},
+				required: true
+			}
+		];
+	}
+
+	let members = await users.findAll({
 		where,
-		include: {
-			model: memberships,
-			where: {
-				organizationId: org.id,
-				updateNotification: {
-					[Op.not]: false
-				}
-			},
-			required: true
-		}
+		include
 	});
 
 	const formattedStart = moment(start)
