@@ -86,7 +86,9 @@ module.exports = {
 		);
 
 		// Update the meeting descriptions
-		const meetings = await models.meetings.findAll();
+		const meetings = await models.meetings.findAll({
+			attributes: ["description"]
+		});
 
 		await Promise.all(
 			meetings.map(meeting => {
