@@ -22,7 +22,7 @@ export default async (
 			},
 			[Op.or]: {
 				groupId: 0,
-				"$group.name$": { [Op.like]: "%" }
+				'$group.name$': { [Op.like]: '%' }
 			}
 		},
 		include: {
@@ -34,10 +34,9 @@ export default async (
 				where: {
 					userId
 				},
-				required: true,
-			},
-		}
-		,
+				required: true
+			}
+		},
 		order: [['start', 'asc']]
 	});
 };
