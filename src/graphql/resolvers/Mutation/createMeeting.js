@@ -166,7 +166,7 @@ export default async (
 			{
 				model: groupMemberships,
 				where: {
-					groupId,
+					groupId
 				},
 				required: true
 			}
