@@ -15,7 +15,16 @@ const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 export default async (
 	root,
-	{ meetingId, title, description, start, end, privacy, notifyMembers, groupId },
+	{
+		meetingId,
+		title,
+		description,
+		start,
+		end,
+		privacy,
+		notifyMembers,
+		groupId
+	},
 	{
 		models: {
 			organizations,
