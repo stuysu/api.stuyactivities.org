@@ -5,5 +5,5 @@ import groupMemberships from './groupMemberships';
 export default {
 	organization,
 	user,
-	groupMemberships,
+	groupMemberships
 };

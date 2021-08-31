@@ -1,7 +1,7 @@
 export default (membership, args, { models }) => {
 	return models.groupMemberships.findAll({
 		where: {
-			userId: membership.userId,
+			userId: membership.userId
 		},
 		include: {
 			required: true,
@@ -10,7 +10,7 @@ export default (membership, args, { models }) => {
 				required: true,
 				model: models.organizations,
 				where: {
-					id: membership.organizationId,
+					id: membership.organizationId
 				}
 			}
 		}
