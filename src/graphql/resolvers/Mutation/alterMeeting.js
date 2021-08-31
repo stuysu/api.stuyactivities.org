@@ -15,7 +15,7 @@ const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 export default async (
 	root,
-	{ meetingId, title, description, start, end, privacy, notifyMembers },
+	{ meetingId, title, description, start, end, privacy, notifyMembers, groupId },
 	{
 		models: {
 			organizations,
@@ -41,6 +41,10 @@ export default async (
 	}
 
 	orgAdminRequired(meeting.organizationId);
+
+	if (groupId) {
+		meeting.groupId = groupId;
+	}
 
 	if (title) {
 		meeting.title = title;
