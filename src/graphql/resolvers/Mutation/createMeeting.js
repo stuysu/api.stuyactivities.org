@@ -29,6 +29,7 @@ export default async (
 			organizations,
 			meetings,
 			users,
+			groupMemberships,
 			memberships,
 			googleCalendars,
 			googleCalendarEvents,
@@ -163,12 +164,9 @@ export default async (
 		include = [
 			include,
 			{
-				model: memberships,
+				model: groupMemberships,
 				where: {
-					organizationId: org.id,
-					updateNotification: {
-						[Op.not]: false
-					}
+					groupId,
 				},
 				required: true
 			}
