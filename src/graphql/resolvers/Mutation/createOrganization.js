@@ -171,15 +171,6 @@ export default async (root, args, context) => {
 
 	// get leader users (also used later to send invitation emails)
 	const leaderUsers = await users.findAll({ where: { id: leaders } });
-
-	if (!leaderUsers.some(user => user.isFaculty)) {
-		throw new UserInputError(
-			'You must add a faculty advisor to create a club!',
-			{
-				invalidArgs: ['leaders']
-			}
-		);
-	}
 	// }}}
 
 	let actualPicture = await cloudinary.uploader.upload(getAvatarUrl(name), {
