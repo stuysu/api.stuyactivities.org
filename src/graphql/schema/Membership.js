@@ -5,6 +5,7 @@ export default gql`
 		id: Int!
 		user: User
 		organization: Organization
+		groupMemberships: [GroupMembership]
 		role: String
 		adminPrivileges: Boolean
 		updatedAt: DateTime
