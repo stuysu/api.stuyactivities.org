@@ -14,6 +14,8 @@ import MembershipRequest from './MembershipRequest';
 import Mutation from './Mutation';
 import Organization from './Organization';
 import Query from './Query';
+import Sport from './Sport';
+import SportsCaptain from './SportsCaptain';
 import Strike from './Strike';
 import Update from './Update';
 import UpdateApprovalMessage from './UpdateApprovalMessage';
@@ -38,6 +40,8 @@ const resolvers = {
 	Mutation,
 	Organization,
 	Query,
+	Sport,
+	SportsCaptain,
 	Strike,
 	Update,
 	UpdateApprovalMessage,
