@@ -1,5 +1,8 @@
 import { ApolloError, UserInputError } from 'apollo-server-express';
-import { EDITABLE_CHARTER_FIELDS, OPTIONAL_CHARTER_FIELDS } from '../../../constants';
+import {
+	EDITABLE_CHARTER_FIELDS,
+	OPTIONAL_CHARTER_FIELDS
+} from '../../../constants';
 import { initOrgCalendar } from '../../../googleApis/calendar';
 import sendEmail from '../../../utils/sendEmail';
 
