@@ -4,4 +4,4 @@ import captains from './captains';
 export default {
 	picture,
 	captains
-}
+};
