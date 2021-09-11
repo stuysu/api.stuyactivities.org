@@ -42,6 +42,8 @@ const loginWithGoogle = async ({ googleOAuthToken, setCookie }) => {
 
 		if (user) {
 			user.picture = payload.picture;
+			user.firstName = payload.given_name;
+			user.lastName = payload.family_name;
 			await user.save();
 
 			await oAuthIds.create({
