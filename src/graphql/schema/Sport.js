@@ -6,6 +6,8 @@ export default gql`
 		name: String
 		picture: CloudinaryResource
 		captains: [SportsCaptain]
+		coach: String
+		coachEmail: String
 		tryouts: String
 		commitment: String
 		schedule: String

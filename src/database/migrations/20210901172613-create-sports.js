@@ -14,6 +14,12 @@ module.exports = {
 			picture: {
 				type: Sequelize.STRING
 			},
+			coach: {
+				type: Sequelize.STRING
+			},
+			coachEmail: {
+				type: Sequelize.STRING
+			},
 			tryouts: {
 				type: Sequelize.TEXT
 			},
