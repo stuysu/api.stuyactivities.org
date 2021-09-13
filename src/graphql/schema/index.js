@@ -20,6 +20,8 @@ import Mutation from './Mutation';
 import OAuthIdentity from './OAuthIdentity';
 import Organization from './Organization';
 import Query from './Query';
+import Sport from './Sport';
+import SportsCaptain from './SportsCaptain';
 import Strike from './Strike';
 import Tag from './Tag';
 import Update from './Update';
@@ -54,6 +56,8 @@ export default [
 	Organization,
 	Query,
 	Room,
+	Sport,
+	SportsCaptain,
 	Strike,
 	Tag,
 	Update,

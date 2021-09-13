@@ -35,7 +35,7 @@ export default gql`
 		userById(id: Int!): User
 		userByEmail(email: String!): User
 		users(keyword: String!, offset: Int, limit: Int): [User]!
-
+		sports(keyword: String): Sport
 		helpRequests(
 			userId: Int
 			honeybadgerId: String
