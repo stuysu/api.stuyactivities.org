@@ -12,6 +12,6 @@ export default (
 ) =>
 	sports.findAll({
 		where: {
-			name: { [like]: `%${keyword}%` },
+			name: { [like]: `%${keyword}%` }
 		}
-	})
+	});
