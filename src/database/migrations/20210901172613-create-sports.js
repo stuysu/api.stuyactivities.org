@@ -12,7 +12,7 @@ module.exports = {
 				type: Sequelize.STRING
 			},
 			sex: {
-				type: Sequelize.STRING	
+				type: Sequelize.STRING
 			},
 			season: {
 				type: Sequelize.STRING
