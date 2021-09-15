@@ -18,11 +18,14 @@ module.exports = (sequelize, DataTypes) => {
 	sports.init(
 		{
 			name: DataTypes.STRING,
+			sex: DataTypes.STRING,
+			season: DataTypes.STRING,
 			picture: DataTypes.STRING,
 			coach: DataTypes.STRING,
 			coachEmail: DataTypes.STRING,
 			tryouts: DataTypes.TEXT,
 			commitment: DataTypes.TEXT,
+			commitmentLevel: DataTypes.STRING,
 			schedule: DataTypes.TEXT,
 			experience: DataTypes.TEXT,
 			equipment: DataTypes.TEXT,

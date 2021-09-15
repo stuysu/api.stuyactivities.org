@@ -11,6 +11,12 @@ module.exports = {
 			name: {
 				type: Sequelize.STRING
 			},
+			sex: {
+				type: Sequelize.STRING
+			},
+			season: {
+				type: Sequelize.STRING
+			},
 			picture: {
 				type: Sequelize.STRING
 			},
@@ -25,6 +31,9 @@ module.exports = {
 			},
 			commitment: {
 				type: Sequelize.TEXT
+			},
+			commitmentLevel: {
+				type: Sequelize.STRING
 			},
 			schedule: {
 				type: Sequelize.TEXT
