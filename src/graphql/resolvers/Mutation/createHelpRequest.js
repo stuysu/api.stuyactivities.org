@@ -87,7 +87,7 @@ export default async (
 
 	const fullPath = new URL(path, 'https://stuyactivities.org').href;
 	await transporter.sendMail({
-                to: 'it@stuysu.org',
+		to: 'it@stuysu.org',
 		replyTo: user.email,
 		cc: user.email,
 		subject: 'Help Request: ' + title,
