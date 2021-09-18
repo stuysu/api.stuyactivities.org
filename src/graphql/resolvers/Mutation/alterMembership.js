@@ -36,8 +36,9 @@ export default async (parent, args, context) => {
 	if (role) {
 		membership.role = role;
 	}
-
 	await membership.save();
+
+	const member = await users.idLoader.load(membership.userId);
 
 	if (notify) {
 		const organization = await organizations.idLoader.load(
@@ -45,13 +46,13 @@ export default async (parent, args, context) => {
 		);
 
 		await sendEmail({
-			to: user.email,
+			to: member.email,
 			subject: `${organization.name}: Membership Altered | StuyActivities`,
 			template: 'memberAltered.html',
 			variables: {
 				membership,
 				organization,
-				user
+				member
 			}
 		});
 	}
