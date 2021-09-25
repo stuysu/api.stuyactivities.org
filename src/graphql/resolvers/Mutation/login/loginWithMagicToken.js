@@ -17,7 +17,9 @@ export default async function loginWithMagicToken({ token, setCookie }) {
 	await row.save();
 
 	const user = await users.findOne({
-		id: row.userId
+		where: {
+			id: row.userId
+		}
 	});
 
 	const { privateKey, passphrase } = await keyPairs.getSigningKey();

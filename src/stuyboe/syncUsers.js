@@ -63,7 +63,7 @@ export default async (req, res) => {
 			new Date().toLocaleTimeString();
 
 		transporter.sendMail({
-			to: 'it@stuysu.org',
+			to: ['it@stuysu.org', user.email],
 			subject:
 				user.firstName +
 				' Accessed The StuyBOE API Endpoint On StuyActivities',
