@@ -15,6 +15,36 @@ module.exports = (sequelize, DataTypes) => {
 			rooms.belongsToMany(models.meetings, {
 				through: models.meetingRooms
 			});
+
+			this.meetingIdLoader = new DataLoader(async meetingIds => {
+				const allRooms = await this.findAll();
+
+				const roomMap = {};
+
+				allRooms.forEach(room => {
+					roomMap[room.id] = room;
+				});
+
+				const bookedRooms = await models.meetingRooms.findAll({
+					where: { meetingId: meetingIds }
+				});
+
+				const meetingIdRoomMap = {};
+
+				bookedRooms.forEach(meetingRoom => {
+					if (!meetingIdRoomMap[meetingRoom.meetingId]) {
+						meetingIdRoomMap[meetingRoom.meetingId] = [];
+					}
+
+					meetingIdRoomMap[meetingRoom.meetingId].push(
+						roomMap[meetingRoom.roomId]
+					);
+				});
+
+				return meetingIds.map(
+					meetingId => meetingIdRoomMap[meetingId] || []
+				);
+			});
 		}
 	}
 	rooms.init(
