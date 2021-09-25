@@ -11,6 +11,12 @@ export default async (
 		throw new UserInputError('There is no meeting with that id');
 	}
 
+	//If roomId is 0, the meeting is virtual,
+	//so nothing should be done on the backend
+	if (!roomId) {
+		return meeting;
+	}
+
 	orgAdminRequired(meeting.organizationId);
 
 	// check if the room is actually added to the meeting already
