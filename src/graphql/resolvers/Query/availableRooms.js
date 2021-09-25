@@ -22,13 +22,19 @@ export default async (
 				[Op.or]: [
 					{
 						start: {
-							[Op.between]: [start, end]
+							[Op.lt]: [start, end]
 						}
 					},
 					{
 						end: {
 							[Op.between]: [start, end]
 						}
+					},
+					{
+						start: {
+							[Op.lt]: start
+						},
+						end: { [Op.gt]: end }
 					}
 				]
 			},

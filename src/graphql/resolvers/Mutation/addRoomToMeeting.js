@@ -6,7 +6,6 @@ export default async (
 	{ roomId, meetingId },
 	{ models, orgAdminRequired }
 ) => {
-
 	const meeting = await models.meetings.findOne({ where: { id: meetingId } });
 
 	if (!meeting) {
