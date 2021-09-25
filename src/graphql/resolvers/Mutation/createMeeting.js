@@ -104,7 +104,7 @@ export default async (
 					[Op.or]: [
 						{
 							start: {
-								[Op.lt]: [start, end]
+								[Op.between]: [start, end]
 							}
 						},
 						{
