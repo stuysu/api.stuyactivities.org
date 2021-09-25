@@ -1,2 +1,2 @@
 export default (meeting, _, { models: { rooms } }) =>
-	rooms.findAll({ where: { meetingId: meeting.id } });
+	rooms.meetingIdLoader.load(meeting.id);
