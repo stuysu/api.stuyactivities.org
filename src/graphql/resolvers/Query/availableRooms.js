@@ -31,12 +31,14 @@ export default async (
 						}
 					},
 					{
-						[Op.and]: {
-							start: {
-								[Op.lt]: start
+						[Op.and]: [
+							{
+								start: {
+									[Op.lt]: start
+								}
 							},
-							end: { [Op.gt]: end }
-						}
+							{ end: { [Op.gt]: end } }
+						]
 					}
 				]
 			},
