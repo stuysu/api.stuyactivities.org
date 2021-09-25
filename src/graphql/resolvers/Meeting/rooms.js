@@ -1,2 +1,6 @@
-export default (meeting, _, { models: { rooms } }) =>
-	rooms.meetingIdLoader.load(meeting.id);
+export default async (meeting, _, { models: { rooms, meetingRooms } }) => {
+	let reservations = await meetingRooms.findAll({
+		where: { meetingId: meeting.id }
+	});
+	return rooms.findAll({ where: { id: reservations.map(r => r.roomId) } });
+};

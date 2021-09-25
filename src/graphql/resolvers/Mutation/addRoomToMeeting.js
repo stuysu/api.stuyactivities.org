@@ -6,10 +6,17 @@ export default async (
 	{ roomId, meetingId },
 	{ models, orgAdminRequired }
 ) => {
+
 	const meeting = await models.meetings.findOne({ where: { id: meetingId } });
 
 	if (!meeting) {
 		throw new UserInputError('There is no meeting with that id');
+	}
+
+	//If roomId is 0, the meeting is virtual,
+	//so nothing should be done on the backend
+	if (roomId === 0) {
+		return meeting;
 	}
 
 	orgAdminRequired(meeting.organizationId);
