@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 				const allFourDigits = await fourDigitIds.findAll();
 				const userIdMap = {};
 
-				for (let i = 0; i < allFourDigits; i++) {
+				for (let i = 0; i < allFourDigits.length; i++) {
 					const id = allFourDigits[i];
 					userIdMap[id.userId] = id.value;
 					availableIds.delete(id.value);
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
 					if (existingVal) {
 						response.push(existingVal);
 					} else {
-						const unusedId = availableIdsArray.pop();
+						const unusedId = availableIdsArray.shift();
 						// If they don't have an id assign them something
 						userIdMap[userId] = unusedId;
 						newRows.push({
