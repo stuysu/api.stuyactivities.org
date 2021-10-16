@@ -241,6 +241,7 @@ export default gql`
 		emailClubLeaders(subject: String!, body: String!): Boolean
 
 		recordBoogramPurchase(
+			userId: Int!
 			oneDollarCount: Int!
 			twoDollarCount: Int!
 		): Boolean
