@@ -5,9 +5,9 @@ import { randomBytes } from 'crypto';
 export default async (
 	_,
 	args,
-	{ adminRoleRequired, user, models: { boograms } }
+	{ adminRoleRequired, models: { boograms } }
 ) => {
 	adminRoleRequired('records');
 
-	return boograms.create({ userId: user.id, ..args }) !== null;
+	return boograms.create(args) !== null;
 };
