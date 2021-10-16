@@ -240,6 +240,10 @@ export default gql`
 		uploadImage(alt: String!, file: Upload!): CloudinaryResource!
 		emailClubLeaders(subject: String!, body: String!): Boolean
 
-		recordBoogramPurchase(userId: Int!, oneDollarCount: Int!, twoDollarCount: Int!): Boolean
+		recordBoogramPurchase(
+			userId: Int!
+			oneDollarCount: Int!
+			twoDollarCount: Int!
+		): Boolean
 	}
 `;
