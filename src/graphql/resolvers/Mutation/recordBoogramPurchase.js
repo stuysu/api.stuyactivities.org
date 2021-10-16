@@ -9,5 +9,5 @@ export default async (
 ) => {
 	adminRoleRequired('records');
 
-	return boograms.create({ userId: user.id, ..args }) !== null;
+	return boograms.create({ userId: user.id, ...args }) !== null;
 };
