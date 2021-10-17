@@ -18,7 +18,7 @@ export default async (
 			[Op.or]: fieldsToCheck.map(field => {
 				return {
 					[field]: {
-						[Op.like]: `%${word}%`
+						[Op.like]: `${word}%`
 					}
 				};
 			})
