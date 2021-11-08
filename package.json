@@ -16,7 +16,7 @@
 		"coverage": "nyc report --require esm --reporter=text-lcov | coveralls"
 	},
 	"dependencies": {
-		"apollo-server-errors": "^2.5.0",
+		"apollo-server-errors": "^3.3.0",
 		"apollo-server-express": "^2.24.1",
 		"axios": "^0.21.1",
 		"bcrypt": "^5.0.1",
