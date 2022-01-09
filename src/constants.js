@@ -43,7 +43,7 @@ export const GOOGLE_LOGIN_CLIENT_ID =
 
 export const GOOGLE_APIS_CLIENT_ID =
 	process.env.GOOGLE_APIS_CLIENT_ID ||
-	'249789152860-12uce9nrsb6s0k582epuk92bbjsm8bm7.apps.googleusercontent.com';
+	'851649686539-up40ptsajp5khohpo3a717rs9klgee4s.apps.googleusercontent.com';
 
 export const GOOGLE_PROJECT_ID =
 	process.env.GOOGLE_PROJECT_ID || 'stuyactivities-org';
