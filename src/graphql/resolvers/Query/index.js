@@ -59,7 +59,7 @@ export default {
 	organizationByUrl,
 	organizations,
 	organizationsWithPendingCharters,
-  promotedClubs,
+	promotedClubs,
 	signingKey,
 	sports,
 	tags,

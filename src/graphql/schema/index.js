@@ -55,7 +55,7 @@ export default [
 	Mutation,
 	OAuthIdentity,
 	Organization,
-  PromotedClub,
+	PromotedClub,
 	Query,
 	Room,
 	Sport,

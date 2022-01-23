@@ -40,7 +40,7 @@ const resolvers = {
 	MembershipRequest,
 	Mutation,
 	Organization,
-  PromotedClub,
+	PromotedClub,
 	Query,
 	Sport,
 	SportsCaptain,

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 			promotedClubs.belongsTo(models.organizations);
 		}
 		static orgIdLoader = findOneLoader(promotedClubs, 'organizationId');
-    static idLoader = findOneLoader(promotedClubs, 'id');
+		static idLoader = findOneLoader(promotedClubs, 'id');
 	}
 	promotedClubs.init(
 		{
