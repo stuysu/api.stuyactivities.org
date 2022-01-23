@@ -2,7 +2,7 @@
 import findOneLoader from '../dataloaders/findOneLoader';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-	class promotedClub extends Model {
+	class promotedClubs extends Model {
 		/**
 		 * Helper method for defining associations.
 		 * This method is not a part of Sequelize lifecycle.
@@ -10,19 +10,19 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			promotedClub.belongsTo(models.organizations);
+			promotedClubs.belongsTo(models.organizations);
 		}
-		static orgIdLoader = findOneLoader(promotedClub, 'organizationId');
+		static orgIdLoader = findOneLoader(promotedClubs, 'organizationId');
 	}
-	promotedClub.init(
+	promotedClubs.init(
 		{
 			organizationId: DataTypes.INTEGER,
 			blurb: DataTypes.STRING
 		},
 		{
 			sequelize,
-			modelName: 'promotedClub'
+			modelName: 'promotedClubs'
 		}
 	);
-	return promotedClub;
+	return promotedClubs;
 };
