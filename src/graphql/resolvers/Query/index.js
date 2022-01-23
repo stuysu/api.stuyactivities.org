@@ -22,6 +22,7 @@ import organizationById from './organizationById';
 import organizationByUrl from './organizationByUrl';
 import organizations from './organizations';
 import organizationsWithPendingCharters from './organizationsWithPendingCharters';
+import promotedClubs from './promotedClubs';
 import signingKey from './signingKey';
 import sports from './sports';
 import tags from './tags';
@@ -58,6 +59,7 @@ export default {
 	organizationByUrl,
 	organizations,
 	organizationsWithPendingCharters,
+  promotedClubs,
 	signingKey,
 	sports,
 	tags,

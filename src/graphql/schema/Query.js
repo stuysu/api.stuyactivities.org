@@ -28,6 +28,8 @@ export default gql`
 		memberships(orgUrl: String, orgId: Int): [Membership]
 		membershipRequests(orgId: Int!): [MembershipRequest]
 
+    promotedClubs(orgId: Int): [PromotedClub]
+
 		# Returns all tags if no parameters are provided or tags that match the given parameters
 		tags(keyword: String, orgId: Int, orgUrl: Int): [Tag]!
 
