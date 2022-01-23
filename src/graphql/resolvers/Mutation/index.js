@@ -6,6 +6,7 @@ import alterHelpRequest from './alterHelpRequest';
 import alterJoinInstructions from './alterJoinInstructions';
 import alterMeeting from './alterMeeting';
 import alterMembership from './alterMembership';
+import alterPromotedClub from './alterPromotedClub';
 import alterRecurringMeeting from './alterRecurringMeeting';
 import answerUpdateQuestion from './answerUpdateQuestion';
 import approveCharterFields from './approveCharterFields';
@@ -20,6 +21,7 @@ import createMeeting from './createMeeting';
 import createMembershipRequest from './createMembershipRequest';
 import createOrganization from './createOrganization';
 import createOutgoingRequest from './createOutgoingRequest';
+import createPromotedClub from './createPromotedClub';
 import createRecurringMeeting from './createRecurringMeeting';
 import createStrike from './createStrike';
 import createUpdate from './createUpdate';
@@ -29,6 +31,7 @@ import deleteGroupMembership from './deleteGroupMembership';
 import deleteMeeting from './deleteMeeting';
 import deleteMembership from './deleteMembership';
 import deleteMembershipRequest from './deleteMembershipRequest';
+import deletePromotedClub from './deletePromotedClub';
 import deleteRecurringMeeting from './deleteRecurringMeeting';
 import deleteUpdate from './deleteUpdate';
 import deleteUpdateQuestion from './deleteUpdateQuestion';
@@ -52,6 +55,7 @@ export default {
 	alterJoinInstructions,
 	alterMeeting,
 	alterMembership,
+  alterPromotedClub,
 	answerUpdateQuestion,
 	approveMembershipRequest,
 	approveCharterFields,
@@ -65,6 +69,7 @@ export default {
 	createMembershipRequest,
 	createOrganization,
 	createOutgoingRequest,
+  createPromotedClub,
 	createStrike,
 	createUpdate,
 	createUpdateQuestion,
@@ -73,6 +78,7 @@ export default {
 	deleteGroupMembership,
 	deleteMembership,
 	deleteMembershipRequest,
+  deletePromotedClub,
 	deleteUpdate,
 	deleteUpdateQuestion,
 	emailClubLeaders,

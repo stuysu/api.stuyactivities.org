@@ -166,7 +166,12 @@ export default gql`
 		deleteGroup(groupId: Int!): Boolean
 		createGroupMembership(groupId: Int!, userId: Int!): GroupMembership
 		deleteGroupMembership(groupMembershipId: Int!): Boolean
-
+    
+    # --- Promoted Clubs ---
+    alterPromotedClub(promotedClubId: Int!, orgId: Int, blurb: String): PromotedClub
+    createPromotedClub(orgId: Int!, blurb: String!): PromotedClub
+    deletePromotedClub(promotedClubId: Int!): Boolean
+    
 		# --- Help Requests ---
 		createHelpRequest(
 			email: String
