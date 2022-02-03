@@ -5,9 +5,9 @@ export default async (
 ) => {
 	adminRoleRequired('records');
 
-	return data
-		.map((args, i) =>
-			sales.create({ userId, itemId: purchases[i], count: counts[i] })
+	return purchases
+		.map((purchase, i) =>
+			sales.create({ userId, itemId: purchase, count: counts[i] })
 		)
 		.every(v => v !== null);
 };
