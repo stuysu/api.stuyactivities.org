@@ -37,6 +37,7 @@ import linkOAuthPlatform from './linkOAuthPlatform';
 import login from './login';
 import logout from './logout';
 import recordBoogramPurchase from './recordBoogramPurchase';
+import recordSales from './recordSales';
 import rejectCharterFields from './rejectCharterFields';
 import removeRoomFromMeeting from './removeRoomFromMeeting';
 import requestLoginToken from './requestLoginToken';
@@ -85,5 +86,6 @@ export default {
 	deleteRecurringMeeting,
 	addRoomToMeeting,
 	removeRoomFromMeeting,
-	recordBoogramPurchase
+	recordBoogramPurchase,
+	recordSales
 };

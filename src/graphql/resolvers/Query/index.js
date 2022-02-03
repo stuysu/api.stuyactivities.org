@@ -32,6 +32,7 @@ import userById from './userById';
 import users from './users';
 import userUpdates from './userUpdates';
 import validKeyPairs from './validKeyPairs';
+import saleItems from './saleItems';
 
 export default {
 	authenticatedUser,
@@ -67,5 +68,6 @@ export default {
 	userById,
 	users,
 	userUpdates,
-	validKeyPairs
+	validKeyPairs,
+	saleItems,
 };

@@ -71,5 +71,7 @@ export default gql`
 		signingKey: KeyPair!
 
 		date: DateTime!
+
+		saleItems: [SaleItem!]!
 	}
 `;
