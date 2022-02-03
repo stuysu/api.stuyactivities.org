@@ -246,11 +246,6 @@ export default gql`
 			twoDollarCount: Int!
 		): Boolean
 
-		recordSales(
-			userId: Int!
-			purchases: [Int!]!
-			counts: [Int!]!
-		): Boolean
-
+		recordSales(userId: Int!, purchases: [Int!]!, counts: [Int!]!): Boolean
 	}
 `;

@@ -69,5 +69,5 @@ export default {
 	users,
 	userUpdates,
 	validKeyPairs,
-	saleItems,
+	saleItems
 };

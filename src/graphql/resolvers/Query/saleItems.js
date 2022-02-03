@@ -1,6 +1,1 @@
-export default (
-	_,
-	{ },
-	{ models: { saleItems } }
-) =>
-	saleItems.findAll({});
+export default (_, {}, { models: { saleItems } }) => saleItems.findAll({});
