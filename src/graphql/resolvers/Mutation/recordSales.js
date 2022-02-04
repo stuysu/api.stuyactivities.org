@@ -7,7 +7,7 @@ export default async (
 
 	return purchases
 		.map((purchase, i) =>
-			sales.create({ userId, itemId: purchase, count: counts[i] })
+			counts[i] > 0 ? sales.create({ userId, itemId: purchase, count: counts[i] }) : true
 		)
 		.every(v => v !== null);
 };
