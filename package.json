@@ -24,7 +24,7 @@
 		"bottleneck": "^2.19.5",
 		"chai": "^4.3.6",
 		"cloudinary": "^1.28.1",
-		"cookie-parser": "^1.4.5",
+		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
 		"coveralls": "^3.1.0",
 		"crypto-random-string": "^3.3.1",
