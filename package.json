@@ -39,7 +39,7 @@
 		"graphql-scalars": "^1.14.1",
 		"graphql-upload": "^12.0.0",
 		"graphql-validation-complexity": "^0.4.2",
-		"honeybadger": "^1.4.0",
+		"honeybadger": "^1.4.1",
 		"html-entities": "^2.3.2",
 		"ip-range-check": "^0.2.0",
 		"jsonwebtoken": "^8.5.1",
