@@ -32,7 +32,7 @@
 		"email-validator": "^2.0.4",
 		"esm": "^3.2.25",
 		"express": "latest",
-		"faker": "^5.5.3",
+		"faker": "^6.6.6",
 		"google-auth-library": "^7.11.0",
 		"googleapis": "^81.0.0",
 		"graphql": "^15.5.0",
