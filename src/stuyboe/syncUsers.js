@@ -55,21 +55,26 @@ export default async (req, res) => {
 			throw new Error('Not allowed to access this endpoint');
 		}
 
-		const transporter = await getTransporter();
+		// Try to send the email but don't fail the entire request because of it
+		try {
+			const transporter = await getTransporter();
 
-		const time =
-			new Date().toLocaleDateString() +
-			' ' +
-			new Date().toLocaleTimeString();
+			const time =
+				new Date().toLocaleDateString() +
+				' ' +
+				new Date().toLocaleTimeString();
 
-		transporter.sendMail({
-			to: ['it@stuysu.org', user.email],
-			subject:
-				user.firstName +
-				' Accessed The StuyBOE API Endpoint On StuyActivities',
-			html: `<p>This is a confirmation to let you know that ${user.firstName} ${user.lastName} (${user.email}) used the api endpoint at https://api.stuyactivities.org/stuyboe/syncUsers on ${time}</p>
-				<p>If this person is associated with the BOE or this activity appears normal, you may ignore this email. Otherwise reach out to the necessary party.</p>`
-		});
+			transporter.sendMail({
+				to: ['it@stuysu.org', user.email],
+				subject:
+					user.firstName +
+					' Accessed The StuyBOE API Endpoint On StuyActivities',
+				html: `<p>This is a confirmation to let you know that ${user.firstName} ${user.lastName} (${user.email}) used the api endpoint at https://api.stuyactivities.org/stuyboe/syncUsers on ${time}</p>
+					<p>If this person is associated with the BOE or this activity appears normal, you may ignore this email. Otherwise reach out to the necessary party.</p>`
+			});
+		} catch(er){
+			console.error(er);
+		}
 
 		// Now validation is complete and we can actually allow the transfer of data
 		const users = await models.users.findAll({
