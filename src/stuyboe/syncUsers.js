@@ -42,7 +42,7 @@ export default async (req, res) => {
 		const keyData = data.data.publicKey;
 
 		const now = new Date();
-		const expiration = new Date(keyData.publicKey.expiration);
+		const expiration = new Date(keyData.expiration);
 
 		if (expiration < now) {
 			throw new Error('The public key is expired for some reason');
