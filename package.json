@@ -67,7 +67,7 @@
 	"devDependencies": {
 		"nodemon": "^2.0.15",
 		"prettier": "^2.3.0",
-		"sqlite3": "^5.0.2"
+		"sqlite3": "^5.0.10"
 	},
 	"prettier": {
 		"useTabs": true,
