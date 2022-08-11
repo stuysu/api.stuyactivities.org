@@ -10,7 +10,7 @@ export default async (root, args, context) => {
 		meetingDays,
 		limit,
 		offset,
-    active,
+		active,
 		randomOrderSeed
 	} = args;
 
@@ -22,9 +22,9 @@ export default async (root, args, context) => {
 		include: []
 	};
 
-  if (active) {
-    filterParams.where.active = true;
-  }
+	if (active) {
+		filterParams.where.active = true;
+	}
 
 	if (!keyword && typeof randomOrderSeed === 'number' && isUsingMysql) {
 		filterParams.order = [models.sequelize.fn('RAND', randomOrderSeed)];
