@@ -19,6 +19,7 @@ import MembershipRequest from './MembershipRequest';
 import Mutation from './Mutation';
 import OAuthIdentity from './OAuthIdentity';
 import Organization from './Organization';
+import PromotedClub from './PromotedClub';
 import Query from './Query';
 import Sport from './Sport';
 import SportsCaptain from './SportsCaptain';
@@ -55,6 +56,7 @@ export default [
 	Mutation,
 	OAuthIdentity,
 	Organization,
+	PromotedClub,
 	Query,
 	Room,
 	Sport,

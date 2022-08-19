@@ -13,6 +13,7 @@ import Membership from './Membership';
 import MembershipRequest from './MembershipRequest';
 import Mutation from './Mutation';
 import Organization from './Organization';
+import PromotedClub from './PromotedClub';
 import Query from './Query';
 import Sport from './Sport';
 import SportsCaptain from './SportsCaptain';
@@ -39,6 +40,7 @@ const resolvers = {
 	MembershipRequest,
 	Mutation,
 	Organization,
+	PromotedClub,
 	Query,
 	Sport,
 	SportsCaptain,
