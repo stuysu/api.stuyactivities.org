@@ -53,7 +53,8 @@ export default async (
 		where: {
 			id: {
 				[Op.notIn]: occupiedRoomIds
-			}
+			},
+			approvalRequired: false
 		}
 	});
 };
