@@ -55,6 +55,7 @@ export default async (
   console.log("debug: " + isSUAdmin);
 
 	return rooms.findAll({
+    logging: console.log,
 		where: {
       [Op.and]: [
         {
