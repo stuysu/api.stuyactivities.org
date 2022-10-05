@@ -62,7 +62,7 @@ export default async (
         },
         {
           [Op.or]: [
-            {isSUAdmin},
+            isSUAdmin,
             {approvalRequired: false}
           ]
         }
