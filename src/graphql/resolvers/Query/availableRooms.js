@@ -49,12 +49,23 @@ export default async (
 
 	const occupiedRoomIds = occupiedRooms.map(i => i.roomId);
 
+  const isSUAdmin = hasAdminRole('meetings');
+
 	return rooms.findAll({
 		where: {
-			id: {
-				[Op.notIn]: occupiedRoomIds
-			},
-			approvalRequired: false
+      [Op.and]: [
+        {
+          id: {
+            [Op.notIn]: occupiedRoomIds
+          }
+        },
+        {
+          [Op.or]: [
+            {isSUAdmin},
+            {approvalRequired: false}
+          ]
+        }
+      ]
 		}
 	});
 };
