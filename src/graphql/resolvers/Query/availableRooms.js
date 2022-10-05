@@ -52,6 +52,8 @@ export default async (
 
   const isSUAdmin = hasAdminRole('meetings');
 
+  console.log("debug: " + isSUAdmin);
+
 	return rooms.findAll({
 		where: {
       [Op.and]: [
