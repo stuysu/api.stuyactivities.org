@@ -52,10 +52,7 @@ export default async (
 
   const isSUAdmin = hasAdminRole('meetings');
 
-  console.log("debug: " + isSUAdmin);
-
   const queryObj = {
-    logging: console.log,
 		where: {
 			id: {
 				[Op.notIn]: occupiedRoomIds
