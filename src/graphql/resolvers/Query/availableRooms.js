@@ -54,22 +54,18 @@ export default async (
 
   console.log("debug: " + isSUAdmin);
 
-	return rooms.findAll({
+  const queryObj = {
     logging: console.log,
 		where: {
-      [Op.and]: [
-        {
-          id: {
-            [Op.notIn]: occupiedRoomIds
-          }
-        },
-        {
-          [Op.or]: [
-            isSUAdmin,
-            {approvalRequired: false}
-          ]
-        }
-      ]
+			id: {
+				[Op.notIn]: occupiedRoomIds
+			}
 		}
-	});
+	};
+
+  if(!isSUAdmin){
+    queryObj["where"]["approvalRequired"] = false;
+  }
+
+	return rooms.findAll(queryObj);
 };
