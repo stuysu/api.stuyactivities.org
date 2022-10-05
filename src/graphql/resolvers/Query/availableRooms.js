@@ -9,7 +9,8 @@ export default async (
 			meetingRooms,
 			Sequelize: { Op }
 		},
-		authenticationRequired
+		authenticationRequired,
+    hasAdminRole
 	}
 ) => {
 	authenticationRequired();

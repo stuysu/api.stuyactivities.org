@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 export default async (
 	_,
 	{ roomId, meetingId },
-	{ models, orgAdminRequired }
+	{ models, isOrgAdmin, hasAdminRole }
 ) => {
 	const meeting = await models.meetings.findOne({ where: { id: meetingId } });
 
