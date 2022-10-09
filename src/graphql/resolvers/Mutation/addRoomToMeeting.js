@@ -18,7 +18,7 @@ export default async (
 		return meeting;
 	}
 
-	const orgAdmin = isOrgAdmin(meeting.organization.id);
+	const orgAdmin = isOrgAdmin(meeting.organizationId);
 	const isSUAdmin = hasAdminRole('meetings');
 	if(!orgAdmin && !isSUAdmin){
 		throw new ForbiddenError(
