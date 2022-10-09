@@ -18,13 +18,13 @@ export default async (
 		return meeting;
 	}
 
-  const orgAdmin = isOrgAdmin(meeting.organizationid);
-  const isSUAdmin = hasAdminRole('meetings');
+	const orgAdmin = isOrgAdmin(meeting.organization.id);
+	const isSUAdmin = hasAdminRole('meetings');
 	if(!orgAdmin && !isSUAdmin){
-    throw new ForbiddenError(
-      "You don't have the necessary permissions to perform that query"
-    );
-  }
+		throw new ForbiddenError(
+			"You don't have the necessary permissions to perform that query"
+		);
+	}
 
 	const existingRooms = await models.meetingRooms.findAll({
 		where: { meetingId }
