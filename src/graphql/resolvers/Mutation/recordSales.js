@@ -1,13 +1,13 @@
 export default async (
 	_,
-	{ userId, purchases, counts },
-	{ adminRoleRequired, models: { sales } }
+	{ userId, purchases, counts, purchaserOsis },
+	{ adminRoleRequired, user, models: { sales } }
 ) => {
-	adminRoleRequired('records');
+	adminRoleRequired('boograms2022');
 
 	return purchases
 		.map((purchase, i) =>
-			sales.create({ userId, itemId: purchase, count: counts[i] })
+			sales.create({ userId, purchaserOsis: purchaserOsis, recorderId: user.id, itemId: purchase, count: counts[i] })
 		)
 		.every(v => v !== null);
 };
