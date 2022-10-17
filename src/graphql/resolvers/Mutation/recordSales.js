@@ -5,8 +5,6 @@ export default async (
 ) => {
 	adminRoleRequired('boograms2022');
 
-  console.log("DEBUG: " + purchaserOsis);
-
 	return purchases
 		.map((purchase, i) =>
 			(counts[i] != 0 && sales.create({ userId, purchaserOsis: purchaserOsis, recorderId: user.id, itemId: purchase, count: counts[i] }))
