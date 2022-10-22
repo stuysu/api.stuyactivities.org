@@ -75,7 +75,9 @@ export default async (
 				"Start time is not valid or is in the past (if you're using safari, make sure your date is in mm/dd/yyyy format)"
 			);
 		}
+		/* TEMPORARILY COMMENTED OUT TO PREVENT BUG INVOLVING OVERBOOKING
 		meeting.start = start;
+		*/
 	}
 
 	if (end) {
@@ -84,7 +86,9 @@ export default async (
 				"End time is not valid or is in the past (if you're using safari, make sure your date is in mm/dd/yyyy format)"
 			);
 		}
+		/* TEMPORARILY COMMENTED OUT TO PREVENT BUG INVOLVING OVERBOOKING
 		meeting.end = end;
+		*/
 	}
 
 	await meeting.save();
