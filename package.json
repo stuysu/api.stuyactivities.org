@@ -18,7 +18,7 @@
 	"dependencies": {
 		"apollo-server-errors": "^2.5.0",
 		"apollo-server-express": "^2.24.1",
-		"axios": "^0.21.2",
+		"axios": "^0.27.2",
 		"bcrypt": "^5.0.1",
 		"body-parser": "latest",
 		"bottleneck": "^2.19.5",
@@ -67,7 +67,7 @@
 	"devDependencies": {
 		"nodemon": "^2.0.15",
 		"prettier": "^2.3.0",
-		"sqlite3": "^5.0.2"
+		"sqlite3": "^5.0.10"
 	},
 	"prettier": {
 		"useTabs": true,
