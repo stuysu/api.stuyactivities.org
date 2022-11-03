@@ -65,7 +65,7 @@
 		"url-join": "^4.0.1"
 	},
 	"devDependencies": {
-		"nodemon": "^2.0.15",
+		"nodemon": "^2.0.20",
 		"prettier": "^2.3.0",
 		"sqlite3": "^5.0.10"
 	},
