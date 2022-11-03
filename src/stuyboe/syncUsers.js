@@ -1,7 +1,7 @@
 import { verify } from 'jsonwebtoken';
 import { getTransporter } from '../utils/sendEmail';
 
-const axios = require('axios').default;
+const axios = require('axios');
 const models = require('./../database/models');
 
 const query = JSON.stringify({
