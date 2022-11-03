@@ -93,6 +93,8 @@ export default async (req, res) => {
 			data: users
 		});
 	} catch (e) {
+		console.log("BOE endpoint failed:");
+		console.error(e);
 		res.json({
 			success: false,
 			error: 'There was an issue validating the authentication token'
