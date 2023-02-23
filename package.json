@@ -59,7 +59,7 @@
 		"regenerator-runtime": "^0.13.9",
 		"request": "^2.88.2",
 		"sanitize-html": "^2.3.3",
-		"sequelize": "^6.16.1",
+		"sequelize": "^6.28.2",
 		"sequelize-cli": "^6.2.0",
 		"turndown": "^7.0.0",
 		"url-join": "^4.0.1"
