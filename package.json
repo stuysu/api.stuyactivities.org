@@ -65,9 +65,10 @@
 		"url-join": "^4.0.1"
 	},
 	"devDependencies": {
+		"@mapbox/node-pre-gyp": "^1.0.10",
 		"nodemon": "^2.0.15",
 		"prettier": "^2.3.0",
-		"sqlite3": "^5.0.10"
+		"sqlite3": "^5.1.6"
 	},
 	"prettier": {
 		"useTabs": true,
