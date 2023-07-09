@@ -1,5 +1,5 @@
 import { ForbiddenError, UserInputError } from 'apollo-server-errors';
-import { PUBLIC_URL } from '../../../constants';
+import { PUBLIC_URL } from '../../../constants.js';
 import sendEmail from '../../../utils/sendEmail';
 import urlJoin from 'url-join';
 

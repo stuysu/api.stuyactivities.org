@@ -1,4 +1,7 @@
-import { GOOGLE_APIS_CLIENT_ID, GOOGLE_APIS_CLIENT_SECRET } from '../constants';
+import {
+	GOOGLE_APIS_CLIENT_ID,
+	GOOGLE_APIS_CLIENT_SECRET
+} from '../constants.js';
 
 const { google } = require('googleapis');
 const { backgroundAccessTokens } = require('./../database');

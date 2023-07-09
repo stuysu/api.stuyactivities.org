@@ -1,4 +1,4 @@
-import { PUBLIC_URL } from '../../../constants';
+import { PUBLIC_URL } from '../../../constants.js';
 import {
 	createCalendarEvent,
 	initOrgCalendar

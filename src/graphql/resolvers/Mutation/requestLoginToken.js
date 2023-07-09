@@ -1,7 +1,7 @@
 import { ApolloError, ForbiddenError } from 'apollo-server-express';
 import cryptoRandomString from 'crypto-random-string';
 import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../../../constants';
+import { PUBLIC_URL } from '../../../constants.js';
 import sendEmail from '../../../utils/sendEmail';
 import moment from 'moment-timezone';
 

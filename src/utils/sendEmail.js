@@ -6,7 +6,7 @@ import {
 	GOOGLE_APIS_CLIENT_ID,
 	GOOGLE_APIS_CLIENT_SECRET,
 	MAILER_URL
-} from '../constants';
+} from '../constants.js';
 
 let transporter;
 

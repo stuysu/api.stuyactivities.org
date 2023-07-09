@@ -1,4 +1,7 @@
-import { GOOGLE_APIS_CLIENT_ID, GOOGLE_APIS_CLIENT_SECRET } from '../constants'; // don't forget to set the secret!
+import {
+	GOOGLE_APIS_CLIENT_ID,
+	GOOGLE_APIS_CLIENT_SECRET
+} from '../constants.js'; // don't forget to set the secret!
 
 import { google } from 'googleapis';
 import { createServer } from 'http'; // built-in node HTTP webserver

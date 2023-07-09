@@ -9,7 +9,7 @@ import cryptoRandomString from 'crypto-random-string';
 import sendEmail from '../../../utils/sendEmail';
 
 import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../../../constants';
+import { PUBLIC_URL } from '../../../constants.js';
 import charterValidator from '../../../utils/charterValidator';
 import uploadPicStream from '../../../utils/uploadPicStream';
 import honeybadger from '../../../middleware/honeybadger';

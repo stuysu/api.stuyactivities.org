@@ -10,7 +10,7 @@ export default async (
 			Sequelize: { Op }
 		},
 		authenticationRequired,
-    hasAdminRole
+		hasAdminRole
 	}
 ) => {
 	authenticationRequired();
@@ -50,9 +50,9 @@ export default async (
 
 	const occupiedRoomIds = occupiedRooms.map(i => i.roomId);
 
-  const isSUAdmin = hasAdminRole('meetings');
+	const isSUAdmin = hasAdminRole('meetings');
 
-  const queryObj = {
+	const queryObj = {
 		where: {
 			id: {
 				[Op.notIn]: occupiedRoomIds
@@ -60,9 +60,9 @@ export default async (
 		}
 	};
 
-  if(!isSUAdmin){
-    queryObj["where"]["approvalRequired"] = false;
-  }
+	if (!isSUAdmin) {
+		queryObj['where']['approvalRequired'] = false;
+	}
 
 	return rooms.findAll(queryObj);
 };

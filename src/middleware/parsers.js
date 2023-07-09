@@ -1,4 +1,4 @@
-import { SESSION_SECRET } from '../constants';
+import { SESSION_SECRET } from '../constants.js';
 import { Router } from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';

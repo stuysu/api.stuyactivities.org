@@ -1,4 +1,4 @@
-import { SEQUELIZE_URL } from '../constants';
+import { SEQUELIZE_URL } from '../constants.js';
 
 const logger =
 	process.env.SEQUELIZE_LOG === 'advanced'
@@ -7,7 +7,7 @@ const logger =
 
 const logging = process.env.SEQUELIZE_LOG ? logger : false;
 
-module.exports = {
+export default {
 	development: {
 		url: SEQUELIZE_URL,
 		define: {

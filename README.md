@@ -14,6 +14,7 @@ Backend for [StuyActivities.org](https://stuyactivities.org)
 ```shell
 npm install
 ```
+
 5. export all .env variables in your terminal. Please ask one of the IT Directors to send you the .env if you do not have it.
 
 ```shell
@@ -25,7 +26,7 @@ export ENV_VARIABLE3=...
 7. Run `npm run migrate`
 8. Run `npm run authenticate` and follow the instructions in your terminal. YOU MUST USE YOUR STUYSU EMAIL FOR AUTHENTICATION.
 
-8. That's it, you can start developing!
+9. That's it, you can start developing!
 
 -   If you want your app to automatically restart upon file changes, run it with the following command:
     ```shell

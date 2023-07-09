@@ -8,7 +8,7 @@ import uploadPicStream from '../../../utils/uploadPicStream';
 import charterValidator from '../../../utils/charterValidator';
 import cryptoRandomString from 'crypto-random-string';
 
-import { EDITABLE_CHARTER_FIELDS } from '../../../constants';
+import { EDITABLE_CHARTER_FIELDS } from '../../../constants.js';
 
 const cloudinary = require('cloudinary').v2;
 

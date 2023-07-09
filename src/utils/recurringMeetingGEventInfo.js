@@ -1,5 +1,5 @@
 import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../constants';
+import { PUBLIC_URL } from '../constants.js';
 const markdownIt = require('markdown-it')({ html: false, linkify: true });
 
 export default ({
