@@ -16,6 +16,7 @@ export default {
 		},
 		ssl: true,
 		native: true,
+		dialect: 'sqlite',
 		logging
 	},
 	production: {
@@ -32,6 +33,7 @@ export default {
 		},
 		native: true,
 		ssl: true,
+		dialect: 'mysql',
 		logging
 	}
 };
