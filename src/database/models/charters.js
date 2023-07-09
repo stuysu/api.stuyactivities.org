@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 			uniqueness: DataTypes.TEXT,
 			meetingSchedule: DataTypes.TEXT,
 			meetingDays: DataTypes.STRING,
+			returningInfo: DataTypes.TEXT,
 			commitmentLevel: DataTypes.ENUM('low', 'medium', 'high'),
 			keywords: DataTypes.STRING,
 			extra: DataTypes.TEXT,

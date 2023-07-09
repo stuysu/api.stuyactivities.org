@@ -37,6 +37,13 @@ const charterValidator = (field, value, silent = false) => {
 				max: 1000
 			}
 		},
+		returningInfo: {
+			type: 'string',
+			characters: {
+				min:50,
+				max: 1000
+			}
+		},
 		commitmentLevel: {
 			type: 'string',
 			in: ['low', 'medium', 'high']

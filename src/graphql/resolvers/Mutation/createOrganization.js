@@ -192,6 +192,9 @@ export default async (root, args, context) => {
 		clubpubParticipant: charter.clubpubParticipant || false
 	});
 
+	// TODO
+	console.log("DEBUG:", charter);
+
 	const pendingCharter = await charterEdits.create({
 		mission: charter.mission,
 		purpose: charter.purpose,
@@ -201,6 +204,7 @@ export default async (root, args, context) => {
 		meetingSchedule: charter.meetingSchedule,
 		socials: charter.socials,
 		meetingDays: JSON.stringify(charter.meetingDays),
+		returningInfo: charter.returningInfo,
 		commitmentLevel: charter.commitmentLevel,
 		keywords: JSON.stringify(charter.keywords),
 		extra: charter.extra,
