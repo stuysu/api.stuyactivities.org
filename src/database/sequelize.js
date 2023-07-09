@@ -7,7 +7,7 @@ const logger =
 
 const logging = process.env.SEQUELIZE_LOG ? logger : false;
 
-export default {
+module.exports = {
 	development: {
 		url: SEQUELIZE_URL,
 		define: {
