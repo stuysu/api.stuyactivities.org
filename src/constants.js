@@ -3,7 +3,12 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const sqlitePath = path.resolve(__dirname, 'app.db');
+let sqlitePath = path.resolve(__dirname, 'app.db');
+
+if (process.platform == "win32") {
+	sqlitePath = sqlitePath.replace(/C:/g, "");
+	sqlitePath = sqlitePath.replace(/\\/g, "/");
+}
 
 export const EDITABLE_CHARTER_FIELDS = [
 	'picture',
@@ -47,12 +52,14 @@ export const GOOGLE_LOGIN_CLIENT_ID =
 
 export const GOOGLE_APIS_CLIENT_ID =
 	process.env.GOOGLE_APIS_CLIENT_ID ||
-	'249789152860-12uce9nrsb6s0k582epuk92bbjsm8bm7.apps.googleusercontent.com';
+	'249789152860-g6d9o3e7prmt98qipm3aucisemk70q5l.apps.googleusercontent.com';
 
 export const GOOGLE_PROJECT_ID =
 	process.env.GOOGLE_PROJECT_ID || 'stuyactivities-org';
 
+	// delete this later
 export const GOOGLE_APIS_CLIENT_SECRET = process.env.GOOGLE_APIS_CLIENT_SECRET;
+
 
 export const CAPTCHA_SECRET = process.env.CAPTCHA_SECRET;
 export const MAILER_URL = process.env.MAILER_URL;
