@@ -193,7 +193,7 @@ export default async (root, args, context) => {
 	});
 
 	// TODO
-	console.log("DEBUG:", charter);
+	console.log('DEBUG:', charter);
 
 	const pendingCharter = await charterEdits.create({
 		mission: charter.mission,
