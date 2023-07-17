@@ -5,9 +5,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 let sqlitePath = path.resolve(__dirname, 'app.db');
 
-if (process.platform == "win32") {
-	sqlitePath = sqlitePath.replace(/C:/g, "");
-	sqlitePath = sqlitePath.replace(/\\/g, "/");
+if (process.platform == 'win32') {
+	sqlitePath = sqlitePath.replace(/C:/g, '');
+	sqlitePath = sqlitePath.replace(/\\/g, '/');
 }
 
 export const EDITABLE_CHARTER_FIELDS = [
@@ -57,9 +57,8 @@ export const GOOGLE_APIS_CLIENT_ID =
 export const GOOGLE_PROJECT_ID =
 	process.env.GOOGLE_PROJECT_ID || 'stuyactivities-org';
 
-	// delete this later
+// delete this later
 export const GOOGLE_APIS_CLIENT_SECRET = process.env.GOOGLE_APIS_CLIENT_SECRET;
-
 
 export const CAPTCHA_SECRET = process.env.CAPTCHA_SECRET;
 export const MAILER_URL = process.env.MAILER_URL;

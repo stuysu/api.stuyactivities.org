@@ -40,7 +40,7 @@ const charterValidator = (field, value, silent = false) => {
 		returningInfo: {
 			type: 'string',
 			characters: {
-				min:50,
+				min: 50,
 				max: 1000
 			}
 		},
