@@ -40,7 +40,7 @@ const transporterSetup = new Promise(async resolve => {
 				}
 			},
 			{
-				from: `${user.name} <${user.email}>`
+				from: `${user.name || 'StuyActivities App'} <${user.email}>`
 			}
 		);
 	}
