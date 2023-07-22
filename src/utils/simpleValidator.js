@@ -75,8 +75,7 @@ const simpleValidator = (input, requirements, fields, silent = false) => {
 		) {
 			if (silent) {
 				return false;
-			}
-			else if (fields[0] === 'returningInfo') {
+			} else if (fields[0] === 'returningInfo') {
 				return true;
 			}
 			throw new UserInputError(
