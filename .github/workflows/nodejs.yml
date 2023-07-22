@@ -50,7 +50,7 @@ jobs:
             - name: Build
               run: npm run build
 
-            - name: Test undo  # Sometimes db:migrate:undo breaks, but not build/db:migrate
+            - name: Test undo # Sometimes db:migrate:undo breaks, but not build/db:migrate
               run: node --require esm node_modules/.bin/sequelize-cli db:migrate:undo
 
             - name: Undo the undo
