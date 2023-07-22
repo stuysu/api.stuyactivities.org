@@ -76,6 +76,9 @@ const simpleValidator = (input, requirements, fields, silent = false) => {
 			if (silent) {
 				return false;
 			}
+			else if (fields[0] === 'returningInfo') {
+				return true;
+			}
 			throw new UserInputError(
 				`One or more fields do not meet the requirement of ${requirements.characters.min} characters.`,
 				defaultErrorProps
