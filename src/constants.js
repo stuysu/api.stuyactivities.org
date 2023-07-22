@@ -57,7 +57,6 @@ export const GOOGLE_APIS_CLIENT_ID =
 export const GOOGLE_PROJECT_ID =
 	process.env.GOOGLE_PROJECT_ID || 'stuyactivities-org';
 
-// delete this later
 export const GOOGLE_APIS_CLIENT_SECRET = process.env.GOOGLE_APIS_CLIENT_SECRET;
 
 export const CAPTCHA_SECRET = process.env.CAPTCHA_SECRET;

@@ -192,9 +192,6 @@ export default async (root, args, context) => {
 		clubpubParticipant: charter.clubpubParticipant || false
 	});
 
-	// TODO
-	console.log('DEBUG:', charter);
-
 	const pendingCharter = await charterEdits.create({
 		mission: charter.mission,
 		purpose: charter.purpose,
