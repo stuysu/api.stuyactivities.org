@@ -72,7 +72,7 @@ export default async (req, res) => {
 				html: `<p>This is a confirmation to let you know that ${user.firstName} ${user.lastName} (${user.email}) used the api endpoint at https://api.stuyactivities.org/stuyboe/syncUsers on ${time}</p>
 					<p>If this person is associated with the BOE or this activity appears normal, you may ignore this email. Otherwise reach out to the necessary party.</p>`
 			});
-		} catch(er){
+		} catch (er) {
 			console.error(er);
 		}
 
@@ -93,7 +93,7 @@ export default async (req, res) => {
 			data: users
 		});
 	} catch (e) {
-		console.log("BOE endpoint failed:");
+		console.log('BOE endpoint failed:');
 		console.error(e);
 		res.json({
 			success: false,

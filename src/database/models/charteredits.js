@@ -1,6 +1,6 @@
 'use strict';
 import { Model } from 'sequelize';
-import { EDITABLE_CHARTER_FIELDS } from '../../constants';
+import { EDITABLE_CHARTER_FIELDS } from '../../constants.js';
 import findManyLoader from '../dataloaders/findManyLoader';
 import findOneLoader from '../dataloaders/findOneLoader';
 module.exports = (sequelize, DataTypes) => {

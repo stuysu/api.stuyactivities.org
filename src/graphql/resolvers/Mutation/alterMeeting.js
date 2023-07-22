@@ -8,7 +8,7 @@ import {
 	initOrgCalendar
 } from '../../../googleApis/calendar';
 import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../../../constants';
+import { PUBLIC_URL } from '../../../constants.js';
 import sanitizeHtml from '../../../utils/sanitizeHtml';
 
 const markdownIt = require('markdown-it')({ html: false, linkify: true });
@@ -183,9 +183,9 @@ export default async (
 	}
 
 	// TEMPORARY CODE TO PREVENT OVERBOOKING BUG
-	if(start != meeting.start || end != meeting.end){
+	if (start != meeting.start || end != meeting.end) {
 		throw new UserInputError(
-			"You may not edit start or end times of a meeting to prevent a bug involving room overbooking. Any other edits have been saved, but your start & end times are as before."
+			'You may not edit start or end times of a meeting to prevent a bug involving room overbooking. Any other edits have been saved, but your start & end times are as before.'
 		);
 	}
 	// END TEMPORARY CODE

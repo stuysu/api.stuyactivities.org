@@ -1,7 +1,7 @@
 import { ForbiddenError, UserInputError } from 'apollo-server-errors';
 import * as EmailValidator from 'email-validator';
 import axios from 'axios';
-import { CAPTCHA_SECRET } from '../../../constants';
+import { CAPTCHA_SECRET } from '../../../constants.js';
 import { getTransporter } from '../../../utils/sendEmail';
 import { URL } from 'url';
 

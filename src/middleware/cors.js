@@ -1,5 +1,5 @@
 import cors from 'cors';
-import { NODE_ENV } from '../constants';
+import { NODE_ENV } from '../constants.js';
 
 const allowedOrigins = new RegExp(
 	process.env.ALLOWED_ORIGINS ||

@@ -20,7 +20,7 @@ export default async (
 
 	const orgAdmin = isOrgAdmin(meeting.organizationId);
 	const isSUAdmin = hasAdminRole('meetings');
-	if(!orgAdmin && !isSUAdmin){
+	if (!orgAdmin && !isSUAdmin) {
 		throw new ForbiddenError(
 			"You don't have the necessary permissions to perform that query"
 		);
@@ -36,15 +36,17 @@ export default async (
 		);
 	}
 
-  const room = await models.rooms.findOne({ where: { id: roomId } });
-  
+	const room = await models.rooms.findOne({ where: { id: roomId } });
+
 	if (!room) {
 		throw new UserInputError('There is no room with that id');
 	}
 
-  if (room.approvalRequired && !isSUAdmin){
-    throw new ForbiddenError('This room needs prior approval to book, contact it@stuysu.org');
-  }
+	if (room.approvalRequired && !isSUAdmin) {
+		throw new ForbiddenError(
+			'This room needs prior approval to book, contact it@stuysu.org'
+		);
+	}
 
 	const overlappingMeetings = await models.meetingRooms.findAll({
 		where: {

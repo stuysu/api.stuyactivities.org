@@ -2,7 +2,7 @@ import sendEmail from '../../../utils/sendEmail';
 import { UserInputError } from 'apollo-server-express';
 import moment from 'moment-timezone';
 import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../../../constants';
+import { PUBLIC_URL } from '../../../constants.js';
 
 export default async (parent, args, context) => {
 	const {

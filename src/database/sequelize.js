@@ -1,4 +1,4 @@
-import { SEQUELIZE_URL } from '../constants';
+import { SEQUELIZE_URL } from '../constants.js';
 
 const logger =
 	process.env.SEQUELIZE_LOG === 'advanced'
@@ -16,6 +16,7 @@ module.exports = {
 		},
 		ssl: true,
 		native: true,
+		dialect: 'sqlite',
 		logging
 	},
 	production: {
@@ -32,6 +33,7 @@ module.exports = {
 		},
 		native: true,
 		ssl: true,
+		dialect: 'mysql',
 		logging
 	}
 };

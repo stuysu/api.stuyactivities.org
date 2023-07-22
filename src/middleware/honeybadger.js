@@ -1,5 +1,5 @@
 import honeybadger from 'honeybadger';
-import { HONEYBADGER_KEY } from '../constants';
+import { HONEYBADGER_KEY } from '../constants.js';
 
 if (HONEYBADGER_KEY) {
 	honeybadger.configure({

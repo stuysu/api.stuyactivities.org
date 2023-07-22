@@ -255,6 +255,11 @@ export default gql`
 			twoDollarCount: Int!
 		): Boolean
 
-		recordSales(userId: Int!, purchaserOsis: Int!, purchases: [Int!]!, counts: [Int!]!): Boolean
+		recordSales(
+			userId: Int!
+			purchaserOsis: Int!
+			purchases: [Int!]!
+			counts: [Int!]!
+		): Boolean
 	}
 `;

@@ -7,7 +7,7 @@ import {
 } from '../../../googleApis/calendar';
 import { Op } from 'sequelize';
 import urlJoin from 'url-join';
-import { PUBLIC_URL } from '../../../constants';
+import { PUBLIC_URL } from '../../../constants.js';
 import recurringMeetingGEventInfo from '../../../utils/recurringMeetingGEventInfo';
 import createRecurringMeetings from '../../../utils/createRecurringMeetings';
 
