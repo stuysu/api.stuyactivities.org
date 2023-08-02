@@ -51,6 +51,10 @@ const simpleValidator = (input, requirements, fields, silent = false) => {
 			if (silent) {
 				return false;
 			}
+			if (fields[0] === 'returningInfo' && words.length === 0) {
+				// exception for optional field
+				return false;
+			}
 			throw new UserInputError(
 				`One or more fields must be at least ${requirements.words.min} words.`,
 				defaultErrorProps
