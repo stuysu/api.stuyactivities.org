@@ -15,9 +15,15 @@
 		</div>
 		<p>Hi {{ invitee.firstName }},</p>
 		<br />
+		{% if message %}
 		<p>
-			{{inviter.firstName}} {{inviter.lastName}} is inviting you to join
-			"{{ org.name }}" with the role "{{ role }}". Please
+			<q> {{ message }} </q><br />
+			- {{ inviter.firstName }} {{ inviter.lastName }}
+		</p>
+		{% endif %}
+		<p>
+			{{ inviter.firstName }} {{ inviter.lastName }} is inviting you to
+			join "{{ org.name }}" with the role "{{ role }}". Please
 			<a href="{{ joinUrl }}">click here</a> to confirm your membership.
 		</p>
 		<br />

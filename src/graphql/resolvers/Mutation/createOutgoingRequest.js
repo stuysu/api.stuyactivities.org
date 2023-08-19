@@ -93,7 +93,8 @@ export default async (
 			org,
 			joinUrl,
 			role: role || 'Member',
-			adminPrivileges: admin
+			adminPrivileges: admin,
+			message
 		}
 	});
 
