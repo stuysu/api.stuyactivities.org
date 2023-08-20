@@ -80,17 +80,21 @@ export default async (
 	const inviter = await users.findOne({ where: { id: user.id } });
 	const adminMessage =
 		message ||
-		`${inviter.firstName} ${inviter.lastName} is asking you to join as a leader of the organization ${org.name} on StuyActivities.`;
+		`${inviter.firstName} ${inviter.lastName} is asking you to join ${
+			admin ? 'as a leader of' : ''
+		} the organization ${org.name} on StuyActivities.`;
 	await sendEmail({
 		to: invitee.email,
 		subject: `Request to join ${org.name} | StuyActivities`,
-		template: 'orgLeaderInvite.html',
+		template: admin ? 'orgLeaderInvite.html' : 'orgMemberInvite.html',
 		variables: {
 			invitee,
 			inviter,
 			org,
 			joinUrl,
-			role: role || 'Member'
+			role: role || 'Member',
+			adminPrivileges: admin,
+			message
 		}
 	});
 
@@ -98,7 +102,7 @@ export default async (
 		organizationId: org.id,
 		userId: userId,
 		role: role || 'Member',
-		adminPrivileges: admin || false,
+		adminPrivileges: admin,
 		userMessage: null,
 		adminMessage: adminMessage,
 		userApproval: false,

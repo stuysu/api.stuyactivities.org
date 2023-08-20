@@ -15,12 +15,16 @@
 		</div>
 		<p>Hi {{ invitee.firstName }},</p>
 		<br />
+		{% if message %}
 		<p>
-			You have been requested to become a member of {{ org.name }} with
-			the role "{{ role }}"{% if membership.adminPrivileges %} and
-			administrator privileges{% endif %}. Please
+			<q> {{ message }} </q><br />
+			- {{ inviter.firstName }} {{ inviter.lastName }}
+		</p>
+		{% endif %}
+		<p>
+			{{ inviter.firstName }} {{ inviter.lastName }} is inviting you to
+			join "{{ org.name }}" with the role "{{ role }}". Please
 			<a href="{{ joinUrl }}">click here</a> to confirm your membership.
-			role.
 		</p>
 		<br />
 		<p>With love,</p>
