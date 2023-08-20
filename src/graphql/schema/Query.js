@@ -75,5 +75,6 @@ export default gql`
 		date: DateTime!
 
 		saleItems: [SaleItem!]!
+		settings: Settings!
 	}
 `;

@@ -1,11 +1,7 @@
-export default async (root, args, context) => {
-    const {
-		models: { settings }, adminRoleRequired
-	} = context;
+export default async (_, {}, { models: { settings } }) => {
+    const savedSettings = await settings.findOne({})
 
-    adminRoleRequired('charters');
+    console.log("HELLO")
 
-    let savedSetting = settings.findOne({})
-
-    return savedSetting
-}
+    return savedSettings
+};

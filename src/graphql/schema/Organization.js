@@ -6,6 +6,7 @@ export default gql`
 		name: String!
 		url: String!
 		active: Boolean!
+		locked: Boolean!
 		createdAt: DateTime
 		updatedAt: DateTime
 		tags: [Tag]!
