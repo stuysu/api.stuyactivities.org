@@ -10,9 +10,6 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 
 		}
-
-		static idLoader = findOneLoader(users);
-		static emailLoader = findOneLoader(users, 'email');
 	}
 
 	settings.init(
