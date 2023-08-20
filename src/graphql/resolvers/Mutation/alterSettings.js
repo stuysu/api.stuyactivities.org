@@ -1,14 +1,12 @@
 export default async (
-    root,
+    _,
 	{ membershipRequirement },
-	{ models : { settings, organizations, memberships }, adminRoleRequired, user }
+	{ models : { settings, organizations, memberships }, adminRoleRequired }
 ) => {
-    console.log("HELLO")
     adminRoleRequired('charters')
 
     let savedSetting =  await settings.findOne({})
     
-    console.log(membershipRequirement)
     if (membershipRequirement !== savedSetting.membershipRequirement) {
         savedSetting.membershipRequirement = membershipRequirement
 
