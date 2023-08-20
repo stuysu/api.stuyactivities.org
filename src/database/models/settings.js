@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	settings.init(
 		{
-            membershipRequirement: DataTypes.INTEGER
+            membershipRequirement: DataTypes.INTEGER,
 		},
 		{
 			sequelize,

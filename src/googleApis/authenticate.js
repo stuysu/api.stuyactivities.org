@@ -5,7 +5,7 @@ import {
 
 import { google } from 'googleapis';
 import { createServer } from 'http'; // built-in node HTTP webserver
-import { backgroundAccessTokens } from './../database'; // corresponds to DB table
+import { backgroundAccessTokens, settings } from './../database'; // corresponds to DB table
 
 const SCOPES = [
 	'https://www.googleapis.com/auth/calendar https://mail.google.com/ email profile'
@@ -41,6 +41,14 @@ createServer(function (req, res) {
 				service: 'google',
 				token: JSON.stringify(tokens)
 			});
+
+			// create settings for stuyactivities if it doesn't exist already
+			let settingsExist = await settings.findOne({});
+			if (!settingsExist) {
+				await settings.create({ 
+					membershipRequirement: 0
+				})
+			}
 
 			console.log('Authentication complete! - Now you can run the API!');
 			res.write('Authentication Complete!');

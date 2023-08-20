@@ -78,6 +78,8 @@ export default async (
 		charter.organizationId
 	);
 
+	const savedSettings = await models.settings.findOne({})
+
 	// This org has fulfilled the charter req and we can now make their charter public
 	if (!org.active) {
 		const canBeActive = EDITABLE_CHARTER_FIELDS.every(
@@ -89,6 +91,17 @@ export default async (
 
 		if (canBeActive) {
 			org.active = true;
+
+			let allMembers = await models.memberships.findAll({ 
+				where: {
+					organizationId: org.id
+				}
+			});
+
+			if (allMembers.length < savedSettings.membershipRequirement) {
+				org.locked = true;
+			}
+
 			await org.save();
 
 			const members = await models.memberships.findAll({
