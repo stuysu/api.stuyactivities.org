@@ -3,10 +3,12 @@ export default async (
 	{ membershipRequirement },
 	{ models : { settings, organizations, memberships }, adminRoleRequired, user }
 ) => {
+    console.log("HELLO")
     adminRoleRequired('charters')
 
     let savedSetting =  await settings.findOne({})
-
+    
+    console.log(membershipRequirement)
     if (membershipRequirement !== savedSetting.membershipRequirement) {
         savedSetting.membershipRequirement = membershipRequirement
 
@@ -14,13 +16,13 @@ export default async (
         let orgs = await organizations.findAll({});
 
         for (let org of orgs) {
-            let memberships = await memberships.findAll({
+            let allMemberships = await memberships.findAll({
                 where: {
                     organizationId: org.id
                 }
             })
 
-            if (memberships.length < membershipRequirement) {
+            if (allMemberships.length < membershipRequirement) {
                 org.locked = true;
             } else {
                 org.locked = false;

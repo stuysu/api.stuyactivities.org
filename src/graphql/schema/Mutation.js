@@ -177,6 +177,9 @@ export default gql`
 		createPromotedClub(orgId: Int!, blurb: String!): PromotedClub
 		deletePromotedClub(promotedClubId: Int!): Boolean
 
+		# --- settings ---
+		alterSettings(membershipRequirement: Int!): Settings
+
 		# --- Help Requests ---
 		createHelpRequest(
 			email: String
