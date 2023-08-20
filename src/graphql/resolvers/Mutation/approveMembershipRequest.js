@@ -72,5 +72,21 @@ export default async (
 		}
 	});
 
+	let savedSetting =  await settings.findOne({})
+
+	let allMemberships = await memberships.findAll({
+		where: {
+			organizationId: org.id
+		}
+	})
+
+	if (allMemberships.length < savedSetting.membershipRequirement) {
+		org.locked = true;
+	} else {
+		org.locked = false;
+	}
+
+	await org.save()
+
 	return request;
 };

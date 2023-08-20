@@ -48,9 +48,9 @@ export default async (parent, args, context) => {
 	const orgId = membership.organizationId;
 	await membership.destroy();
 
-	if (notify) {
-		const organization = await organizations.idLoader.load(orgId);
+	const organization = await organizations.idLoader.load(orgId);
 
+	if (notify) {
 		await sendEmail({
 			to: user.email,
 			subject: `Removed from ${organization.name} | StuyActivities`,
@@ -61,6 +61,22 @@ export default async (parent, args, context) => {
 			}
 		});
 	}
+
+	let savedSetting =  await settings.findOne({})
+
+	let allMemberships = await memberships.findAll({
+		where: {
+			organizationId
+		}
+	})
+
+	if (allMemberships.length < savedSetting.membershipRequirement) {
+		organization.locked = true;
+	} else {
+		organization.locked = false;
+	}
+
+	await organization.save()
 
 	return true;
 };
