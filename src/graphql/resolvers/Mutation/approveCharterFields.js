@@ -100,6 +100,8 @@ export default async (
 
 			if (allMembers.length < savedSettings.membershipRequirement) {
 				org.locked = true;
+			} else {
+				org.locked = false
 			}
 
 			await org.save();

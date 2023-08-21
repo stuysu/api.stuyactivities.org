@@ -11,7 +11,8 @@ export default async (
 			memberships,
 			googleCalendars,
 			organizations,
-			users
+			users,
+			settings
 		},
 		authenticationRequired,
 		orgAdminRequired,

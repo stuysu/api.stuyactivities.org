@@ -4,7 +4,7 @@ import sendEmail from '../../../utils/sendEmail';
 export default async (parent, args, context) => {
 	const { membershipId, notify } = args;
 	const {
-		models: { memberships, membershipRequests, organizations },
+		models: { memberships, membershipRequests, organizations, settings },
 		isOrgAdmin,
 		authenticationRequired,
 		user
@@ -66,7 +66,7 @@ export default async (parent, args, context) => {
 
 	let allMemberships = await memberships.findAll({
 		where: {
-			organizationId
+			organizationId: orgId
 		}
 	})
 
