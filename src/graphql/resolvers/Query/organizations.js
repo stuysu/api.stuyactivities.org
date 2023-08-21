@@ -11,6 +11,7 @@ export default async (root, args, context) => {
 		limit,
 		offset,
 		active,
+		locked,
 		randomOrderSeed
 	} = args;
 
@@ -24,6 +25,10 @@ export default async (root, args, context) => {
 
 	if (active) {
 		filterParams.where.active = true;
+	}
+
+	if (locked !== true) {
+		filterParams.where.locked = false
 	}
 
 	if (!keyword && typeof randomOrderSeed === 'number' && isUsingMysql) {

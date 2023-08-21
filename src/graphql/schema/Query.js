@@ -19,6 +19,7 @@ export default gql`
 			limit: Int
 			offset: Int
 			active: Boolean
+			locked: Boolean
 			randomOrderSeed: Int
 		): [Organization]!
 
