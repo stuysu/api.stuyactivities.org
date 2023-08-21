@@ -9,6 +9,20 @@ export default async (
 ) => {
 	orgAdminRequired(orgId);
 
+	const organization = await models.organizations.idLoader.load(orgId);
+
+	if (!organization.active) {
+		throw new ForbiddenError(
+			'Only approved organizations are allowed to create posts.'
+		);
+	}
+
+	if (organization.locked) {
+		throw new ForbiddenError(
+			'Locked organizations may not create posts.'
+		);
+	}
+
 	content = sanitizeHtml(content);
 
 	const update = await models.updates.create({
@@ -21,8 +35,6 @@ export default async (
 		localPinned,
 		globalPinned: false
 	});
-
-	const organization = await models.organizations.idLoader.load(orgId);
 
 	if (notifyFaculty || notifyMembers) {
 		const notifyAll = notifyMembers && notifyFaculty;
