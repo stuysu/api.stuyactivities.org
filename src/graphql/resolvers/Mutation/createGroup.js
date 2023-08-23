@@ -16,9 +16,7 @@ export default async (
 	}
 
 	if (org.locked) {
-		throw new ForbiddenError(
-			'Locked organizations may not create groups.'
-		);
+		throw new ForbiddenError('Locked organizations may not create groups.');
 	}
 
 	if (!orgId || !name) {

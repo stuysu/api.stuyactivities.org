@@ -1,36 +1,36 @@
 export default async (
-    _,
+	_,
 	{ membershipRequirement },
-	{ models : { settings, organizations, memberships }, adminRoleRequired }
+	{ models: { settings, organizations, memberships }, adminRoleRequired }
 ) => {
-    adminRoleRequired('charters')
+	adminRoleRequired('charters');
 
-    let savedSetting =  await settings.findOne({})
-    
-    if (membershipRequirement !== savedSetting.membershipRequirement) {
-        savedSetting.membershipRequirement = membershipRequirement
+	let savedSetting = await settings.findOne({});
 
-        // lock organizations if necessary
-        let orgs = await organizations.findAll({});
+	if (membershipRequirement !== savedSetting.membershipRequirement) {
+		savedSetting.membershipRequirement = membershipRequirement;
 
-        for (let org of orgs) {
-            let allMemberships = await memberships.findAll({
-                where: {
-                    organizationId: org.id
-                }
-            })
+		// lock organizations if necessary
+		let orgs = await organizations.findAll({});
 
-            if (allMemberships.length < membershipRequirement) {
-                org.locked = true;
-            } else {
-                org.locked = false;
-            }
+		for (let org of orgs) {
+			let allMemberships = await memberships.findAll({
+				where: {
+					organizationId: org.id
+				}
+			});
 
-            await org.save();
-        }
+			if (allMemberships.length < membershipRequirement) {
+				org.locked = true;
+			} else {
+				org.locked = false;
+			}
 
-        await savedSetting.save()
-    }
+			await org.save();
+		}
 
-    return savedSetting
-}
+		await savedSetting.save();
+	}
+
+	return savedSetting;
+};

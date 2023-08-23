@@ -62,13 +62,13 @@ export default async (parent, args, context) => {
 		});
 	}
 
-	let savedSetting =  await settings.findOne({})
+	let savedSetting = await settings.findOne({});
 
 	let allMemberships = await memberships.findAll({
 		where: {
 			organizationId: orgId
 		}
-	})
+	});
 
 	if (allMemberships.length < savedSetting.membershipRequirement) {
 		organization.locked = true;
@@ -76,7 +76,7 @@ export default async (parent, args, context) => {
 		organization.locked = false;
 	}
 
-	await organization.save()
+	await organization.save();
 
 	return true;
 };

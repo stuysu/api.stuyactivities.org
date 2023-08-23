@@ -45,9 +45,9 @@ createServer(function (req, res) {
 			// create settings for stuyactivities if it doesn't exist already
 			let settingsExist = await settings.findOne({});
 			if (!settingsExist) {
-				await settings.create({ 
+				await settings.create({
 					membershipRequirement: 0
-				})
+				});
 			}
 
 			console.log('Authentication complete! - Now you can run the API!');
