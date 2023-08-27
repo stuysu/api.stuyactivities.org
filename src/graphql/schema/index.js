@@ -33,7 +33,7 @@ import User from './User';
 import RecurringMeeting from './RecurringMeeting';
 import Room from './Room';
 import SaleItem from './SaleItem';
-import Settings from "./Settings"
+import Settings from './Settings';
 
 export default [
 	...graphqlScalarDefs,

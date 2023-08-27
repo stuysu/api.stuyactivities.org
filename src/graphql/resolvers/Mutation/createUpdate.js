@@ -18,9 +18,7 @@ export default async (
 	}
 
 	if (organization.locked) {
-		throw new ForbiddenError(
-			'Locked organizations may not create posts.'
-		);
+		throw new ForbiddenError('Locked organizations may not create posts.');
 	}
 
 	content = sanitizeHtml(content);

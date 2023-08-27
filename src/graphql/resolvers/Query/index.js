@@ -34,7 +34,7 @@ import users from './users';
 import userUpdates from './userUpdates';
 import validKeyPairs from './validKeyPairs';
 import saleItems from './saleItems';
-import settings from "./settings"
+import settings from './settings';
 
 export default {
 	authenticatedUser,
