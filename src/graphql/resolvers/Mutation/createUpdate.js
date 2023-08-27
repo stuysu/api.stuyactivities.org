@@ -1,6 +1,7 @@
 import sendEmail from '../../../utils/sendEmail';
 import { Op } from 'sequelize';
 import sanitizeHtml from '../../../utils/sanitizeHtml';
+import { ForbiddenError } from 'apollo-server-express';
 
 export default async (
 	root,
