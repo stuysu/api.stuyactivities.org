@@ -74,8 +74,7 @@ export default async (
 		}
 	});
 
-	let savedSetting = await settings.findOne({});
-	verifyMembershipCount(org, savedSetting);
+	verifyMembershipCount(org, await settings.findOne({}));
 
 	return request;
 };
