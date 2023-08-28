@@ -1,7 +1,11 @@
 export default async (
 	_,
 	{ membershipRequirement },
-	{ models: { settings, organizations, memberships }, adminRoleRequired }
+	{
+		models: { settings, organizations, memberships },
+		adminRoleRequired,
+		verifyMembershipCount
+	}
 ) => {
 	adminRoleRequired('charters');
 
@@ -13,21 +17,7 @@ export default async (
 		// lock organizations if necessary
 		let orgs = await organizations.findAll({});
 
-		for (let org of orgs) {
-			let allMemberships = await memberships.findAll({
-				where: {
-					organizationId: org.id
-				}
-			});
-
-			if (allMemberships.length < membershipRequirement) {
-				org.locked = true;
-			} else {
-				org.locked = false;
-			}
-
-			await org.save();
-		}
+		for (let org of orgs) verifyMembershipCount(org, savedSetting);
 
 		await savedSetting.save();
 	}

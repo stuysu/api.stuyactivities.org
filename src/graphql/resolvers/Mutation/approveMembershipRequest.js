@@ -16,6 +16,7 @@ export default async (
 		},
 		authenticationRequired,
 		orgAdminRequired,
+		verifyMembershipCount,
 		user
 	}
 ) => {
@@ -30,7 +31,7 @@ export default async (
 		);
 	}
 
-	// That means this is an invite and the user hasn't yet approved
+	// That means this is an invitation and the user hasn't yet approved
 	if (request.adminApproval) {
 		if (user.id !== request.userId) {
 			throw new ForbiddenError(
@@ -74,20 +75,7 @@ export default async (
 	});
 
 	let savedSetting = await settings.findOne({});
-
-	let allMemberships = await memberships.findAll({
-		where: {
-			organizationId: org.id
-		}
-	});
-
-	if (allMemberships.length < savedSetting.membershipRequirement) {
-		org.locked = true;
-	} else {
-		org.locked = false;
-	}
-
-	await org.save();
+	verifyMembershipCount(org, savedSetting);
 
 	return request;
 };

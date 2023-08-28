@@ -9,7 +9,7 @@ import sendEmail from '../../../utils/sendEmail';
 export default async (
 	root,
 	{ fields, charterEditId },
-	{ models, adminRoleRequired, user }
+	{ models, adminRoleRequired, verifyMembershipCount, user }
 ) => {
 	adminRoleRequired('charters');
 
@@ -92,19 +92,7 @@ export default async (
 		if (canBeActive) {
 			org.active = true;
 
-			let allMembers = await models.memberships.findAll({
-				where: {
-					organizationId: org.id
-				}
-			});
-
-			if (allMembers.length < savedSettings.membershipRequirement) {
-				org.locked = true;
-			} else {
-				org.locked = false;
-			}
-
-			await org.save();
+			verifyMembershipCount(org);
 
 			const members = await models.memberships.findAll({
 				where: {

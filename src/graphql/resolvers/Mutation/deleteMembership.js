@@ -7,6 +7,7 @@ export default async (parent, args, context) => {
 		models: { memberships, membershipRequests, organizations, settings },
 		isOrgAdmin,
 		authenticationRequired,
+		verifyMembershipCount,
 		user
 	} = context;
 
@@ -62,21 +63,6 @@ export default async (parent, args, context) => {
 		});
 	}
 
-	let savedSetting = await settings.findOne({});
-
-	let allMemberships = await memberships.findAll({
-		where: {
-			organizationId: orgId
-		}
-	});
-
-	if (allMemberships.length < savedSetting.membershipRequirement) {
-		organization.locked = true;
-	} else {
-		organization.locked = false;
-	}
-
-	await organization.save();
-
+	await verifyMembershipCount(organization, await settings.findOne({}));
 	return true;
 };
