@@ -63,6 +63,12 @@ export default async (
 			organizationId: org.id
 		}
 	});
+	
+	if (alreadySubmitted) {
+		throw new ForbiddenError(
+			'You have already submitted a request to join this organization'
+		);
+	}
 
 	const leaders = await users.findAll({
 		include: {
@@ -91,12 +97,6 @@ export default async (
 				org
 			}
 		});
-	}
-
-	if (alreadySubmitted) {
-		throw new ForbiddenError(
-			'You have already submitted a request to join this organization'
-		);
 	}
 
 	return await membershipRequests.create({
