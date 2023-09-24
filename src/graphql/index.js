@@ -93,6 +93,7 @@ const apolloServer = new ApolloServer({
 		}
 
 		async function verifyMembershipCount(organization, savedSettings) {
+			if (organization.locked === 'ADMIN') return;
 			let allMemberships = await memberships.findAll({
 				where: {
 					organizationId: organization.id

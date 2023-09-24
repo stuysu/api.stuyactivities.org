@@ -18,7 +18,7 @@ export default async (
 		);
 	}
 
-	if (organization.locked) {
+	if (organization.locked === 'LOCK') {
 		throw new ForbiddenError('Locked organizations may not create posts.');
 	}
 
