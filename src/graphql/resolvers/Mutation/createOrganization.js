@@ -184,7 +184,7 @@ export default async (root, args, context) => {
 		name,
 		url,
 		active: false,
-		locked: false
+		locked: 'UNLOCK'
 	});
 
 	const activeCharter = await charters.create({

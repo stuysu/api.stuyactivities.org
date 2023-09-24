@@ -28,7 +28,7 @@ export default async (root, args, context) => {
 	}
 
 	if (locked !== true) {
-		filterParams.where.locked = false;
+		filterParams.where.locked = { [Op.or]: ['UNLOCK', 'ADMIN'] };
 	}
 
 	if (!keyword && typeof randomOrderSeed === 'number' && isUsingMysql) {

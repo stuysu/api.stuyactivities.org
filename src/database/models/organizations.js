@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 			name: DataTypes.STRING,
 			url: DataTypes.STRING,
 			active: DataTypes.BOOLEAN,
-			locked: DataTypes.BOOLEAN
+			locked: DataTypes.ENUM('UNLOCK', 'LOCK', 'ADMIN')
 		},
 		{
 			sequelize,
