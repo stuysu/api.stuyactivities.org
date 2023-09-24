@@ -102,7 +102,9 @@ const apolloServer = new ApolloServer({
 
 			const old = organization.locked;
 			organization.locked =
-				allMemberships.length < savedSettings.membershipRequirement ? "LOCK" : "UNLOCK";
+				allMemberships.length < savedSettings.membershipRequirement
+					? 'LOCK'
+					: 'UNLOCK';
 
 			await organization.save();
 
@@ -112,14 +114,11 @@ const apolloServer = new ApolloServer({
 				savedSettings.membershipRequirement > 1
 			) {
 				// change of state
-				const leaders = (
-					await memberships.findAll({
-						where: {
-							organizationId: organization.id
-						}
-					})
-				).filter(mem => mem.adminPrivileges);
-				const heading = organization.locked === "LOCK" ? 'Locked' : 'Unlocked';
+				const leaders = allMemberships.filter(
+					mem => mem.adminPrivileges
+				);
+				const heading =
+					organization.locked === 'LOCK' ? 'Locked' : 'Unlocked';
 				for (let i in leaders) {
 					const leader = await users.findOne({
 						where: {
