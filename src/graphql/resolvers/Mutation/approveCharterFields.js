@@ -89,6 +89,7 @@ export default async (
 
 		if (canBeActive) {
 			org.active = true;
+			await organization.save();
 
 			const settings = await models.settings.findOne({});
 
