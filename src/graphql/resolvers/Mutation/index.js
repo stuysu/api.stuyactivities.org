@@ -8,6 +8,7 @@ import alterMeeting from './alterMeeting';
 import alterMembership from './alterMembership';
 import alterPromotedClub from './alterPromotedClub';
 import alterRecurringMeeting from './alterRecurringMeeting';
+import alterSettings from './alterSettings';
 import answerUpdateQuestion from './answerUpdateQuestion';
 import approveCharterFields from './approveCharterFields';
 import approveMembershipRequest from './approveMembershipRequest';
@@ -57,6 +58,7 @@ export default {
 	alterMeeting,
 	alterMembership,
 	alterPromotedClub,
+	alterSettings,
 	answerUpdateQuestion,
 	approveMembershipRequest,
 	approveCharterFields,

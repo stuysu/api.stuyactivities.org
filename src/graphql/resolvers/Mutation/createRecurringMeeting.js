@@ -64,6 +64,12 @@ export default async (
 		);
 	}
 
+	if (org.locked === 'LOCK') {
+		throw new ForbiddenError(
+			'Locked organizations may not schedule meetings.'
+		);
+	}
+
 	if (!title) {
 		throw new UserInputError(
 			'A title must be provided for the recurring meeting',

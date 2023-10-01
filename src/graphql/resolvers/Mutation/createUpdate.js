@@ -1,6 +1,7 @@
 import sendEmail from '../../../utils/sendEmail';
 import { Op } from 'sequelize';
 import sanitizeHtml from '../../../utils/sanitizeHtml';
+import { ForbiddenError } from 'apollo-server-express';
 
 export default async (
 	root,
@@ -8,6 +9,18 @@ export default async (
 	{ orgAdminRequired, models, user }
 ) => {
 	orgAdminRequired(orgId);
+
+	const organization = await models.organizations.idLoader.load(orgId);
+
+	if (!organization.active) {
+		throw new ForbiddenError(
+			'Only approved organizations are allowed to create posts.'
+		);
+	}
+
+	if (organization.locked === 'LOCK') {
+		throw new ForbiddenError('Locked organizations may not create posts.');
+	}
 
 	content = sanitizeHtml(content);
 
@@ -21,8 +34,6 @@ export default async (
 		localPinned,
 		globalPinned: false
 	});
-
-	const organization = await models.organizations.idLoader.load(orgId);
 
 	if (notifyFaculty || notifyMembers) {
 		const notifyAll = notifyMembers && notifyFaculty;

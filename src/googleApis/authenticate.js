@@ -41,7 +41,6 @@ createServer(function (req, res) {
 				service: 'google',
 				token: JSON.stringify(tokens)
 			});
-
 			console.log('Authentication complete! - Now you can run the API!');
 			res.write('Authentication Complete!');
 			res.end();

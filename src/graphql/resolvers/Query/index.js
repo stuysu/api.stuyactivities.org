@@ -34,6 +34,7 @@ import users from './users';
 import userUpdates from './userUpdates';
 import validKeyPairs from './validKeyPairs';
 import saleItems from './saleItems';
+import settings from './settings';
 
 export default {
 	authenticatedUser,
@@ -71,5 +72,6 @@ export default {
 	users,
 	userUpdates,
 	validKeyPairs,
-	saleItems
+	saleItems,
+	settings
 };

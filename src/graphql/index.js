@@ -9,6 +9,7 @@ import typeDefs from './schema';
 import resolvers from './resolvers';
 import honeybadger from 'honeybadger';
 import getJWTPayload from '../utils/auth/getJWTPayload';
+import sendEmail from '../utils/sendEmail';
 
 const models = require('../database');
 const { users, adminRoles, memberships } = models;
@@ -91,6 +92,55 @@ const apolloServer = new ApolloServer({
 			}
 		}
 
+		async function verifyMembershipCount(organization, savedSettings) {
+			if (organization.locked === 'ADMIN') return;
+			let allMemberships = await memberships.findAll({
+				where: {
+					organizationId: organization.id
+				}
+			});
+
+			const old = organization.locked;
+			organization.locked =
+				allMemberships.length < savedSettings.membershipRequirement
+					? 'LOCK'
+					: 'UNLOCK';
+
+			await organization.save();
+
+			if (
+				organization.active &&
+				old !== organization.locked &&
+				savedSettings.membershipRequirement > 1
+			) {
+				// change of state
+				const leaders = allMemberships.filter(
+					mem => mem.adminPrivileges
+				);
+				const heading =
+					organization.locked === 'LOCK' ? 'Locked' : 'Unlocked';
+				for (let i in leaders) {
+					const leader = await users.findOne({
+						where: {
+							id: leaders[i].userId
+						}
+					});
+
+					await sendEmail({
+						to: leader.email,
+						template: `orgMembership${heading}.html`,
+						subject: `${organization.name} ${heading} | StuyActivities`,
+						variables: {
+							organization,
+							user: leader,
+							membershipRequirement:
+								savedSettings.membershipRequirement.toString()
+						}
+					});
+				}
+			}
+		}
+
 		// Doesn't work otherwise for some reason
 		const setCookie = (...a) => res.cookie(...a);
 
@@ -102,6 +152,7 @@ const apolloServer = new ApolloServer({
 			isOrgAdmin,
 			hasAdminRole,
 			adminRoleRequired,
+			verifyMembershipCount,
 			models,
 			ipAddress:
 				req.headers['x-forwarded-for'] || req.connection.remoteAddress,

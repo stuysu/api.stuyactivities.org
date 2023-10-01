@@ -4,9 +4,16 @@ import sendEmail from '../../../utils/sendEmail';
 export default async (parent, args, context) => {
 	const { membershipId, notify } = args;
 	const {
-		models: { memberships, membershipRequests, organizations, users },
+		models: {
+			memberships,
+			membershipRequests,
+			organizations,
+			settings,
+			users
+		},
 		isOrgAdmin,
 		authenticationRequired,
+		verifyMembershipCount,
 		user
 	} = context;
 
@@ -49,10 +56,10 @@ export default async (parent, args, context) => {
 	const removedUserId = membership.userId;
 	await membership.destroy();
 
-	if (notify) {
-		const organization = await organizations.idLoader.load(orgId);
-		const removedUser = await users.idLoader.load(removedUserId);
+	const organization = await organizations.idLoader.load(orgId);
 
+	if (notify) {
+		const removedUser = await users.idLoader.load(removedUserId);
 		await sendEmail({
 			to: removedUser.email,
 			subject: `Removed from ${organization.name} | StuyActivities`,
@@ -64,5 +71,6 @@ export default async (parent, args, context) => {
 		});
 	}
 
+	await verifyMembershipCount(organization, await settings.findOne({}));
 	return true;
 };

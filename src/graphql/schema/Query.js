@@ -19,6 +19,7 @@ export default gql`
 			limit: Int
 			offset: Int
 			active: Boolean
+			locked: Boolean
 			randomOrderSeed: Int
 		): [Organization]!
 
@@ -75,5 +76,6 @@ export default gql`
 		date: DateTime!
 
 		saleItems: [SaleItem!]!
+		settings: Settings!
 	}
 `;

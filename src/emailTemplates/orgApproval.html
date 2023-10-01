@@ -19,16 +19,32 @@
 			Congratulations! The {{ org.name }} charter has been approved. You
 			are now an official Stuyvesant club!
 		</p>
-
 		<p>
 			Soon you will receive an invite to a Google Calendar. Any meetings
 			you create on StuyActivities will automatically be added to this
 			calendar. Remember to accept the invitation!
 		</p>
+		{% if locked %}
+		<p>
+			Now, you can start advertising your club and recruiting members, but
+			your club will not appear on the StuyActivities catalog or search
+			results; you will need to have a minimum of {{ requirement }}
+			members join your club via <em>direct link</em> before you can start
+			holding meetings or have your page be discoverable.
+		</p>
+		<p>
+			If you believe that this is in error, or that your club should be
+			exempt from the membership requirements, please contact the email
+			addresses below.
+		</p>
+		{% else %}
 		<p>
 			Now, you can start advertising your club, recruiting members, and
-			holding meetings. We hope you enjoy your club experience at Stuy.
+			holding meetings.
 		</p>
+		{% endif %}
+		<p>We hope you enjoy your club experience at Stuy.</p>
+
 		<br />
 		<p>With love,</p>
 		<p>StuyActivities Team</p>

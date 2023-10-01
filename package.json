@@ -9,6 +9,7 @@
 		"test": "npx nyc mocha --require esm",
 		"dev": "nodemon --require esm src/index.js",
 		"migrate": "node --require esm node_modules/.bin/sequelize-cli db:migrate",
+		"undo": "node --require esm node_modules/.bin/sequelize-cli db:migrate:undo",
 		"seed": "node --require esm node_modules/.bin/sequelize-cli db:seed:all",
 		"prettier": "npx prettier --write .",
 		"build": "npm run migrate",

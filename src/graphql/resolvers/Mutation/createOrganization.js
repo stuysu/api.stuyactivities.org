@@ -183,7 +183,8 @@ export default async (root, args, context) => {
 	const org = await organizations.create({
 		name,
 		url,
-		active: false
+		active: false,
+		locked: 'UNLOCK'
 	});
 
 	const activeCharter = await charters.create({

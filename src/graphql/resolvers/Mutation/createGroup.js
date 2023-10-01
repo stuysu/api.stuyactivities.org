@@ -3,9 +3,21 @@ import { ForbiddenError } from 'apollo-server-express';
 export default async (
 	root,
 	{ orgId, name },
-	{ orgAdminRequired, models: { groups }, user }
+	{ orgAdminRequired, models: { groups, organizations }, user }
 ) => {
 	orgAdminRequired(orgId);
+
+	const org = await organizations.idLoader.load(orgId);
+
+	if (!org.active) {
+		throw new ForbiddenError(
+			'Only approved organizations are allowed to create groups.'
+		);
+	}
+
+	if (org.locked === 'LOCK') {
+		throw new ForbiddenError('Locked organizations may not create groups.');
+	}
 
 	if (!orgId || !name) {
 		throw new UserInputError(

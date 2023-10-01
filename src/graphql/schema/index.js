@@ -33,6 +33,7 @@ import User from './User';
 import RecurringMeeting from './RecurringMeeting';
 import Room from './Room';
 import SaleItem from './SaleItem';
+import Settings from './Settings';
 
 export default [
 	...graphqlScalarDefs,
@@ -69,5 +70,6 @@ export default [
 	Upload,
 	User,
 	RecurringMeeting,
-	SaleItem
+	SaleItem,
+	Settings
 ];

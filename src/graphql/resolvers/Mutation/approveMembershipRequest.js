@@ -11,10 +11,12 @@ export default async (
 			memberships,
 			googleCalendars,
 			organizations,
-			users
+			users,
+			settings
 		},
 		authenticationRequired,
 		orgAdminRequired,
+		verifyMembershipCount,
 		user
 	}
 ) => {
@@ -29,7 +31,7 @@ export default async (
 		);
 	}
 
-	// That means this is an invite and the user hasn't yet approved
+	// That means this is an invitation and the user hasn't yet approved
 	if (request.adminApproval) {
 		if (user.id !== request.userId) {
 			throw new ForbiddenError(
@@ -71,6 +73,8 @@ export default async (
 			org
 		}
 	});
+
+	verifyMembershipCount(org, await settings.findOne({}));
 
 	return request;
 };
