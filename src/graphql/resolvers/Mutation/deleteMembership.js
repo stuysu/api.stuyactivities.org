@@ -4,7 +4,13 @@ import sendEmail from '../../../utils/sendEmail';
 export default async (parent, args, context) => {
 	const { membershipId, notify } = args;
 	const {
-		models: { memberships, membershipRequests, organizations, settings, users },
+		models: {
+			memberships,
+			membershipRequests,
+			organizations,
+			settings,
+			users
+		},
 		isOrgAdmin,
 		authenticationRequired,
 		verifyMembershipCount,
