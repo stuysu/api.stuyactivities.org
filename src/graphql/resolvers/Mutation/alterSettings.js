@@ -15,7 +15,7 @@ export default async (
 		savedSetting.membershipRequirement = membershipRequirement;
 
 		// lock organizations if necessary
-		let orgs = await organizations.findAll({});
+		let orgs = await organizations.findAll({ where: { active: true } });
 
 		for (let org of orgs) verifyMembershipCount(org, savedSetting);
 
