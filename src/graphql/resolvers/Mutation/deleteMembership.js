@@ -4,7 +4,7 @@ import sendEmail from '../../../utils/sendEmail';
 export default async (parent, args, context) => {
 	const { membershipId, notify } = args;
 	const {
-		models: { memberships, membershipRequests, organizations, settings },
+		models: { memberships, membershipRequests, organizations, settings, users },
 		isOrgAdmin,
 		authenticationRequired,
 		verifyMembershipCount,
@@ -47,17 +47,19 @@ export default async (parent, args, context) => {
 
 	// Store it in a variable before we destroy the object
 	const orgId = membership.organizationId;
+	const removedUserId = membership.userId;
 	await membership.destroy();
 
 	const organization = await organizations.idLoader.load(orgId);
 
 	if (notify) {
+		const removedUser = await users.idLoader.load(removedUserId);
 		await sendEmail({
-			to: user.email,
+			to: removedUser.email,
 			subject: `Removed from ${organization.name} | StuyActivities`,
 			template: 'memberRemoved.html',
 			variables: {
-				user,
+				removedUser,
 				organization
 			}
 		});
