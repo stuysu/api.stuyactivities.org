@@ -116,23 +116,23 @@ export default async (
 			}
 		});
 
-		for (let i = 0; i < members.length; i++) {
-			const member = members[i];
-
-			await sendEmail({
-				to: member.email,
-				subject: `${org.name} altered a meeting | StuyActivities`,
-				template: 'alterMeetingNotification.html',
-				variables: {
-					member,
-					org,
-					meeting,
-					formattedStart,
-					formattedEnd,
-					renderedDescription: safeDescription
-				}
-			});
-		}
+		await Promise.all(
+			members.map(async member => {
+				await sendEmail({
+					to: member.email,
+					subject: `${org.name} altered a meeting | StuyActivities`,
+					template: 'alterMeetingNotification.html',
+					variables: {
+						member,
+						org,
+						meeting,
+						formattedStart,
+						formattedEnd,
+						renderedDescription: safeDescription
+					}
+				});
+			})
+		);
 	}
 
 	const gEventInfo = {
