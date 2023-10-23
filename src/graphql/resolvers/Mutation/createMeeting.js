@@ -196,23 +196,23 @@ export default async (
 		.tz('America/New_York')
 		.format('dddd, MMMM Do YYYY, h:mm a');
 
-	for (let i = 0; i < members.length; i++) {
-		const member = members[i];
-
-		await sendEmail({
-			to: member.email,
-			subject: `${org.name} scheduled a meeting | StuyActivities`,
-			template: 'meetingNotification.html',
-			variables: {
-				member,
-				org,
-				meeting,
-				formattedStart,
-				formattedEnd,
-				renderedDescription: safeDescription
-			}
-		});
-	}
+	await Promise.all(
+		members.map(async member => {
+			await sendEmail({
+				to: member.email,
+				subject: `${org.name} scheduled a meeting | StuyActivities`,
+				template: 'meetingNotification.html',
+				variables: {
+					member,
+					org,
+					meeting,
+					formattedStart,
+					formattedEnd,
+					renderedDescription: safeDescription
+				}
+			});
+		})
+	);
 
 	// Add the meeting to the google calendar
 	let googleCalendar = await googleCalendars.orgIdLoader.load(org.id);
