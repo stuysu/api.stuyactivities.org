@@ -46,6 +46,7 @@ import rejectCharterFields from './rejectCharterFields';
 import removeRoomFromMeeting from './removeRoomFromMeeting';
 import requestLoginToken from './requestLoginToken';
 import uploadImage from './uploadImage';
+import createUser from './createUser';
 
 export default {
 	linkOAuthPlatform,
@@ -74,6 +75,7 @@ export default {
 	createOutgoingRequest,
 	createPromotedClub,
 	createStrike,
+	createUser,
 	createUpdate,
 	createUpdateQuestion,
 	deleteMeeting,
