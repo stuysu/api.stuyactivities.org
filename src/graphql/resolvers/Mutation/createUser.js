@@ -10,7 +10,7 @@ export default async (
 	if (await users.emailLoader.load(email)) {
 		throw new UserInputError('That email already has an account.');
 	}
-	if (!email.match(/[a-zA-Z0-9.]+@stuy(su)?.(edu|org)/)) {
+	if (!email.match(/[a-zA-Z\d.]+@stuy(su)?.(edu|org)/)) {
 		throw new UserInputError(
 			'Invalid email. Please only enter stuy.edu or stuysu.org email addresses.'
 		);
