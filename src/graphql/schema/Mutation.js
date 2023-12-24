@@ -137,6 +137,20 @@ export default gql`
 		addRoomToMeeting(meetingId: Int!, roomId: Int!): Meeting!
 		removeRoomFromMeeting(meetingId: Int!, roomId: Int!): Meeting!
 
+		createMeetings(
+			orgId: Int
+			orgUrl: String
+			title: String!
+			description: String!
+			start: DateTime!
+			end: DateTime!
+			weeks: Int!
+			privacy: String! = "public"
+			notifyFaculty: Boolean
+			roomId: Int
+			groupId: Int
+		): [Meeting]
+
 		# --- RecurringMeeting fields ---
 		createRecurringMeeting(
 			orgId: Int
