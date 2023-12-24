@@ -20,6 +20,7 @@ import createGroupMembership from './createGroupMembership';
 import createHelpRequest from './createHelpRequest';
 import createHelpRequestMessage from './createHelpRequestMessage';
 import createMeeting from './createMeeting';
+import createMeetings from './createMeetings';
 import createMembershipRequest from './createMembershipRequest';
 import createOrganization from './createOrganization';
 import createOutgoingRequest from './createOutgoingRequest';
@@ -72,6 +73,7 @@ export default {
 	createGroup,
 	createGroupMembership,
 	createMeeting,
+	createMeetings,
 	createMembershipRequest,
 	createOrganization,
 	createOutgoingRequest,
