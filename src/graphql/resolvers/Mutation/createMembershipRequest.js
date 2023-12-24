@@ -63,7 +63,7 @@ export default async (
 			organizationId: org.id
 		}
 	});
-	
+
 	if (alreadySubmitted) {
 		throw new ForbiddenError(
 			'You have already submitted a request to join this organization'
