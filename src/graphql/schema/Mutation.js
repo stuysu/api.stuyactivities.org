@@ -180,6 +180,9 @@ export default gql`
 		# --- settings ---
 		alterSettings(membershipRequirement: Int!): Settings
 
+		# --- users ---
+		createUser(email: String!, isFaculty: Boolean!): User
+
 		# --- Help Requests ---
 		createHelpRequest(
 			email: String
