@@ -1,4 +1,5 @@
 import addRoomToMeeting from './addRoomToMeeting';
+import adminDeleteMeeting from './adminDeleteMeeting';
 import alterCharter from './alterCharter';
 import alterClubFairResponse from './alterClubFairResponse';
 import alterEmailSettings from './alterEmailSettings';
@@ -51,6 +52,7 @@ import createUser from './createUser';
 export default {
 	linkOAuthPlatform,
 	login,
+	adminDeleteMeeting,
 	alterCharter,
 	alterClubFairResponse,
 	alterEmailSettings,
