@@ -18,7 +18,7 @@ export default async (
 		);
 	}
 
-	adminRoleRequired('charters')
+	adminRoleRequired('charters');
 
 	/*const meetingCalEvent = await googleCalendarEvents.meetingIdLoader.load(
 		meeting.id
