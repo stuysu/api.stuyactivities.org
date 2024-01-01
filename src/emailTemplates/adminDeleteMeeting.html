@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+	<body>
+		<p>
+			This email is to let you know that a meeting has been removed by
+			administration. Please contact
+			<a href="mailto:clubpub@stuysu.org">clubpub@stuysu.org</a> for
+			further details.
+		</p>
+		<p>The original meeting details are below.</p>
+		<p>Title: {{ meeting.title }}</p>
+		<p>Start Date: {{ formattedStart }}</p>
+		<p>End Date: {{ formattedEnd }}</p>
+
+		{{ renderedDescription | safe }}
+
+		<p>
+			You are receiving this message because you are a member of {{
+			org.name }}.
+		</p>
+	</body>
+</html>
