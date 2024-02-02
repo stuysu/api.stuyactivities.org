@@ -65,6 +65,8 @@ const sendEmail = async ({
 
 	const html = emailRenderer.render(template, variables);
 	const text = parse(html).structuredText;
+	return null;
+	/*
 	return transporter.sendMail({
 		to,
 		cc,
@@ -74,6 +76,7 @@ const sendEmail = async ({
 		text,
 		replyTo
 	});
+	*/
 };
 
 export default sendEmail;
