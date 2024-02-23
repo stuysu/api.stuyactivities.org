@@ -61,3 +61,9 @@ export const GOOGLE_APIS_CLIENT_SECRET = process.env.GOOGLE_APIS_CLIENT_SECRET;
 
 export const CAPTCHA_SECRET = process.env.CAPTCHA_SECRET;
 export const MAILER_URL = process.env.MAILER_URL;
+
+if (process.env.DEBUG) {
+	console.log(PUBLIC_URL);
+	console.log(SEQUELIZE_URL);
+	console.log(NODE_ENV);
+}
