@@ -66,6 +66,7 @@ export const getOAuthId = async () => {
 
 // This function will just call the calendar api once per minute in order to keep our access token fresh
 const fakeApiCall = async () => {
+	console.log("Setting up OAuth!");
 	await setupOauth;
 
 	const calendar = google.calendar({ version: 'v3', auth: oAuth2Client });
