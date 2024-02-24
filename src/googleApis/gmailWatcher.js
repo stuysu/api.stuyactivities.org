@@ -8,8 +8,6 @@ const parser = require('mailparser').simpleParser;
 const GmailApi = new google.gmail({ version: 'v1', auth: oAuth2Client });
 
 const getUnreadEmails = async () => {
-	await getOAuthId();
-
 	const response = await GmailApi.users.messages.list({
 		userId: 'me',
 		labelIds: ['UNREAD']
