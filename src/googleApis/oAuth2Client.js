@@ -11,6 +11,13 @@ const oAuth2Client = new google.auth.OAuth2(
 	GOOGLE_APIS_CLIENT_SECRET,
 	'urn:ietf:wg:oauth:2.0:oob'
 );
+if (process.env.DEBUG) {
+	console.log({
+		GOOGLE_APIS_CLIENT_ID,
+		GOOGLE_APIS_CLIENT_SECRET,
+		oAuth2Client
+	});
+}
 
 let token;
 
