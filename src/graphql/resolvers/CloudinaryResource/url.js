@@ -4,9 +4,5 @@ export default (picture, args) => {
 		.url(picture.id, {
 			...args,
 			secure: true
-		})
-		.replace(
-			'https://res.cloudinary.com/stuyactivities/',
-			'https://image-cdn.stuyactivities.org/'
-		);
+		});
 };
