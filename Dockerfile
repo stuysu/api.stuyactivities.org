@@ -8,7 +8,7 @@ ARG CLOUDINARY_URL
 ENV SEQUELIZE_URL=$BUILD_DATABASE_URL
 ENV ClOUDINARY_URL=$ClOUDINARY_URL
 ENV NODE_ENV production
-RUN npm install --production && npm cache clean --force
+RUN npm ci --omit=dev && npm cache clean --force
 ENV PORT 80
 EXPOSE 80
 CMD [ "npm", "start" ]
