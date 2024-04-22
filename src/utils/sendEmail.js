@@ -65,9 +65,10 @@ const sendEmail = async ({
 
 	const html = emailRenderer.render(template, variables);
 	const text = parse(html).structuredText;
-	return null;
-	/*
 	return transporter.sendMail({
+		headers: {
+			'list-unsubscribe': '<https://stuyactivities.org/settings>'
+		},
 		to,
 		cc,
 		bcc,
@@ -76,7 +77,6 @@ const sendEmail = async ({
 		text,
 		replyTo
 	});
-	*/
 };
 
 export default sendEmail;
